@@ -112,7 +112,7 @@ typedef int (*t_builtin_func)(t_shell *shell, char **args);
 // Builtin command struct
 typedef struct s_builtin {
     char            *name;
-    t_builtin_func  func;
+    t_builtin_func  func; 
 }   t_builtin;
 
 #endif
