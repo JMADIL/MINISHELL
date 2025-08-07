@@ -36,6 +36,21 @@ char *search_command_in_path(char *cmd, char *path_value)
 //Wraps all the above — implements shell resolution logic
 char *resolve_command_path(char *cmd, t_env *env)
 {
+	char *path_value;
+	char *full_path;
+
+	if(!cmd)
+		return NULL;
+	
+	if(ft_stchr(cmd, '/'))
+	{
+		if (access(cmd, X_OK) == 0)
+			return ft_strdup(cmd);
+		return NULL;
+	}
+	path_value = get_path_value(env);
+	full_path = search_command_in_path(cmd, path_value);
+	return full_path;
 
 }
 
