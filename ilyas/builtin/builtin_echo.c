@@ -97,6 +97,7 @@ int builtin_echo(char **cmd)
 	while(cmd[i] && is_valid_n_flag(cmd[i]))
 	{
 		n_flag = 1;
+		
 		i++;
 	}
 	joined = join_args_from_index(cmd, i);
