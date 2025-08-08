@@ -58,4 +58,39 @@ char *resolve_command_path(char *cmd, t_env *env)
 void exec_external_command(t_cmd *cmd, t_shell *shell)
 {
 
+	pid_t pid;
+	char *path;
+	char **envp;
+
+	path = resolve_command_path(cmd->argv[0], shell->env);
+	if(!path)
+	{
+		write(2, "minishell: command not found\n", 29);
+		shell->last_status = 127;
+		return;
+	}
+	pid = fork();
+	if(pid == -1)
+	{
+		perror("fork");
+		free(path);
+		return;
+	}
+	if(pid == 0)
+	{
+		//i shold add this function later
+		envp = env_to_array(shell->env);
+		execve(path, cmd->argv, envp);
+		perror("execve");
+		ft_free_split(envp);
+		free(path);
+		exit(1);
+	}
+	else
+	{
+		waitpid(pid, &shell->last_status, 0);
+		if(WIFEXITED(shell->last_status))
+			shell->last_status = WEXITSTATUS(shell->last_status);
+		free(path);
+	}
 }
