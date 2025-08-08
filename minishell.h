@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/07 02:12:45 by ajamoun           #+#    #+#             */
+/*   Updated: 2025/08/08 05:53:33 by ajamoun          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
@@ -83,5 +95,14 @@ typedef struct s_cmdarg
 	t_redi_list			*output;
 	struct s_cmdarg		*next;
 }						t_cmdarg;
+
+typedef struct s_list
+{
+	char			*key;
+	char			*value;
+	int				check;
+	struct s_list	*prev;
+	struct s_list	*next;
+}					t_list;
 
 #endif
