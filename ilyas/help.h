@@ -115,6 +115,8 @@ typedef struct s_builtin {
     t_builtin_func  func; 
 }   t_builtin;
 
+extern int g_exit_status;
+
 #endif
 
 

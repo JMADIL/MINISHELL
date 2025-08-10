@@ -51,7 +51,95 @@ char *expand_tilde(char *cmd, t_env *env)
 
 	expanded = malloc(ft_strlen(home) + ft_strlen(cmd));
 	if(!expanded)
-	{
 		return NULL;
+	ft_strcpy(expanded, home);
+	ft_strcpy(expanded, cmd + 1);
+
+	return (expanded);
+}
+
+/*
+ * Determines the target directory path for the cd command.
+ * Handles various cd cases: no argument (HOME), '-' (OLDPWD), tilde expansion,
+ * and regular paths. Validates that required environment variables exist
+ * and handles error cases appropriately.
+ *
+ * @param cmd: Command array containing cd and its arguments
+ * @param path: Pointer to store the resolved target path
+ * @param old_path: Current working directory path for error cleanup
+ * @param env: Pointer to environment variables list
+ * @return: 0 on success, 1 on error
+ * Side effects: Allocates memory for path, may write error messages,
+ * frees old_path on error
+ */
+
+ int resolve_cd_target(char **cmd, char **path, char *old_path, t_env *env)
+ {
+	char *tmp;
+
+	if(!cmd[1])
+	{
+		tmp = get_env_value(env, "HOME");
+		if(!tmp)
+		{
+			fprintf(stderr, "minishell: cd: HOME not set\n");
+			free(old_path);
+			return(1);
+		}
+		*path = ft_strdup(tmp);
 	}
+	else if(ft_strcmp(cmd[1], "-") == 0)
+	{
+		tmp = get_env_value(env, "OLDPWN");
+		if(!tmp)
+		{
+			fprintf(stderr, "minishell: cd:OLDPWN not set\n");
+			free(old_path);
+			return(1);
+		}
+		*path = ft_strdup(tmp);
+	}
+	else if (cmd[1][0] == '~')
+		*path = expand_tilde(cmd[1], env);
+	else 
+		*path = ft_strdup(cmd[1]);
+	return (0);
+}
+/*
+ * Implements the cd builtin command.
+ * Changes the current working directory to the specified path, handling
+ * special cases like HOME directory, previous directory (-),
+ * and tilde expansion.
+ * Updates PWD and OLDPWD environment variables and validates arguments.
+ *
+ * @param cmd: Command array where cmd[0] is "cd" and
+ * cmd[1] is target directory
+ * @param env: Pointer to environment variables list
+ * @return: 0 on success, 1 on error
+ * Side effects: Changes working directory, modifies environment variables,
+ * may write errors
+ */
+int builtin_cd(char **cmd, t_env **env)
+{
+	char *old_path;
+	char *new_path;
+
+	if(cmd[1] && cmd[2])
+	{
+		fprintf(stderr, "minishell: cd: too many arguments\n");
+		return(1);
+	}
+	old_path = getcwd(NULL, 0);
+	if (!old_path)
+		return 1;
+	
+	if(chdir(new_path) != 0)
+	{
+		perror("minishell: cd");
+		free(old_path);
+		free(new_path);
+		return(1);
+	}
+	update_pwd_vars(env, new_path, old_path);
+	return 0;
 }
