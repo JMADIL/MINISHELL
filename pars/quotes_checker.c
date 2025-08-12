@@ -1,0 +1,48 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   quotes_checker.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/11 22:55:21 by ajamoun           #+#    #+#             */
+/*   Updated: 2025/08/11 23:44:26 by ajamoun          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../minishell"
+
+int	no_need_chars(char *input)
+{
+	int i;
+	
+	i = 0;
+	while(input[i] != '"' || input[i] != '\'')
+		i++;
+	return (i);
+}
+bool ft_quote_checker(char *input)
+{
+	int i;
+	char quo;
+
+	i = 0;
+	while(input[i])
+	{
+		i = no_need_chars(input);
+		if(input[i] == '"' || input[i] == '\'')
+		{
+			quo = input[i];
+			i++;
+			while(input[i] && input[i] != quo)
+				i++;
+			if(!input[i])
+				return (printf("UNCLOSED QUOTES"), g_exit_status = 258, false);
+			if(input[i])
+				i++;
+		}
+		else if (input[i])
+			i++;
+	}
+	return (true);
+}

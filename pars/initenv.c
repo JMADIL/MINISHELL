@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 04:47:26 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/08 04:27:07 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/08 18:49:20 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_list	*ft_initenv(char **env)
 	i = 0;
 	while(env && env[i])
 	{
-		if (ft_pars_env(env[i], &key, &value))
+		if (!ft_pars_env(env[i], &key, &value))
 		{
 			i++;
 			continue ;
