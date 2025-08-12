@@ -1,8 +1,8 @@
 #include "help.h"
 
-int builtin_env(t_env *env)
+int builtin_env(t_list *env)
 {
-    t_env *tmp;
+    t_list *tmp;
 
     if(!env)
         return 1;

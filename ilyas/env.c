@@ -1,10 +1,10 @@
 #include "help.h"
 
 // Free the linked list of t_env
-void free_env_list(t_env **list)
+void free_env_list(t_list **list)
 {
-    t_env *current;
-    t_env *next;
+    t_list *current;
+    t_list *next;
     if(!list || !*list)
         return;
     
@@ -23,7 +23,7 @@ void free_env_list(t_env **list)
 
 //Look for the "PATH" key in your linked list.
 //Return its value if found, otherwise NULL.
-char *get_path_value(t_env *env)
+char *get_path_value(t_list *env)
 {
     while(env)
     {

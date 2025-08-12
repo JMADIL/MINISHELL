@@ -8,7 +8,7 @@
  * @return: Always returns 1
  * Side effects: Writes current directory to stdout, may write error to stderr
  */
-int ft_pwd(t_env *env)
+int ft_pwd(t_list *env)
 {
     char cwd[PATH_MAX];
     (void) env;

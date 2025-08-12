@@ -34,7 +34,7 @@ char *search_command_in_path(char *cmd, char *path_value)
 }
 
 //Wraps all the above — implements shell resolution logic
-char *resolve_command_path(char *cmd, t_env *env)
+char *resolve_command_path(char *cmd, t_list *env)
 {
 	char *path_value;
 	char *full_path;
@@ -55,42 +55,40 @@ char *resolve_command_path(char *cmd, t_env *env)
 }
 
 //call
-void exec_external_command(t_cmd *cmd, t_shell *shell)
+void exec_external_command(t_cmdarg *cmd, t_shell *shell)  // Change t_list *shell to t_shell *shell
 {
-
-	pid_t pid;
-	char *path;
-	char **envp;
-
-	path = resolve_command_path(cmd->argv[0], shell->env);
-	if(!path)
-	{
-		write(2, "minishell: command not found\n", 29);
-		shell->last_status = 127;
-		return;
-	}
-	pid = fork();
-	if(pid == -1)
-	{
-		perror("fork");
-		free(path);
-		return;
-	}
-	if(pid == 0)
-	{
-		//i shold add this function later
-		envp = env_to_array(shell->env);
-		execve(path, cmd->argv, envp);
-		perror("execve");
-		ft_free_split(envp);
-		free(path);
-		exit(1);
-	}
-	else
-	{
-		waitpid(pid, &shell->last_status, 0);
-		if(WIFEXITED(shell->last_status))
-			shell->last_status = WEXITSTATUS(shell->last_status);
-		free(path);
-	}
+    pid_t pid;
+    char *path;
+    char **envp;
+    
+    path = resolve_command_path(cmd->cmd[0], shell->env);  // Use cmd->cmd instead of cmd->argv
+    if(!path)
+    {
+        write(2, "minishell: command not found\n", 29);
+        shell->last_status = 127;
+        return;
+    }
+    pid = fork();
+    if(pid == -1)
+    {
+        perror("fork");
+        free(path);
+        return;
+    }
+    if(pid == 0)
+    {
+        envp = env_to_array(shell->env);
+        execve(path, cmd->cmd, envp);  // Use cmd->cmd instead of cmd->argv
+        perror("execve");
+        ft_free_split(envp);
+        free(path);
+        exit(1);
+    }
+    else
+    {
+        waitpid(pid, &shell->last_status, 0);
+        if(WIFEXITED(shell->last_status))
+            shell->last_status = WEXITSTATUS(shell->last_status);
+        free(path);
+    }
 }

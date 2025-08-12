@@ -11,7 +11,7 @@
  * Side effects: Modifies environment variables, allocates/frees memory,
  * calls getcwd
  */
-void update_pwd_vers(t_env **env, char *new_path, char *old_path)
+void update_pwd_vers(t_list **env, char *new_path, char *old_path)
 {
 	char *cwd;
 
@@ -36,7 +36,7 @@ void update_pwd_vers(t_env **env, char *new_path, char *old_path)
  * @return: Expanded path string or original command, NULL if HOME not set
  * Side effects: May allocate memory for expanded path
  */
-char *expand_tilde(char *cmd, t_env *env)
+char *expand_tilde(char *cmd, t_list *env)
 {
 	char *home;
 	char *expanded;
@@ -73,7 +73,7 @@ char *expand_tilde(char *cmd, t_env *env)
  * frees old_path on error
  */
 
- int resolve_cd_target(char **cmd, char **path, char *old_path, t_env *env)
+ int resolve_cd_target(char **cmd, char **path, char *old_path, t_list *env)
  {
 	char *tmp;
 
@@ -119,27 +119,31 @@ char *expand_tilde(char *cmd, t_env *env)
  * Side effects: Changes working directory, modifies environment variables,
  * may write errors
  */
-int builtin_cd(char **cmd, t_env **env)
+int builtin_cd(char **cmd, t_shell *shell)  // Keep char **cmd, not t_cmdarg
 {
-	char *old_path;
-	char *new_path;
-
-	if(cmd[1] && cmd[2])
-	{
-		fprintf(stderr, "minishell: cd: too many arguments\n");
-		return(1);
-	}
-	old_path = getcwd(NULL, 0);
-	if (!old_path)
-		return 1;
-	
-	if(chdir(new_path) != 0)
-	{
-		perror("minishell: cd");
-		free(old_path);
-		free(new_path);
-		return(1);
-	}
-	update_pwd_vars(env, new_path, old_path);
-	return 0;
+    char *old_path;
+    char *new_path;
+    
+    if(cmd[1] && cmd[2])
+    {
+        fprintf(stderr, "minishell: cd: too many arguments\n");
+        return(1);
+    }
+    old_path = getcwd(NULL, 0);
+    if (!old_path)
+        return 1;
+    
+    // You need to resolve new_path here before using it!
+    if(resolve_cd_target(cmd, &new_path, old_path, shell->env) != 0)
+        return 1;
+        
+    if(chdir(new_path) != 0)
+    {
+        perror("minishell: cd");
+        free(old_path);
+        free(new_path);
+        return(1);
+    }
+    update_pwd_vars(&(shell->env), new_path, old_path);  // Pass shell->env, not env
+    return 0;
 }

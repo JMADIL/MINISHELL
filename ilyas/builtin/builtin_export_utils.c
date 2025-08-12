@@ -1,45 +1,20 @@
 #include "../help.h"
-/*
- * Creates a complete copy of an environment variable linked list.
- */
-t_env *copy_env_list(t_env *env)
-{
-    t_env *copy = NULL;
-    t_env *tmp = env;
 
-    while (tmp)
-    {
-        add_env_node(&copy, strdup(tmp->key), strdup(tmp->value));
-        tmp = tmp->next;
-    }
-    return copy;
-}
+
 /*
- * Searches for an existing environment variable by key name.
+ * Prints environment variables in export format.
+ * Displays each environment variable in the "declare -x" format used by
+ * the export builtin. Handles variables with null values by omitting the
+ * assignment, and properly quotes values containing spaces or special chars.
+ *
+ * @param head: Environment variables linked list to print
+ * Side effects: Prints formatted environment variables to stdout
  */
-t_env *find_env_var(const char *key, t_env *env)
-{
-    while(env)
+
+ void print_export_format(t_list *head)
+ {
+    while(head)
     {
-        if (ft_strcmp(env->key, key))
-            return env;
-        env = env->next;
+        printf("declare -x %s", head->hey);
     }
-    return NULL;
-}
-/*
- * Validates shell variable identifier names according to shell naming rules.
- */
-int is_valide_identifier(const char *str)
-{
-    int i = 0;
-    if (!(ft_isalpha(str[0]) || str[0] == '_'))
-        return 0;
-    while(str[i])
-    {
-        if((!ft_isalnum(str[i]) || str[i] == '_'))
-            return 0;
-        i++;
-    }
-    return 1;
-}
+ }

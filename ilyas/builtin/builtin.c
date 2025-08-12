@@ -13,22 +13,22 @@ int is_builtin(char *cmd)
 		ft_strcmp(cmd, "unset") == 0
 	);
 }
-int exec_builtin(t_cmd *cmd, t_shell *shell)
+int exec_builtin(t_cmdarg *cmd, t_shell *shell)
 {
-	if (!cmd || !cmd->argv || !cmd->argv[0])
-		return(1);
-	if(ft_strcmp(cmd->argv[0], "cd" == 0))
-		return (builtin_cd(cmd->argv, shell));
-	else if(ft_strcmp(cmd->argv[0], "echo" == 0))
-		return(builtin_echo(cmd->argv, shell));
-	else if(ft_strcmp(cmd->argv[0], "env" == 0))
-		return(builtin_env(cmd->argv, shell));
-	else if(ft_strcmp(cmd->argv[0], "exit"))
-		return(builtin_exit(cmd->argv, shell));
-	else if(ft_strcmp(cmd->argv[0], "export"))
-		return(builtin_export(cmd->argv, shell));
-	else if(ft_strcmp(cmd->argv[0], "unset"))
-		return(builtin_unset(cmd->argv, shell));
-	return(1);
-	
+    if (!cmd || !cmd->cmd || !cmd->cmd[0])  // Use cmd->cmd instead of cmd->argv
+        return(1);
+        
+    if(ft_strcmp(cmd->cmd[0], "cd") == 0)  
+        return (builtin_cd(cmd->cmd, shell));  // Pass cmd->cmd
+    else if(ft_strcmp(cmd->cmd[0], "echo") == 0)
+        return(builtin_echo(cmd->cmd));  // Remove shell parameter if builtin_echo doesn't need it
+    else if(ft_strcmp(cmd->cmd[0], "env") == 0)
+        return(builtin_env(shell->env));  // Pass shell->env
+    else if(ft_strcmp(cmd->cmd[0], "exit") == 0)
+        return(builtin_exit(cmd->cmd, shell->env));  // Pass shell->env
+    else if(ft_strcmp(cmd->cmd[0], "export") == 0)
+        return(builtin_export(cmd->cmd, shell));
+    else if(ft_strcmp(cmd->cmd[0], "unset") == 0)
+        return(builtin_unset(cmd->cmd, shell));
+    return(1);
 }

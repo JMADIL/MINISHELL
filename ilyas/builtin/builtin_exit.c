@@ -19,7 +19,7 @@ int numeric(const char *str)
  * Implements the exit builtin command functionality.
  */
 
- int builtin_exit(char **cmd, t_env *env)
+ int builtin_exit(char **cmd, t_list *env)
  {
     int exit_code;
     write(1, "exit\n", 5);

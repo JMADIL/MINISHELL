@@ -42,10 +42,10 @@ int ft_strlen(char *l)
  * Side effects: Allocates memory for new list nodes and strings
  */
 
-t_env *copy_env_list(t_env *env)
+t_list *copy_env_list(t_list *env)
 {
-	t_env *copy;
-	t_env *tmp;
+	t_list *copy;
+	t_list *tmp;
 	char *key_copy;
 	char *val_copy;
 	
