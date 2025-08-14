@@ -1,0 +1,105 @@
+after finishing the builtin_export_utils1 and 2 let pass now to builtin_export.c
+-this is the description of functions that i need to use:
+1-/*
+ * Creates a complete copy of an environment variable linked list.
+ * Duplicates all nodes with their key-val pairs to create an independent cpy
+ * that can be modified without affecting the original environment list.
+ * Used primarily for sorting environment variables for display.
+ *
+ * @param env: Source environment linked list to copy
+ * @return: New linked list copy, NULL if source is NULL or memory alloc fails
+ * Side effects: Allocates memory for new list nodes and strings
+ */
+
+/*
+ * Searches for an existing environment variable by key name.
+ * Performs case-sensitive string comparison to find matching environment
+ * variable in the linked list. Used to check for duplicate keys before
+ * adding new variables or when updating existing ones.
+ *
+ * @param key: Environment variable name to search for
+ * @param env: Environment variables linked list to search in
+ * @return: Pointer to matching list node, NULL if not found
+ */
+ 2-/*
+ * Allocates and processes key-value pairs for export command arguments.
+ * Handles parsing of export arguments including append operations (VAR+=value)
+ * and regular assignments (VAR=value). Manages duplicate key detection and
+ * either updates existing variables or creates new ones.
+ *
+ * @param cmd: Export command argument string
+ * (e.g., "VAR=value" or "VAR+=append")
+ * @param key: Pointer to store extracted variable key
+ * @param value: Pointer to store extracted variable value
+ * @param env: Environment variables linked list to modify
+ * Side effects: May modify environment list, allocates memory for key/value
+ */
+ 3-/*
+ * Validates shell variable identifier names according to shell naming rules.
+ * Checks that variable names start with letter or underscore, contain only
+ * alphanumeric characters and underscores,
+ * and handles append operator validation.
+ * Ensures compliance with POSIX shell variable naming conventions.
+ *
+ * @param str: Variable identifier string to validate
+ * @return: 1 if valid identifier, 0 if invalid
+ */
+ 4-/*
+ * Validates export command arguments and reports syntax errors.
+ * Checks for proper variable identifier format, handles special cases like
+ * empty arguments and invalid characters. Extracts variable name portion
+ * for validation regardless of assignment or append operations.
+ *
+ * @param cmd: Export command argument to validate
+ * @return: 0 if valid, 1 if error (with error message printed)
+ * Side effects: Writes error messages to stderr, allocates temporary memory
+ */
+ 5-/*
+ * Implements the export builtin command functionality.
+ * Handles environment variable creation, modification, and display operations.
+ * When called without arguments,
+ * displays all environment variables in sorted order.
+ * With arguments, processes each as a variable assignment or declaration.
+ *
+ * @param cmd: Array of command arguments (cmd[0] is "export")
+ * @param env: Pointer to environment variables linked list
+ * @return: 0 on success, 1 on error
+ * Side effects: May modify environment list, prints to stdout/stderr
+ */
+ so in the same way and struct i wanna the code of thos functions that will handel all the posibel errors and segfoult ....
+
+
+
+1-/*
+ * Removes a specific node from the environment variables linked list.
+ * Handles proper unlinking of doubly-linked list node by updating
+ * previous and next node pointers. Frees all allocated memory including
+ * key, value strings and the node structure itself.
+ *
+ * @param env_list: Pointer to the head of environment list
+ * @param node: List node to remove and free
+ * @return: Always returns 1 (success indicator)
+ * Side effects: Modifies linked list structure, frees memory
+ */
+ 2-/*
+ * Initializes a minimal environment when none exists.
+ * Creates essential shell environment variables including PWD (current working
+ * directory), OLDPWD, SHLVL (shell level), and _ (last command). Used when
+ * shell starts with empty environment or as fallback initialization.
+ *
+ * @param env: Pointer to environment variables linked list (should be empty)
+ * @return: 1 if environment was initialized, 0 if environment already exists
+ * Side effects: Allocates memory for environment nodes, calls getcwd()
+ */
+ 3-/*
+ * Implements the unset builtin command functionality.
+ * Removes specified environment variables from the shell's environment.
+ * Iterates through all provided variable names and removes matching entries
+ * from the environment list. Protects special variables like '_' from removal.
+ *
+ * @param cmd: Array of variable names to unset (cmd[0] is "unset")
+ * @param env: Pointer to environment variables linked list
+ * @return: Always returns 1 (success indicator)
+ * Side effects: Modifies environment list by removing specified variables
+ */
+ 4-

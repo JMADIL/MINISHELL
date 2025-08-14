@@ -20,16 +20,17 @@ int	print_export_identifier_error(const char *cmd)
  */
 void	handle_export_no_assign(char **key, char **value, const char *cmd)
 {
-	if (!key || !value || !cmd)  // Add safety checks
+	if (!key || !value || !cmd)
 	{
-		if (key) *key = NULL;
-		if (value) *value = NULL;
+		if (key)
+			*key = NULL;
+		if (value)
+			*value = NULL;
 		return ;
 	}
 	*key = ft_strdup((char *)cmd);
 	*value = NULL;
 }
-
 
 /*
  * Handles append operation: VAR+=value
@@ -38,17 +39,18 @@ void	handle_export_no_assign(char **key, char **value, const char *cmd)
 void	append_to_env_value(t_list *dup_key, char *key, char *value)
 {
 	char	*new_val;
-	
+
 	if (!dup_key)
 	{
-		if (key) free(key);
-		if (value) free(value);
+		if (key)
+			free(key);
+		if (value)
+			free(value);
 		return ;
 	}
-	
-	if (key) free(key);
-	
-	if (dup_key->value && value)  
+	if (key)
+		free(key);
+	if (dup_key->value && value)
 	{
 		new_val = malloc(ft_strlen(dup_key->value) + ft_strlen(value) + 1);
 		if (!new_val)
@@ -56,17 +58,16 @@ void	append_to_env_value(t_list *dup_key, char *key, char *value)
 			free(value);
 			return ;
 		}
-		strcpy(new_val, dup_key->value);
-		strcat(new_val, value);
+		ft_strcpy(new_val, dup_key->value);
+		ft_strcat(new_val, value);
 		free(dup_key->value);
 		free(value);
 		dup_key->value = new_val;
 	}
-	else if (value)  
+	else if (value)
 	{
 		dup_key->value = value;
 	}
-	
 	dup_key->check = 1;
 }
 
@@ -77,26 +78,34 @@ void	append_to_env_value(t_list *dup_key, char *key, char *value)
  */
 int	parse_export_argument(const char *cmd, char **key, char **value)
 {
-	char	*plus_pos;
-	char	*eq_pos;
-	
+	char *plus_pos;
+	char *eq_pos;
+
 	if (!cmd || !*cmd || !key || !value)
 		return (-1);
-		
+
 	*key = NULL;
 	*value = NULL;
-	
-	plus_pos = strstr(cmd, "+=");
-	eq_pos = strchr(cmd, '=');
-	
+
+	plus_pos = ft_strstr(cmd, "+=");
+	eq_pos = ft_strchr(cmd, '=');
+
 	if (plus_pos && (!eq_pos || plus_pos < eq_pos))
 	{
 		*key = ft_substr((char *)cmd, 0, plus_pos - cmd);
 		*value = ft_strdup(plus_pos + 2);
 		if (!*key || !*value)
 		{
-			if (*key) { free(*key); *key = NULL; }
-			if (*value) { free(*value); *value = NULL; }
+			if (*key)
+			{
+				free(*key);
+				*key = NULL;
+			}
+			if (*value)
+			{
+				free(*value);
+				*value = NULL;
+			}
 			return (-1);
 		}
 		return (1);
@@ -107,8 +116,16 @@ int	parse_export_argument(const char *cmd, char **key, char **value)
 		*value = ft_strdup(eq_pos + 1);
 		if (!*key || !*value)
 		{
-			if (*key) { free(*key); *key = NULL; }
-			if (*value) { free(*value); *value = NULL; }
+			if (*key)
+			{
+				free(*key);
+				*key = NULL;
+			}
+			if (*value)
+			{
+				free(*value);
+				*value = NULL;
+			}
 			return (-1);
 		}
 		return (0);

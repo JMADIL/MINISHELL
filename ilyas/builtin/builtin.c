@@ -15,11 +15,11 @@ int is_builtin(char *cmd)
 }
 int exec_builtin(t_cmdarg *cmd, t_shell *shell)
 {
-    if (!cmd || !cmd->cmd || !cmd->cmd[0])  // Use cmd->cmd instead of cmd->argv
+    if (!cmd || !cmd->cmd || !cmd->cmd[0])  
         return(1);
         
     if(ft_strcmp(cmd->cmd[0], "cd") == 0)  
-        return (builtin_cd(cmd->cmd, shell));  // Pass cmd->cmd
+        return (builtin_cd(cmd->cmd, shell));  
     else if(ft_strcmp(cmd->cmd[0], "echo") == 0)
         return(builtin_echo(cmd->cmd));  // Remove shell parameter if builtin_echo doesn't need it
     else if(ft_strcmp(cmd->cmd[0], "env") == 0)
