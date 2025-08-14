@@ -1,4 +1,5 @@
 #include "../help.h"
+
 /*
  * Implements the pwd builtin command.
  * Prints the current working directory path to stdout using the getcwd
@@ -10,11 +11,19 @@
  */
 int ft_pwd(t_list *env)
 {
-    char cwd[PATH_MAX];
+    char cwd;
     (void) env;
-    if(getcwd(cwd, sizeof(cwd)) != NULL)
+
+    cwd = getcwd(NULL, 0);
+    if(cwd != NULL)
+    {
         printf("%s\n", cwd);
+        free(cwd);
+        return 0;
+    }
     else
-        perror("pwd");
-    return 1;
+    {
+        perror("minishell: pwd");
+        return 1;
+    }
 }
