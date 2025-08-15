@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "../help.h"
 
 /*
  * Handles append redirection for builtin commands
