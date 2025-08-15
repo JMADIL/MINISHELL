@@ -92,7 +92,6 @@ int	setup_builtin_redirections(t_cmdarg *cmd)
 	if (!cmd || !cmd->redirections)
 		return (1);
 	
-	// Save original file descriptors
 	cmd->origin_stdin = dup(STDIN_FILENO);
 	if (cmd->origin_stdin == -1)
 	{
@@ -110,7 +109,6 @@ int	setup_builtin_redirections(t_cmdarg *cmd)
 		return (1);
 	}
 	
-	// Process all redirections
 	if (process_all_redirections(cmd->redirections) == -1)
 		return (1);
 	return (0);
@@ -129,10 +127,8 @@ int	execute_builtin_with_redi(t_cmdarg *cmd_list, t_list **env)
 	
 	builtin_check = check_if_builtin(cmd_list->cmd[0]);
 	
-	// Only handle builtin if it's single command in pipeline
 	if (count_commands(cmd_list) == 1 && builtin_check)
 	{
-		// Setup redirections if they exist
 		if (cmd_list->redirections)
 		{
 			if (setup_builtin_redirections(cmd_list) == 1)
@@ -142,7 +138,6 @@ int	execute_builtin_with_redi(t_cmdarg *cmd_list, t_list **env)
 			}
 		}
 		
-		// Execute the builtin command
 		if (execute_builtin_command(cmd_list, env) == 1)
 		{
 			if (cmd_list->redirections)
@@ -150,7 +145,6 @@ int	execute_builtin_with_redi(t_cmdarg *cmd_list, t_list **env)
 			return (1);
 		}
 		
-		// Restore file descriptors after execution
 		if (cmd_list->redirections)
 			restore_original_fds(cmd_list);
 		return (1);

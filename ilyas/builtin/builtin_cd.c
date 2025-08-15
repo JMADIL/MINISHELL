@@ -11,11 +11,11 @@
  * Side effects: Modifies environment variables, allocates/frees memory,
  * calls getcwd
  */
-void update_pwd_vers(t_list **env, char *new_path, char *old_path)
+void update_pwd_vars(t_list **env, char *new_path, char *old_path)  
 {
 	char *cwd;
 
-	set_env_var(env, "OLDPWN", old_path);
+	set_env_var(env, "OLDPWD", old_path);  
 	cwd = getcwd(NULL, 0);
 	if(cwd)
 	{
@@ -23,8 +23,9 @@ void update_pwd_vers(t_list **env, char *new_path, char *old_path)
 		free(cwd);
 	}
 	free(new_path);
-
+	free(old_path);  
 }
+
 /*
  * Handles tilde expansion for cd command paths.
  * Expands paths beginning with '~' by replacing the tilde with the
@@ -42,18 +43,21 @@ char *expand_tilde(char *cmd, t_list *env)
 	char *expanded;
 
 	if(!cmd || cmd[0] != '~')
-		return (cmd);
+		return (ft_strdup(cmd));  
+	
 	home = get_env_value(env, "HOME");
 	if(!home)
 		return (NULL);
+	
 	if(cmd[1] == '\0')
 		return (ft_strdup(home));
 
-	expanded = malloc(ft_strlen(home) + ft_strlen(cmd));
+	expanded = malloc(ft_strlen(home) + ft_strlen(cmd));  
 	if(!expanded)
 		return NULL;
+	
 	ft_strcpy(expanded, home);
-	ft_strcpy(expanded, cmd + 1);
+	ft_strcat(expanded, cmd + 1);  
 
 	return (expanded);
 }
@@ -72,9 +76,8 @@ char *expand_tilde(char *cmd, t_list *env)
  * Side effects: Allocates memory for path, may write error messages,
  * frees old_path on error
  */
-
- int resolve_cd_target(char **cmd, char **path, char *old_path, t_list *env)
- {
+int resolve_cd_target(char **cmd, char **path, char *old_path, t_list *env)
+{
 	char *tmp;
 
 	if(!cmd[1])
@@ -90,21 +93,39 @@ char *expand_tilde(char *cmd, t_list *env)
 	}
 	else if(ft_strcmp(cmd[1], "-") == 0)
 	{
-		tmp = get_env_value(env, "OLDPWN");
+		tmp = get_env_value(env, "OLDPWD");  
 		if(!tmp)
 		{
-			fprintf(stderr, "minishell: cd:OLDPWN not set\n");
+			fprintf(stderr, "minishell: cd: OLDPWD not set\n");  
 			free(old_path);
 			return(1);
 		}
 		*path = ft_strdup(tmp);
+		printf("%s\n", *path);  
 	}
 	else if (cmd[1][0] == '~')
+	{
 		*path = expand_tilde(cmd[1], env);
+		if (!*path) 
+		{
+			fprintf(stderr, "minishell: cd: HOME not set\n");
+			free(old_path);
+			return(1);
+		}
+	}
 	else 
 		*path = ft_strdup(cmd[1]);
+	
+	
+	if (!*path)
+	{
+		free(old_path);
+		return(1);
+	}
+	
 	return (0);
 }
+
 /*
  * Implements the cd builtin command.
  * Changes the current working directory to the specified path, handling
@@ -112,14 +133,13 @@ char *expand_tilde(char *cmd, t_list *env)
  * and tilde expansion.
  * Updates PWD and OLDPWD environment variables and validates arguments.
  *
- * @param cmd: Command array where cmd[0] is "cd" and
- * cmd[1] is target directory
- * @param env: Pointer to environment variables list
+ * @param cmd: Command array where cmd[0] is "cd" and cmd[1] is target directory
+ * @param shell: Pointer to shell structure containing environment variables
  * @return: 0 on success, 1 on error
  * Side effects: Changes working directory, modifies environment variables,
  * may write errors
  */
-int builtin_cd(char **cmd, t_shell *shell)  // Keep char **cmd, not t_cmdarg
+int builtin_cd(char **cmd, t_shell *shell)
 {
     char *old_path;
     char *new_path;
@@ -129,11 +149,14 @@ int builtin_cd(char **cmd, t_shell *shell)  // Keep char **cmd, not t_cmdarg
         fprintf(stderr, "minishell: cd: too many arguments\n");
         return(1);
     }
+    
     old_path = getcwd(NULL, 0);
     if (!old_path)
+    {
+        perror("minishell: cd");  
         return 1;
+    }
     
-    // You need to resolve new_path here before using it!
     if(resolve_cd_target(cmd, &new_path, old_path, shell->env) != 0)
         return 1;
         
@@ -144,6 +167,7 @@ int builtin_cd(char **cmd, t_shell *shell)  // Keep char **cmd, not t_cmdarg
         free(new_path);
         return(1);
     }
-    update_pwd_vars(&(shell->env), new_path, old_path);  // Pass shell->env, not env
+    
+    update_pwd_vars(&(shell->env), new_path, old_path);  
     return 0;
 }

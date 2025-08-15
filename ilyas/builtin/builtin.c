@@ -1,5 +1,31 @@
 #include "../help.h"
 
+
+
+/*
+ * Frees a null-terminated array of strings (double pointer).
+ * Iterates through the array, freeing each individual string before
+ * freeing the array pointer itself. Used for cleaning up command
+ * argument arrays and other string arrays.
+ *
+ * @param cmd: Null-terminated array of strings to free
+ * Side effects: Frees all allocated memory for strings and array
+ */
+void	free_arr(char **cmd)
+{
+	int	i;
+
+	i = 0;
+	if (!cmd)
+		return ;
+	while (cmd[i])
+	{
+		free(cmd[i]);
+		i++;
+	}
+	free(cmd);
+}
+
 int is_builtin(char *cmd)
 {
 	if(!cmd)

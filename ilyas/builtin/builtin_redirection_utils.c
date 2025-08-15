@@ -119,8 +119,6 @@ int	process_all_redirections(t_redi_list *redi_list)
  */
 bool	check_ambiguous_redirect(char *filename)
 {
-	// Add your ambiguous redirect logic here
-	// For now, simple check
 	if (!filename || ft_strlen(filename) == 0)
 		return (true);
 	return (false);
@@ -180,7 +178,7 @@ int	execute_builtin_command(t_cmdarg *cmd, t_list **env)
 	
 	if (strcmp(cmd->cmd[0], "echo") == 0)
 		return (builtin_echo(cmd->cmd));
-	// Add other builtin executions here
+
 	
 	return (0);
 }

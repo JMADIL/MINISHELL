@@ -1,31 +1,6 @@
 #include "../help.h"
 
-/*
- * Validates shell variable identifier names according to shell naming rules.
- * Checks that variable names start with letter or underscore, contain only
- * alphanumeric characters and underscores,
- * and handles append operator validation.
- * Ensures compliance with POSIX shell variable naming conventions.
- *
- * @param str: Variable identifier string to validate
- * @return: 1 if valid identifier, 0 if invalid
- */
 
-int is_valide_identifier(const char *str)
-{
-	int i;
-
-	if(!str || (!ft_isalpha(str[0]) && str[0] != '_'))
-		return 0;
-	i = 1;
-	while(str[i] && str[i] != '-' && !(str[i] == '+' && str[i + 1] == '='))
-	{
-		if(!ft_isalnum(str[i]) && str[i] != '_')
-			return 0;
-		i++;
-	}
-	return 1;
-}
 
 
 
@@ -119,50 +94,38 @@ static void process_export_variable(const char *cmd, char **key, char **value, t
  */
 int validate_export_identifier(const char *cmd)
 {
-	int		i;
-	int		len;
-	char	*varname;
-	
-	if (!cmd || cmd[0] == '\0')
-		return (print_export_identifier_error(""));
-	if (cmd[0] == '=')
-		return (print_export_identifier_error(cmd));
-	
-	len = 0;
-	while (cmd[len] && cmd[len] != '=' && !(cmd[len] == '+' && cmd[len + 1] == '='))
-		len++;
-	
-	if (len == 0)
-		return (print_export_identifier_error(cmd));
-		
-	varname = ft_substr((char *)cmd, 0, len);
-	if (!varname)
-		return (1);
-	
-
-	if (!((varname[0] >= 'A' && varname[0] <= 'Z') || 
-		  (varname[0] >= 'a' && varname[0] <= 'z') || 
-		  varname[0] == '_'))
-	{
-		free(varname);
-		return (print_export_identifier_error(cmd));
-	}
-	
-	i = 1;
-	while (varname[i])
-	{
-		if (!(varname[i] == '_' || 
-			  (varname[i] >= 'A' && varname[i] <= 'Z') ||
-			  (varname[i] >= 'a' && varname[i] <= 'z') ||
-			  (varname[i] >= '0' && varname[i] <= '9')))
-		{
-			free(varname);
-			return (print_export_identifier_error(cmd));
-		}
-		i++;
-	}
-	free(varname);
-	return (0);
+    int i;
+    int len;
+    
+    if (!cmd || cmd[0] == '\0')
+        return (print_export_identifier_error(""));
+    if (cmd[0] == '=')
+        return (print_export_identifier_error(cmd));
+    
+    len = 0;
+    while (cmd[len] && cmd[len] != '=' && !(cmd[len] == '+' && cmd[len + 1] == '='))
+        len++;
+    
+    if (len == 0)
+        return (print_export_identifier_error(cmd));
+    
+    if (!((cmd[0] >= 'A' && cmd[0] <= 'Z') ||
+          (cmd[0] >= 'a' && cmd[0] <= 'z') ||
+          cmd[0] == '_'))
+        return (print_export_identifier_error(cmd));
+    
+    i = 1;
+    while (i < len) 
+    {
+        if (!(cmd[i] == '_' ||
+              (cmd[i] >= 'A' && cmd[i] <= 'Z') ||
+              (cmd[i] >= 'a' && cmd[i] <= 'z') ||
+              (cmd[i] >= '0' && cmd[i] <= '9')))
+            return (print_export_identifier_error(cmd));
+        i++;
+    }
+    
+    return (0);
 }
 
 /*

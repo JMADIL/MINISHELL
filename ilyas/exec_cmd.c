@@ -55,13 +55,13 @@ char *resolve_command_path(char *cmd, t_list *env)
 }
 
 //call
-void exec_external_command(t_cmdarg *cmd, t_shell *shell)  // Change t_list *shell to t_shell *shell
+void exec_external_command(t_cmdarg *cmd, t_shell *shell)  
 {
     pid_t pid;
     char *path;
     char **envp;
     
-    path = resolve_command_path(cmd->cmd[0], shell->env);  // Use cmd->cmd instead of cmd->argv
+    path = resolve_command_path(cmd->cmd[0], shell->env); 
     if(!path)
     {
         write(2, "minishell: command not found\n", 29);
@@ -78,7 +78,7 @@ void exec_external_command(t_cmdarg *cmd, t_shell *shell)  // Change t_list *she
     if(pid == 0)
     {
         envp = env_to_array(shell->env);
-        execve(path, cmd->cmd, envp);  // Use cmd->cmd instead of cmd->argv
+        execve(path, cmd->cmd, envp);  
         perror("execve");
         ft_free_split(envp);
         free(path);
