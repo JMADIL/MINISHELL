@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:08:16 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/15 10:26:49 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/15 10:58:33 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_token	*get_next_token(t_lexer *lexer, t_list *minienv, bool heredoc)
 	current_char = lexer->input[lexer->pos];
 	//Handle Special Characters (Operators)
 	if (ft_isspecial(current_char))
-		return (->>handling_operator(lexer, heredoc)<<-);
+		return (handling_operator(lexer, heredoc));
 	//Handle Non-Special Characters
 	else
 	{
@@ -80,4 +80,3 @@ void	ft_tokadd_back(t_token **token_list, t_token *token)
 	token->prev = tmp;
 	token->next = NULL;
 }
-

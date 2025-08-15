@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 03:09:27 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/15 10:50:23 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/15 11:55:53 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,32 @@ t_token	*handling_operator(t_lexer lexer, bool heredoc)
 	token->addspace = false;
 	ft_init_token_fields(token);
 	//This function likely sets token->type based on the operator
-	->>ft_set_token_type(token, op_len, op, heredoc);<<-
+	ft_set_token_type(token, op_len, op, heredoc);
 	//Advance Lexer Position
 	lexer->pos += op_len;
 	return (token);
+}
+
+t_token	*ft_handle_quotes(t_lexer *lexer, char quote)
+{
+	int start;
+	char *content;
+	t_token *token;
+	start = ++lexer->pos;
+	while(lexer->pos < lexer->len && lexer->input[lexer->pos] != quote)
+		lexer->pos++;
+	if (lexer->pos >= lexer->len)
+    	return (printf("unexpected EOF while looking for matching quote\n"), g_exit_status = 258, NULL);
+	content = ft_substr(lexer->input, start, lexer->pos - start);
+	lexer->pos++;
+	token = malloc(sizeof(t_token));
+	if(!token || !content)
+		return (NULL);
+	if (quote_char == '\'')
+    	token->type = SINGLE_QUOTE;
+	else
+    	token->type = DOUBLE_QUOTE;
+	token->value = content;
+	// SOS 
+	//end this function 
 }
