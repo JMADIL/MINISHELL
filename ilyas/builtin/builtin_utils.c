@@ -1,5 +1,44 @@
 #include "../help.h"
 
+
+
+/*
+ * Creates and appends a new environment variable node to the env list.
+ * If key is NULL or empty, does nothing. Value can be NULL.
+ * Allocates memory for the node, assigns key/value ownership to the list.
+ *
+ * @param env: Pointer to environment list head
+ * @param key: Key string (caller must strdup before passing)
+ * @param value: Value string (caller must strdup before passing, can be NULL)
+ * @return: 1 on success, 0 on failure (memory allocation error)
+ */
+int add_env_node(t_list **env, char *key, char *value)
+{
+    t_list *new_node;
+    t_list *tmp;
+
+    if (!env || !key || key[0] == '\0')
+        return (0);
+    new_node = malloc(sizeof(t_list));
+    if (!new_node)
+        return (0);
+    new_node->key = key;      
+    new_node->value = value;  
+    new_node->check = 0;
+    new_node->prev = NULL;
+    new_node->next = NULL;
+    if (!*env)
+    {
+        *env = new_node;
+        return (1);
+    }
+    tmp = *env;
+    while (tmp->next)
+        tmp = tmp->next;
+    tmp->next = new_node;
+    new_node->prev = tmp;
+    return (1);
+}
 char *ft_strdup(char *str)
 {
 	int i = 0;
@@ -68,7 +107,7 @@ t_list *copy_env_list(t_list *env)
 			free_env_list(&copy);
 			return NULL;
 		}
-		add_anv_node(&copy, key_copy, val_copy);
+		add_env_node(&copy, key_copy, val_copy);
 		tmp = tmp->next;
 	}
 	return copy;

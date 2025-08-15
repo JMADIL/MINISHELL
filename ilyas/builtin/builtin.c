@@ -21,11 +21,11 @@ int exec_builtin(t_cmdarg *cmd, t_shell *shell)
     if(ft_strcmp(cmd->cmd[0], "cd") == 0)  
         return (builtin_cd(cmd->cmd, shell));  
     else if(ft_strcmp(cmd->cmd[0], "echo") == 0)
-        return(builtin_echo(cmd->cmd));  // Remove shell parameter if builtin_echo doesn't need it
+        return(builtin_echo(cmd->cmd));  
     else if(ft_strcmp(cmd->cmd[0], "env") == 0)
-        return(builtin_env(shell->env));  // Pass shell->env
+        return(builtin_env(shell->env));  
     else if(ft_strcmp(cmd->cmd[0], "exit") == 0)
-        return(builtin_exit(cmd->cmd, shell->env));  // Pass shell->env
+        return(builtin_exit(cmd->cmd, shell->env)); 
     else if(ft_strcmp(cmd->cmd[0], "export") == 0)
         return(builtin_export(cmd->cmd, shell));
     else if(ft_strcmp(cmd->cmd[0], "unset") == 0)

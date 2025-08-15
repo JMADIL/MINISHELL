@@ -117,3 +117,5 @@ char	*join_args_from_index(char **cmd, int i);
 void prent_echo_output(const char *tmp, int n_flag);
 int builtin_echo(char **cmd);
 char *get_path_value(t_list *env);
+int add_env_node(t_list **env, char *key, char *value);
+t_list *find_env_var(const char *key, t_list *env);
