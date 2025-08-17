@@ -6,11 +6,12 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:33 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/12 21:57:34 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/17 17:37:15 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 void	minishell(char *input, t_list **minienv)
 {
 	t_token		*token_list;
