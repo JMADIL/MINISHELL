@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:59:55 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/15 10:39:05 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/17 04:59:35 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,19 @@ bool	op_is_duplicated(t_lexer lexer, char op[3])
 		&& lexer->input[lexer->pos + 1] == '>') || (op[0] == '<'
 		&& lexer->pos + 1 < lexer->len && lexer->input[lexer->pos
 			+ 1] == '<'));
+}
+
+ssize_t	dollar_position(char *str)
+{
+	ssize_t	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$' && str[i + 1] != '\0' && (ft_isalnum(str[i + 1])
+			|| str[i + 1] == '_' || str[i + 1] == '$' || str[i + 1] == '?'))
+			return (i);
+		i++;
+	}
+	return (-1);
 }

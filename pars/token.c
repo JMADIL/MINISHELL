@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:08:16 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/16 03:46:28 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/17 05:02:54 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ t_token *ft_jointok(t_token *token, t_lexer **lexer, t_list *minienv, bool *here
 	char *value;
 	//Expand Variables in Current Token
 	if(*heredoc == false)
-		->>expand_variables(&token, minienv);<<-
+		expand_variables(&token, minienv);
 	//Get Next Token
 	new_token = get_next_token(*lexer, minienv, heredoc);
 	if (!new_token && g_exit_status == 258)
-    	return (->>ft_free_token(token)<<-, NULL);
+    	return (ft_free_token(token), NULL);
 	//Expand Variables in Next Token
 	if(*heredoc == false)
-		->>expand_variables(&token, minienv);<<-
+		expand_variables(&token, minienv);
 	//Special Dollar-Quote Joining
 	if(ft_strlen(token->value) > 0
 		&& token->value[ft_strlen(token->value) - 1] == '$'
