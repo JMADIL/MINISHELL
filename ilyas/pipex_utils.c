@@ -1,0 +1,241 @@
+#include "help.h"
+
+
+/* ===========================================================
+ * 1) Command-not-found / no-file error + exit(127)
+ *    no_file == 1  -> "No such file or directory"
+ *    no_file == 0  -> "command not found"
+ * =========================================================== */
+void	cmd_not_found_exit(t_cmdarg *current_cmd, int no_file)
+{
+	const char *name;
+
+	name = NULL;
+	if (current_cmd && current_cmd->cmd && current_cmd->cmd[0])
+		name = current_cmd->cmd[0];
+
+	if (name == NULL)
+		name = "(null)";
+
+	if (no_file == 1)
+	{
+		write(2, "minishell: ", 11);
+		write(2, name, ft_strlen((char *)name));
+		write(2, ": No such file or directory\n", 29);
+	}
+	else
+	{
+		write(2, "minishell: ", 11);
+		write(2, name, ft_strlen((char *)name));
+		write(2, ": command not found\n", 21);
+	}
+	g_exit_status = 127;
+	_exit(127);
+}
+
+/* ===========================================================
+ * 2) Heredoc -> stdin
+ * =========================================================== */
+void	handle_heredoc_input(t_redi_list *input)
+{
+	if (!input)
+		return;
+	if (dup2(input->heredoc_fd, STDIN_FILENO) == -1)
+	{
+		perror("minishell: dup2 heredoc");
+		_exit(1);
+	}
+	close(input->heredoc_fd);
+}
+
+/* ===========================================================
+ * helpers: open file with error handling in child
+ * mode: 0 => '>'  (O_WRONLY|O_CREAT|O_TRUNC)
+ *       1 => '<'  (O_RDONLY)
+ *       2 => '>>' (O_WRONLY|O_CREAT|O_APPEND)
+ * =========================================================== */
+static int	open_redir_file(const char *filename, int mode)
+{
+	int fd;
+
+	if (mode == 0)
+		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	else if (mode == 1)
+		fd = open(filename, O_RDONLY);
+	else
+		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
+
+	if (fd == -1)
+	{
+		handle_file_open_error((char *)filename);
+		_exit(1);
+	}
+	return (fd);
+}
+
+/* ===========================================================
+ * 3) Handle >> append redirection for one node
+ *     returns 1 on success
+ * =========================================================== */
+int	handle_append_output(t_redi_list *output)
+{
+	int fd;
+
+	if (!output || !output->file)
+		return (1);
+	if (check_ambiguous_redirect(output->file))
+	{
+		write(2, "minishell: ", 11);
+		write(2, output->file, ft_strlen(output->file));
+		write(2, ": ambiguous redirect\n", 21);
+		_exit(1);
+	}
+	fd = open_redir_file(output->file, 2);
+	if (output->is_last == true)
+	{
+		if (dup2(fd, STDOUT_FILENO) == -1)
+		{
+			perror("minishell: dup2 append");
+			close(fd);
+			_exit(1);
+		}
+	}
+	close(fd);
+	return (1);
+}
+
+/* ===========================================================
+ * 4) Handle all OUTPUT redirections (> and >>)
+ *     earlier ones: open/close only
+ *     last one: dup2(STDOUT_FILENO)
+ * =========================================================== */
+int	process_output_redirections(t_redi_list *output)
+{
+	t_redi_list	*node;
+	int			fd;
+
+	node = output;
+	while (node)
+	{
+		if (node->type == OUTPUT || node->type == APPEND)
+		{
+			if (check_ambiguous_redirect(node->file))
+			{
+				write(2, "minishell: ", 11);
+				write(2, node->file, ft_strlen(node->file));
+				write(2, ": ambiguous redirect\n", 21);
+				_exit(1);
+			}
+			if (node->type == OUTPUT)
+			{
+				fd = open_redir_file(node->file, 0);
+				if (node->is_last == true)
+				{
+					if (dup2(fd, STDOUT_FILENO) == -1)
+					{
+						perror("minishell: dup2 output");
+						close(fd);
+						_exit(1);
+					}
+				}
+				close(fd);
+			}
+			else
+			{
+				handle_append_output(node);
+			}
+		}
+		node = node->next;
+	}
+	return (1);
+}
+
+/* ===========================================================
+ * 5) Handle all INPUT redirections (< and <<)
+ *     earlier ones: open/close only
+ *     last one: dup2(STDIN_FILENO)
+ * =========================================================== */
+int	process_input_redirections(t_redi_list *input)
+{
+	t_redi_list	*node;
+	int			fd;
+
+	node = input;
+	while (node)
+	{
+		if (node->type == INPUT || node->type == HEREDOC)
+		{
+			if (node->type == INPUT)
+			{
+				if (check_ambiguous_redirect(node->file))
+				{
+					write(2, "minishell: ", 11);
+					write(2, node->file, ft_strlen(node->file));
+					write(2, ": ambiguous redirect\n", 21);
+					_exit(1);
+				}
+				fd = open_redir_file(node->file, 1);
+				if (node->is_last == true)
+				{
+					if (dup2(fd, STDIN_FILENO) == -1)
+					{
+						perror("minishell: dup2 input");
+						close(fd);
+						_exit(1);
+					}
+				}
+				close(fd);
+			}
+			else
+			{
+				if (node->is_last == true)
+					handle_heredoc_input(node);
+				else
+				{
+					
+					if (node->heredoc_fd >= 0)
+						close(node->heredoc_fd);
+				}
+			}
+		}
+		node = node->next;
+	}
+	return (1);
+}
+
+/* ===========================================================
+ * 6) Validate absolute/relative path is executable
+ *     returns dup of p if executable and not a directory
+ * =========================================================== */
+char	*validate_exec_path(char *p)
+{
+	struct stat	st;
+
+	if (!p || p[0] == '\0')
+		return (NULL);
+	if (p[0] == '/' || p[0] == '.')
+	{
+		if (access(p, X_OK) == 0)
+		{
+			if (stat(p, &st) == -1)
+				return (NULL);
+			if (S_ISDIR(st.st_mode))
+				return (NULL);
+			return (ft_strdup(p));
+		}
+	}
+	return (NULL);
+}
+
+/* ===========================================================
+ * 7) Malloc failure cleanup + exit
+ * =========================================================== */
+void	exec_malloc_fail(char *cmd_path, char *cmd_name)
+{
+	if (cmd_path)
+		free(cmd_path);
+	if (cmd_name)
+		free(cmd_name);
+	write(2, "minishell: malloc failed\n", 25);
+	_exit(1);
+}
