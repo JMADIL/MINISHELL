@@ -92,3 +92,5 @@ void exec_external_command(t_cmdarg *cmd, t_shell *shell)
         free(path);
     }
 }
+
+
