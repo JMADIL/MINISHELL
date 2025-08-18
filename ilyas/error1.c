@@ -106,6 +106,7 @@ void	execve_error_cleanup(char **cmd_path, char **cmd_name, char **envp)
 	if (envp)
 	{
 		i = 0;
+		
 		while (envp[i])
 		{
 			free(envp[i]);

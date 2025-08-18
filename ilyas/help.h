@@ -181,4 +181,9 @@ char *get_path_value(t_list *env);
 //exec_cmd.c
 char *search_command_in_path(char *cmd, char *path_value);
 char *resolve_command_path(char *cmd, t_list *env);
-void exec_external_command(t_cmdarg *cmd, t_shell *shell)  ;
+void exec_external_command(t_cmdarg *cmd, t_shell *shell);
+//errors.c
+void	safe_free(char **s);
+void	print_error_exit(const char *cmd_name, const char *error, int status);
+int	safe_open(const char *file, int flag);
+void	execve_error_cleanup(char **cmd_path, char **cmd_name, char **envp);

@@ -6,31 +6,21 @@
  *    no_file == 1  -> "No such file or directory"
  *    no_file == 0  -> "command not found"
  * =========================================================== */
-void	cmd_not_found_exit(t_cmdarg *current_cmd, int no_file)
+void	cmd_not_found_exit(t_cmdarg *curr_cmd, int no_file)
 {
 	const char *name;
 
 	name = NULL;
-	if (current_cmd && current_cmd->cmd && current_cmd->cmd[0])
-		name = current_cmd->cmd[0];
+	if (curr_cmd && curr_cmd->cmd && curr_cmd->cmd[0])
+		name = curr_cmd->cmd[0];
 
 	if (name == NULL)
 		name = "(null)";
 
 	if (no_file == 1)
-	{
-		write(2, "minishell: ", 11);
-		write(2, name, ft_strlen((char *)name));
-		write(2, ": No such file or directory\n", 29);
-	}
+		print_error_exit(name, "no such file or directory", 127);
 	else
-	{
-		write(2, "minishell: ", 11);
-		write(2, name, ft_strlen((char *)name));
-		write(2, ": command not found\n", 21);
-	}
-	g_exit_status = 127;
-	_exit(127);
+		print_error_exit(name, "comand not found", 127);
 }
 
 /* ===========================================================
@@ -41,10 +31,7 @@ void	handle_heredoc_input(t_redi_list *input)
 	if (!input)
 		return;
 	if (dup2(input->heredoc_fd, STDIN_FILENO) == -1)
-	{
-		perror("minishell: dup2 heredoc");
-		_exit(1);
-	}
+		print_error_exit("dup2", "heredoc failed", 1);
 	close(input->heredoc_fd);
 }
 
@@ -58,18 +45,7 @@ static int	open_redir_file(const char *filename, int mode)
 {
 	int fd;
 
-	if (mode == 0)
-		fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (mode == 1)
-		fd = open(filename, O_RDONLY);
-	else
-		fd = open(filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-
-	if (fd == -1)
-	{
-		handle_file_open_error((char *)filename);
-		_exit(1);
-	}
+	fd = safe_open(filename, mode);
 	return (fd);
 }
 
@@ -84,20 +60,14 @@ int	handle_append_output(t_redi_list *output)
 	if (!output || !output->file)
 		return (1);
 	if (check_ambiguous_redirect(output->file))
-	{
-		write(2, "minishell: ", 11);
-		write(2, output->file, ft_strlen(output->file));
-		write(2, ": ambiguous redirect\n", 21);
-		_exit(1);
-	}
-	fd = open_redir_file(output->file, 2);
+		print_error_exit(output->file, "ambiguous redirect", 1);
+	fd = safe_open(output->file, 2);
 	if (output->is_last == true)
 	{
 		if (dup2(fd, STDOUT_FILENO) == -1)
 		{
-			perror("minishell: dup2 append");
 			close(fd);
-			_exit(1);
+			print_error_exit("dup2", "append redirection failed", 1);
 		}
 	}
 	close(fd);
