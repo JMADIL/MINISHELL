@@ -1,35 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free.c                                          :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/17 05:01:20 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/18 04:45:20 by ajamoun          ###   ########.fr       */
+/*   Created: 2025/08/18 04:28:54 by ajamoun           #+#    #+#             */
+/*   Updated: 2025/08/18 04:43:16 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell"
 
-void	ft_free_token(t_token *token)
+bool	ft_redierrors(t_token	*token)
 {
-	if (token)
+	if(ft_isredi(token))
 	{
-		free(token->value);
-		free(token);
+		if(token->next == NULL)
+			return (true);
+		if(ft_isredi(token->next) || token->next->type == PIPE)
+			return(true);
 	}
+	return (false);
 }
 
-void	ft_free_tokenlist(t_token *token_list)
+bool	ft_pipeerrors(t_token *token)
 {
-	t_token	*tmp;
-
-	while (token_list)
+	if (token->type == PIPE)
 	{
-		tmp = token_list;
-		token_list = token_list->next;
-		free(tmp->value);
-		free(tmp);
+		if (token->prev == NULL)
+			return (true);
+		if (token->next == NULL || token->next->type == PIPE)
+			return (true);
 	}
+	return (false);
 }
