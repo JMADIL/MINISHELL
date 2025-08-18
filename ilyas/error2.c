@@ -13,6 +13,7 @@
 
 bool is_ambi_filename(const char *file)
 {
+	// no need lhad mlawi bc kyna "bool	check_ambiguous_redirect(char *filename)" 
 	if(file == NULL || *file == '\0')
 		return true;
 	if(ft_strchr(file, ' ') != NULL)

@@ -119,8 +119,16 @@ int	process_all_redirections(t_redi_list *redi_list)
  */
 bool	check_ambiguous_redirect(char *filename)
 {
+	char *tmp;
 	if (!filename || ft_strlen(filename) == 0)
 		return (true);
+	tmp = filename;
+	while(*tmp)
+	{
+		if(*tmp == ' ')
+			return true;
+		tmp++;
+	}
 	return (false);
 }
 

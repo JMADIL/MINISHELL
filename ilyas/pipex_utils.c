@@ -69,8 +69,8 @@ int	handle_append_output(t_redi_list *output)
 			close(fd);
 			print_error_exit("dup2", "append redirection failed", 1);
 		}
+		close(fd);
 	}
-	close(fd);
 	return (1);
 }
 
@@ -90,12 +90,7 @@ int	process_output_redirections(t_redi_list *output)
 		if (node->type == OUTPUT || node->type == APPEND)
 		{
 			if (check_ambiguous_redirect(node->file))
-			{
-				write(2, "minishell: ", 11);
-				write(2, node->file, ft_strlen(node->file));
-				write(2, ": ambiguous redirect\n", 21);
-				_exit(1);
-			}
+				print_error_exit(node->file, "ambiguos redirect", 1);
 			if (node->type == OUTPUT)
 			{
 				fd = open_redir_file(node->file, 0);
@@ -103,17 +98,14 @@ int	process_output_redirections(t_redi_list *output)
 				{
 					if (dup2(fd, STDOUT_FILENO) == -1)
 					{
-						perror("minishell: dup2 output");
 						close(fd);
-						_exit(1);
+						print_error_exit("dup2", "output redirection faild", 1);
 					}
 				}
 				close(fd);
 			}
 			else
-			{
 				handle_append_output(node);
-			}
 		}
 		node = node->next;
 	}
@@ -138,20 +130,14 @@ int	process_input_redirections(t_redi_list *input)
 			if (node->type == INPUT)
 			{
 				if (check_ambiguous_redirect(node->file))
-				{
-					write(2, "minishell: ", 11);
-					write(2, node->file, ft_strlen(node->file));
-					write(2, ": ambiguous redirect\n", 21);
-					_exit(1);
-				}
+					print_error_exit(node->file, "ambiguous redirect", 1);
 				fd = open_redir_file(node->file, 1);
 				if (node->is_last == true)
 				{
 					if (dup2(fd, STDIN_FILENO) == -1)
 					{
-						perror("minishell: dup2 input");
 						close(fd);
-						_exit(1);
+						print_error_exit("dup2", "input redirection failed", 1);
 					}
 				}
 				close(fd);
@@ -160,12 +146,8 @@ int	process_input_redirections(t_redi_list *input)
 			{
 				if (node->is_last == true)
 					handle_heredoc_input(node);
-				else
-				{
-					
-					if (node->heredoc_fd >= 0)
-						close(node->heredoc_fd);
-				}
+				else if (node->heredoc_fd >= 0)
+					close(node->heredoc_fd);
 			}
 		}
 		node = node->next;
@@ -179,20 +161,13 @@ int	process_input_redirections(t_redi_list *input)
  * =========================================================== */
 char	*validate_exec_path(char *p)
 {
-	struct stat	st;
 
 	if (!p || p[0] == '\0')
 		return (NULL);
 	if (p[0] == '/' || p[0] == '.')
 	{
 		if (access(p, X_OK) == 0)
-		{
-			if (stat(p, &st) == -1)
-				return (NULL);
-			if (S_ISDIR(st.st_mode))
-				return (NULL);
 			return (ft_strdup(p));
-		}
 	}
 	return (NULL);
 }
@@ -206,6 +181,5 @@ void	exec_malloc_fail(char *cmd_path, char *cmd_name)
 		free(cmd_path);
 	if (cmd_name)
 		free(cmd_name);
-	write(2, "minishell: malloc failed\n", 25);
-	_exit(1);
+	print_error_exit("malloc", "allocation failed", 1);
 }

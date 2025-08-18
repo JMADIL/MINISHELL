@@ -13,6 +13,7 @@
 #include <errno.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <sys/stat.h>
 
 // Exit codes
 #define EXIT_SUCCESS 0
@@ -181,7 +182,7 @@ char *get_path_value(t_list *env);
 //exec_cmd.c
 char *search_command_in_path(char *cmd, char *path_value);
 char *resolve_command_path(char *cmd, t_list *env);
-void exec_external_command(t_cmdarg *cmd, t_shell *shell);
+static void exec_external_command(t_cmdarg *current_cmd, char **env);
 //errors.c
 void	safe_free(char **s);
 void	print_error_exit(const char *cmd_name, const char *error, int status);

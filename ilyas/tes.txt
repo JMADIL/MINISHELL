@@ -64,3 +64,48 @@ we will uset in auther files
  *
  * Side effects: Modifies signal handlers, waits for child processes
  */
+now we will pass to the real work, pipex.c
+this is the descreption of function that i will use
+1-/*
+ * Checks if a given path points to a directory.
+ * Uses stat system call to determine if the path exists and represents
+ * a directory. Only checks paths that contain forward slashes and are
+ * not empty or null.
+ *
+ * @param path: File path string to check
+ * @return: true if path is a directory, false otherwise
+ */
+ 2-/*
+ * Handles the execution of external commands.
+ * Manages the complete process of executing non-builtin commands including
+ * path resolution, directory checking, environment preparation, and final
+ * execution via execve. Handles various error conditions and cleanup.
+ *
+ * @param current_cmd: Command structure containing command and arguments
+ * @param env: Environment variables list
+ * Side effects: May exit process, allocates/frees memory, executes command
+ */
+3-/*
+ * Executes builtin commands in child processes.
+ * Checks if the current command is a builtin and executes it if so.
+ * Handles the exit status and terminates the child process after
+ * builtin execution with the appropriate exit code.
+ *
+ * @param current_cmd: Command structure to check and execute
+ * @param env: Pointer to environment variables list
+ * Side effects: May exit process with global exit status
+ */
+ 4-/*
+ * Main function for child process execution in pipeline.
+ * Sets up the child process environment including signal handling,
+ * file descriptor duplication for pipes, redirection handling,
+ * and final command execution (either builtin or external).
+ *
+ * @param current_cmd: Command structure to execute
+ * @param env: Environment variables list
+ * @param tmp_in: Input file descriptor from previous command in pipeline
+ * @param p_fd: Pipe file descriptors for output to next command
+ * Side effects: Modifies file descriptors, handles redirections,
+ * executes command
+ */
+ use any utility function that will be useful and help to made a perfect code
