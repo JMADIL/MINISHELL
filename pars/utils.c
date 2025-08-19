@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:59:55 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/17 04:59:35 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/19 04:49:13 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,10 @@ ssize_t	dollar_position(char *str)
 		i++;
 	}
 	return (-1);
+}
+
+bool	ft_is_cmd(t_token *current)
+{
+	return (current->type == WORD || current->type == DOUBLE_QUOTE
+		|| current->type == SINGLE_QUOTE);
 }

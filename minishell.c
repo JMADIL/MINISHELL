@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:33 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/18 04:51:02 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/19 04:39:03 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,35 @@ int	ft_check_syntax(t_token *token_list)
 	return (0);
 }
 
+t_cmdarg	*parser(t_token *token_list, t_list	*minienv)
+{
+	t_cmdarg	*cmdarg_list;
+	t_cmdarg	*node;
+	t_token	*tmp;
+
+	if(!token_list)
+		return (NULL);
+	cmdarg_list = NULL;
+	tmp = token_list;
+	while(tmp)
+	{
+		if(!please_expand(tmp))
+			expand_variables(&tmp, minienv);
+		tmp = tmp->next;
+	}
+	token_list->current = token_list;
+	node = ->>get_next_node(token_list);<<-
+	while(node)
+	{
+		if(node)
+			->>ft_nodeadd_back(&cmdarg_list, ->>ft_newnode(node)<<-);
+		->>freeall(node->cmd, node->cmdsize);<<-
+		free(node);
+		node = ->>get_next_node(token_list);<<-
+	}
+	return (cmdarg_list);
+}
+
 void	minishell(char *input, t_list **minienv)
 {
 	t_token		*token_list;
@@ -48,7 +77,7 @@ void	minishell(char *input, t_list **minienv)
 		// ft_check_syntax scans the tokens to detect invalid command structures.
 		return (ft_free_tokenlist(token_list));
 	// Converts the flat token list into a higher-level structure: t_cmdarg
-	cmdarg_list =->> ft_parser(token_list, *minienv);<<-
+	cmdarg_list =	->>ft_parser(token_list, *minienv);<<-
 		// Handle here-documents (<<) :
 		if (!->> check_here_doc(cmdarg_list, *minienv) <<
 			-) return (->> ft_cleaner(token_list, cmdarg_list) << -);
