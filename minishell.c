@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:33 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/19 04:39:03 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/19 06:32:34 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	minishell(char *input, t_list **minienv)
 		// ft_check_syntax scans the tokens to detect invalid command structures.
 		return (ft_free_tokenlist(token_list));
 	// Converts the flat token list into a higher-level structure: t_cmdarg
-	cmdarg_list =	->>ft_parser(token_list, *minienv);<<-
+	cmdarg_list =	->>parser(token_list, *minienv);<<-
 		// Handle here-documents (<<) :
 		if (!->> check_here_doc(cmdarg_list, *minienv) <<
 			-) return (->> ft_cleaner(token_list, cmdarg_list) << -);
