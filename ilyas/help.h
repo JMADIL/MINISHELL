@@ -182,9 +182,40 @@ char *get_path_value(t_list *env);
 //exec_cmd.c
 char *search_command_in_path(char *cmd, char *path_value);
 char *resolve_command_path(char *cmd, t_list *env);
-static void exec_external_command(t_cmdarg *current_cmd, char **env);
+static void xec_external_command(t_cmdarg *current_cmd, char **env);//I WILL NOT USE THIS
 //errors.c
 void	safe_free(char **s);
 void	print_error_exit(const char *cmd_name, const char *error, int status);
 int	safe_open(const char *file, int flag);
 void	execve_error_cleanup(char **cmd_path, char **cmd_name, char **envp);
+
+void	finish_exec(pid_t last_cmd_pid);
+
+//pipex_utils.c
+void	cmd_not_found_exit(t_cmdarg *curr_cmd, int no_file);
+void	handle_heredoc_input(t_redi_list *input);
+static int	open_redir_file(const char *filename, int mode);
+int	handle_append_output(t_redi_list *output);
+int	process_output_redirections(t_redi_list *output);
+int	process_input_redirections(t_redi_list *input);
+char	*validate_exec_path(char *p);
+void	exec_malloc_fail(char *cmd_path, char *cmd_name);
+
+//pipex.c
+bool	is_directory(const char *path);
+static void	exec_external_command(t_cmdarg *current_cmd, t_shell *shell);
+static void	exec_builtin_in_child(t_cmdarg *current_cmd, t_shell *shell);
+void	exec_child_process(t_cmdarg *current_cmd, t_shell *shell,
+		int tmp_in, int p_fd[2]);
+
+//signals.c
+void	sigint_interactive(int sig);
+void	sigint_parent_wait(int sig);
+void	sigint_heredoc(int sig);
+void	sigint_heredoc_child(int sig);
+void	setup_interactive_signals(void);
+void	setup_heredoc_signals(void);
+void	restore_interactive_signals(void);
+void	setup_child_signals(void);
+void	setup_parent_wait_signals(void);
+void	setup_parent_heredoc_signals(void);

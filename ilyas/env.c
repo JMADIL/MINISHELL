@@ -27,9 +27,10 @@ char *get_path_value(t_list *env)
 {
     while(env)
     {
-        if(env->key && strcmp(env->key, "PATH") == 0)
+        if(env->key && ft_strcmp(env->key, "PATH") == 0)
             return env->value;
         env = env->next;
     }
     return NULL;
 }
+//mazal khasni nzid xi functions li ghan7tajom f pipex.c

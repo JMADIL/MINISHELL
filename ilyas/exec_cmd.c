@@ -56,7 +56,7 @@ char *resolve_command_path(char *cmd, t_list *env)
 
 //call
 //maghadix nb9a khdem biha
-void exec_eternal_command(t_cmdarg *cmd, t_shell *shell)  
+void xec_eternal_command(t_cmdarg *cmd, t_shell *shell)  
 {
     pid_t pid;
     char *path;
