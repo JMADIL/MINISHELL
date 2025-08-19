@@ -219,3 +219,14 @@ void	restore_interactive_signals(void);
 void	setup_child_signals(void);
 void	setup_parent_wait_signals(void);
 void	setup_parent_heredoc_signals(void);
+//gnl
+char		*get_next_line(int fd);
+char		*my_strjoin(char *s1, char *s2);
+char		*my_strdup(const char *s1);
+
+//heredoc_utils.c
+t_redi_list	*get_last_input_redirection(t_redi_list *redi);
+t_redi_list	*get_last_output_redirection(t_redi_list *redi);
+void	init_redirection_metadata(t_cmdarg *cmd);
+int	is_heredoc_end(char *line, const char *delimiter);
+void	read_heredoc_input_gnl(char *delim, int fd_pipe[2], t_redi_list *heredoc, t_list *env);
