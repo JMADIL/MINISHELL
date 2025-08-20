@@ -1,4 +1,6 @@
 #include "help.h"
+// ghalibanma3anb9a khadam bwalo mn hna 
+
 
 // Split PATH, try all combinations dir/command, check access
 char *search_command_in_path(char *cmd, char *path_value)
@@ -56,42 +58,42 @@ char *resolve_command_path(char *cmd, t_list *env)
 
 //call
 //maghadix nb9a khdem biha
-void xec_eternal_command(t_cmdarg *cmd, t_shell *shell)  
-{
-    pid_t pid;
-    char *path;
-    char **envp;
+// void xec_eternal_command(t_cmdarg *cmd, t_list *env)  
+// {
+//     pid_t pid;
+//     char *path;
+//     char **envp;
     
-    path = resolve_command_path(cmd->cmd[0], shell->env); 
-    if(!path)
-    {
-        write(2, "minishell: command not found\n", 29);
-        shell->last_status = 127;
-        return;
-    }
-    pid = fork();
-    if(pid == -1)
-    {
-        perror("fork");
-        free(path);
-        return;
-    }
-    if(pid == 0)
-    {
-        envp = env_to_array(shell->env);
-        execve(path, cmd->cmd, envp);  
-        perror("execve");
-        ft_free_split(envp);
-        free(path);
-        exit(1);
-    }
-    else
-    {
-        waitpid(pid, &shell->last_status, 0);
-        if(WIFEXITED(shell->last_status))
-            shell->last_status = WEXITSTATUS(shell->last_status);
-        free(path);
-    }
-}
+//     path = resolve_command_path(cmd->cmd[0], env->env); 
+//     if(!path)
+//     {
+//         write(2, "minishell: command not found\n", 29);
+//         shell->last_status = 127;
+//         return;
+//     }
+//     pid = fork();
+//     if(pid == -1)
+//     {
+//         perror("fork");
+//         free(path);
+//         return;
+//     }
+//     if(pid == 0)
+//     {
+//         envp = env_to_array(shell->env);
+//         execve(path, cmd->cmd, envp);  
+//         perror("execve");
+//         ft_free_split(envp);
+//         free(path);
+//         exit(1);
+//     }
+//     else
+//     {
+//         waitpid(pid, &shell->last_status, 0);
+//         if(WIFEXITED(shell->last_status))
+//             shell->last_status = WEXITSTATUS(shell->last_status);
+//         free(path);
+//     }
+// }
 
 

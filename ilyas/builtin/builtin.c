@@ -39,22 +39,21 @@ int is_builtin(char *cmd)
 		ft_strcmp(cmd, "unset") == 0
 	);
 }
-int exec_builtin(t_cmdarg *cmd, t_shell *shell)
+int exec_builtin(t_cmdarg *shell, t_list **env)
 {
-    if (!cmd || !cmd->cmd || !cmd->cmd[0])  
-        return(1);
+
         
-    if(ft_strcmp(cmd->cmd[0], "cd") == 0)  
-        return (builtin_cd(cmd->cmd, shell));  
-    else if(ft_strcmp(cmd->cmd[0], "echo") == 0)
-        return(builtin_echo(cmd->cmd));  
-    else if(ft_strcmp(cmd->cmd[0], "env") == 0)
-        return(builtin_env(shell->env));  
-    else if(ft_strcmp(cmd->cmd[0], "exit") == 0)
-        return(builtin_exit(cmd->cmd, shell->env)); 
-    else if(ft_strcmp(cmd->cmd[0], "export") == 0)
-        return(builtin_export(cmd->cmd, shell));
-    else if(ft_strcmp(cmd->cmd[0], "unset") == 0)
-        return(builtin_unset(cmd->cmd, shell));
+    if(ft_strcmp(shell->cmd[0], "cd") == 0)  
+        return (builtin_cd(shell->cmd, env));  
+    else if(ft_strcmp(shell->cmd[0], "echo") == 0)
+        return(builtin_echo(shell->cmd));  
+    else if(ft_strcmp(shell->cmd[0], "env") == 0)
+        return(builtin_env(env));  
+    else if(ft_strcmp(shell->cmd[0], "exit") == 0)
+        return(builtin_exit(shell->cmd, env)); 
+    else if(ft_strcmp(shell->cmd[0], "export") == 0)
+        return(builtin_export(shell->cmd, env));
+    else if(ft_strcmp(shell->cmd[0], "unset") == 0)
+        return(builtin_unset(shell->cmd, env));
     return(1);
 }

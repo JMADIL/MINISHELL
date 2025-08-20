@@ -111,20 +111,20 @@ extern int g_exit_status;
 #endif
 
 //builtin_cd
-void update_pwd_vars(t_list **env, char *new_path, char *old_path) ;
+void update_pwd_vars(t_list *env, char *new_path, char *old_path);
 char *expand_tilde(char *cmd, t_list *env);
-int resolve_cd_target(char **cmd, char **path, char *old_path, t_list *env);
-int builtin_cd(char **cmd, t_shell *shell);
+int resolve_cd_target(char **cmd, char **path, char *old_path, t_list **env);
+int builtin_cd(char **cmd, t_list **env);
 //builtin_echo
 int	is_vaid_n_flag(const char *str);
 char	*join_args_from_index(char **cmd, int i);
 void prent_echo_output(const char *tmp, int n_flag);
 int builtin_echo(char **cmd);
 //builtin_env
-int builtin_env(t_list *env);
+int builtin_env(t_list **env);
 //builtin_exit
 int numeric(const char *str);
-int builtin_exit(char **cmd, t_list *env);
+int builtin_exit(char **cmd, t_list **env);
 //builtin_export_utils
 void	print_export_format(t_list *head);
 void	print_sorted_export(t_list *env);
@@ -169,22 +169,25 @@ char *ft_strdup(char *str);
 int ft_strlen(char *l);
 t_list *copy_env_list(t_list *env);
 void alloc_key_value(char *cmd, char **key, char **value, char *equals_pos);
+t_list	*find_node(t_list *env, char *key);
+int	size_dp(char **c);
 //builtin
 void	free_arr(char **cmd);
 int is_builtin(char *cmd);
-int exec_builtin(t_cmdarg *cmd, t_shell *shell);
+int exec_builtin(t_cmdarg *shell, t_list **env);
 
 //out the builtin directory i have this 
 
 //env.c
-void free_env_list(t_list **list);
+void free_env_list(t_list **env);
 char *get_path_value(t_list *env);
+char	*check_exec(char *p, t_list *env, int *no_file);
 //exec_cmd.c
 char *search_command_in_path(char *cmd, char *path_value);
 char *resolve_command_path(char *cmd, t_list *env);
 static void xec_external_command(t_cmdarg *current_cmd, char **env);//I WILL NOT USE THIS
 //errors.c
-void	safe_free(char **s);
+void	safe_free(char *s);
 void	print_error_exit(const char *cmd_name, const char *error, int status);
 int	safe_open(const char *file, int flag);
 void	execve_error_cleanup(char **cmd_path, char **cmd_name, char **envp);
@@ -203,10 +206,10 @@ void	exec_malloc_fail(char *cmd_path, char *cmd_name);
 
 //pipex.c
 bool	is_directory(const char *path);
-static void	exec_external_command(t_cmdarg *current_cmd, t_shell *shell);
-static void	exec_builtin_in_child(t_cmdarg *current_cmd, t_shell *shell);
-void	exec_child_process(t_cmdarg *current_cmd, t_shell *shell,
-		int tmp_in, int p_fd[2]);
+static void	exec_external_command(t_cmdarg *current_cmd, t_list *env);
+void	exec_builtin_in_child(t_cmdarg *current_cmd, t_list **env);
+void	exec_child_process(t_cmdarg *current_cmd, t_list *env, int tmp_in,
+		int p_fd[2]);
 
 //signals.c
 void	sigint_interactive(int sig);
@@ -230,3 +233,10 @@ t_redi_list	*get_last_output_redirection(t_redi_list *redi);
 void	init_redirection_metadata(t_cmdarg *cmd);
 int	is_heredoc_end(char *line, const char *delimiter);
 void	read_heredoc_input_gnl(char *delim, int fd_pipe[2], t_redi_list *heredoc, t_list *env);
+
+//utils.c
+int	size_list(t_cmdarg *node);
+void	free_all(char **bf, int j);
+void	ft_alloc(char **envp, int *i, char *key_equals, t_list *env);
+char	**get_env(t_list *env);
+void	ft_free_isdir(char **cmd_path, char **cmd_name, t_cmdarg *current_cmd);

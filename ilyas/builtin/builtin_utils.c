@@ -132,3 +132,31 @@ void alloc_key_value(char *cmd, char **key, char **value, char *equals_pos)
 	*key = ft_substr(cmd, 0, key_len);
 	*value = ft_strdup(equals_pos + 1);
 }
+
+//cd
+int	size_dp(char **c)
+{
+	int	i;
+
+	i = 0;
+	while (*c)
+	{
+		c++;
+		i++;
+	}
+	return (i);
+}
+
+t_list	*find_node(t_list *env, char *key)
+{
+	t_list	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, key) == 0)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}

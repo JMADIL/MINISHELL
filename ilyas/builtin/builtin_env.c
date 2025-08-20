@@ -1,12 +1,12 @@
-#include "help.h"
+#include "../help.h"
 
-int builtin_env(t_list *env)
+int builtin_env(t_list **env)
 {
     t_list *tmp;
 
-    if(!env)
+    if(!env || !*env)
         return 1;
-    tmp = env;
+    tmp = *env;
     while(tmp)
     {
         if(tmp->value)

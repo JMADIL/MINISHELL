@@ -50,7 +50,7 @@ int numeric(const char *str)
  * @return: 1 if too many arguments (doesn't exit), otherwise exits process
  * Side effects: Prints "exit", may print errors, frees environment, exits process
  */
-int builtin_exit(char **cmd, t_list *env)
+int builtin_exit(char **cmd, t_list **env)
 {
     long exit_code;
     
@@ -58,14 +58,14 @@ int builtin_exit(char **cmd, t_list *env)
     
     if (!cmd[1])
     {
-        free_env_list(&env);  
+        free_env_list(env);  
         exit(g_exit_status);
     }
     
     if (!numeric(cmd[1]))  
     {
         fprintf(stderr, "minishell: exit: %s: numeric argument required\n", cmd[1]);
-        free_env_list(&env);
+        free_env_list(env);
         exit(255);
     }
     
@@ -75,11 +75,12 @@ int builtin_exit(char **cmd, t_list *env)
         return 1;  
     }
     
-    exit_code = ft_atol(cmd[1]);  
+    exit_code = ft_atoi(cmd[1]);  
     exit_code = exit_code % 256;  
     if (exit_code < 0)
         exit_code += 256;  
     
-    free_env_list(&env);
+    free_env_list(env);
     exit((int)exit_code);
 }
+

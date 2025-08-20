@@ -10,12 +10,12 @@
  * Side effects: Frees memory if pointer is not NULL, sets pointer to NULL
  */
 
-void	safe_free(char **s)
+void	safe_free(char *s)
 {
-	if (s && *s)
+	if (s)
 	{
-		free(*s);
-		*s = NULL;
+		free(s);
+		s = NULL;
 	}
 }
 /*

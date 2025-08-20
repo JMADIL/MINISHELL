@@ -11,19 +11,33 @@
  * Side effects: Modifies environment variables, allocates/frees memory,
  * calls getcwd
  */
-void update_pwd_vars(t_list **env, char *new_path, char *old_path)  
+void	update_pwd_vars(t_list *env, char *new_path, char *old_path)
 {
-	char *cwd;
+	char	*cwd;
+	t_list	*old_pwd;
+	t_list	*current_pwd;
+	char	*tmp;
 
-	set_env_var(env, "OLDPWD", old_path);  
+	safe_free(new_path);
+	tmp = NULL;
+	old_pwd = find_node(env, "OLDPWD");
+	current_pwd = find_node(env, "PWD");
 	cwd = getcwd(NULL, 0);
-	if(cwd)
+	if (old_pwd)
 	{
-		set_env_var(env, "PWD", cwd);
-		free(cwd);
+		if (old_pwd->value)
+			free(old_pwd->value);
+		old_pwd->value = ft_strdup(old_path);
 	}
-	free(new_path);
-	free(old_path);  
+	free(old_path);
+	if (current_pwd)
+	{
+		tmp = current_pwd->value;
+		current_pwd->value = cwd;
+		free(tmp);
+	}
+	else
+		free(cwd);
 }
 
 /*
@@ -37,28 +51,23 @@ void update_pwd_vars(t_list **env, char *new_path, char *old_path)
  * @return: Expanded path string or original command, NULL if HOME not set
  * Side effects: May allocate memory for expanded path
  */
-char *expand_tilde(char *cmd, t_list *env)
+char	*expand_tilde(char *cmd, t_list *env)
 {
-	char *home;
-	char *expanded;
+	char	*home;
+	char	*expanded;
 
-	if(!cmd || cmd[0] != '~')
-		return (ft_strdup(cmd));  
-	
-	home = get_env_value(env, "HOME");
-	if(!home)
+	if (!cmd || cmd[0] != '~')
+		return (ft_strdup(cmd));
+	home = get_env_value(env, "HOME"); // parsing function
+	if (!home)
 		return (NULL);
-	
-	if(cmd[1] == '\0')
+	if (cmd[1] == '\0')
 		return (ft_strdup(home));
-
-	expanded = malloc(ft_strlen(home) + ft_strlen(cmd));  
-	if(!expanded)
-		return NULL;
-	
+	expanded = malloc(ft_strlen(home) + ft_strlen(cmd));
+	if (!expanded)
+		return (NULL);
 	ft_strcpy(expanded, home);
-	ft_strcat(expanded, cmd + 1);  
-
+	ft_strcat(expanded, cmd + 1);
 	return (expanded);
 }
 
@@ -76,53 +85,36 @@ char *expand_tilde(char *cmd, t_list *env)
  * Side effects: Allocates memory for path, may write error messages,
  * frees old_path on error
  */
-int resolve_cd_target(char **cmd, char **path, char *old_path, t_list *env)
+int	resolve_cd_target(char **cmd, char **path, char *old_path, t_list **env)
 {
-	char *tmp;
+	char	*tmp;
 
-	if(!cmd[1])
+	tmp = NULL;
+	if (!cmd[1] || ft_strcmp(cmd[1], "~") == 0)
 	{
-		tmp = get_env_value(env, "HOME");
-		if(!tmp)
-		{
-			fprintf(stderr, "minishell: cd: HOME not set\n");
-			free(old_path);
-			return(1);
-		}
+		*path = get_env_value(env, "HOME");
+		if (!*path)
+			return (free(old_path), write(2, "minishell: cd: HOME not set\n",
+					28), 1);
+		*path = ft_strdup(*path);
+	}
+	else if (ft_strcmp(cmd[1], "-") == 0)
+	{
+		*path = get_env_value(env, "OLDPWD");
+		if (!*path)
+			return (free(old_path), write(2, "minishell: cd: OLDPWD not set\n",
+					30), 1);
+	}
+	else
+	{
+		tmp = expand_tilde(cmd[1], *env);
+		if (!tmp)
+			return (free(old_path), write(2, "minishell: cd: HOME not set\n",
+					28), 1);
 		*path = ft_strdup(tmp);
+		if (tmp != cmd[1])
+			free(tmp);
 	}
-	else if(ft_strcmp(cmd[1], "-") == 0)
-	{
-		tmp = get_env_value(env, "OLDPWD");  
-		if(!tmp)
-		{
-			fprintf(stderr, "minishell: cd: OLDPWD not set\n");  
-			free(old_path);
-			return(1);
-		}
-		*path = ft_strdup(tmp);
-		printf("%s\n", *path);  
-	}
-	else if (cmd[1][0] == '~')
-	{
-		*path = expand_tilde(cmd[1], env);
-		if (!*path) 
-		{
-			fprintf(stderr, "minishell: cd: HOME not set\n");
-			free(old_path);
-			return(1);
-		}
-	}
-	else 
-		*path = ft_strdup(cmd[1]);
-	
-	
-	if (!*path)
-	{
-		free(old_path);
-		return(1);
-	}
-	
 	return (0);
 }
 
@@ -139,35 +131,31 @@ int resolve_cd_target(char **cmd, char **path, char *old_path, t_list *env)
  * Side effects: Changes working directory, modifies environment variables,
  * may write errors
  */
-int builtin_cd(char **cmd, t_shell *shell)
+int	builtin_cd(char **cmd, t_list **env)
 {
-    char *old_path;
-    char *new_path;
-    
-    if(cmd[1] && cmd[2])
-    {
-        fprintf(stderr, "minishell: cd: too many arguments\n");
-        return(1);
-    }
-    
-    old_path = getcwd(NULL, 0);
-    if (!old_path)
-    {
-        perror("minishell: cd");  
-        return 1;
-    }
-    
-    if(resolve_cd_target(cmd, &new_path, old_path, shell->env) != 0)
-        return 1;
-        
-    if(chdir(new_path) != 0)
-    {
-        perror("minishell: cd");
-        free(old_path);
-        free(new_path);
-        return(1);
-    }
-    
-    update_pwd_vars(&(shell->env), new_path, old_path);  
-    return 0;
+	char	*old_path;
+	char	*new_path;
+
+	if (cmd[1] && cmd[2])
+	{
+		fprintf(stderr, "minishell: cd: too many arguments\n");
+		return (1);
+	}
+	old_path = getcwd(NULL, 0);
+	if (!old_path)
+	{
+		perror("minishell: cd");
+		return (1);
+	}
+	if (resolve_cd_target(cmd, &new_path, old_path, env) != 0)
+		return (1);
+	if (chdir(new_path) != 0)
+	{
+		perror("minishell: cd");
+		free(old_path);
+		free(new_path);
+		return (1);
+	}
+	update_pwd_vars(*env, new_path, old_path);
+	return (0);
 }

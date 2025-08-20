@@ -91,7 +91,6 @@ int	setup_builtin_redirections(t_cmdarg *cmd)
 {
 	if (!cmd || !cmd->redirections)
 		return (1);
-	
 	cmd->origin_stdin = dup(STDIN_FILENO);
 	if (cmd->origin_stdin == -1)
 	{
@@ -99,7 +98,6 @@ int	setup_builtin_redirections(t_cmdarg *cmd)
 		g_exit_status = 1;
 		return (1);
 	}
-	
 	cmd->origin_stdout = dup(STDOUT_FILENO);
 	if (cmd->origin_stdout == -1)
 	{
@@ -108,7 +106,6 @@ int	setup_builtin_redirections(t_cmdarg *cmd)
 		g_exit_status = 1;
 		return (1);
 	}
-	
 	if (process_all_redirections(cmd->redirections) == -1)
 		return (1);
 	return (0);
@@ -124,10 +121,8 @@ int	execute_builtin_with_redi(t_cmdarg *cmd_list, t_list **env)
 
 	if (!cmd_list || !cmd_list->cmd)
 		return (0);
-	
 	builtin_check = check_if_builtin(cmd_list->cmd[0]);
-	
-	if (count_commands(cmd_list) == 1 && builtin_check)
+	if (size_list(cmd_list) == 1 && builtin_check)
 	{
 		if (cmd_list->redirections)
 		{
@@ -137,14 +132,12 @@ int	execute_builtin_with_redi(t_cmdarg *cmd_list, t_list **env)
 				return (1);
 			}
 		}
-		
 		if (execute_builtin_command(cmd_list, env) == 1)
 		{
 			if (cmd_list->redirections)
 				restore_original_fds(cmd_list);
 			return (1);
 		}
-		
 		if (cmd_list->redirections)
 			restore_original_fds(cmd_list);
 		return (1);
