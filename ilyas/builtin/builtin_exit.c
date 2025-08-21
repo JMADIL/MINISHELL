@@ -33,54 +33,57 @@ int numeric(const char *str)
     return 1;
 }
 
-/*
- * Implements the exit builtin command functionality.
- * Handles exit with optional numeric argument, validates input,
- * manages exit status modulo 256, and handles multiple arguments.
- * Follows bash exit behavior for error cases and status codes.
- *
- * Algorithm: Argument validation with proper exit status handling
- * - No args: exit with last command status
- * - Numeric arg: exit with that status (mod 256)
- * - Non-numeric: exit with status 255
- * - Too many args: return error without exiting
- *
- * @param cmd: Command array (cmd[0]="exit", cmd[1]=optional status)
+
+/* ================================================================
+ * handle_exit_error - Handle numeric argument error and exit
+ * 
+ * Prints error message for non-numeric arguments and exits with
+ * status 255 after cleaning up environment.
+ * 
+ * @param cmd: Command array (for error message)
  * @param env: Environment list to free before exit
- * @return: 1 if too many arguments (doesn't exit), otherwise exits process
- * Side effects: Prints "exit", may print errors, frees environment, exits process
- */
-int builtin_exit(char **cmd, t_list **env)
+ ================================================================ */
+static void	handle_exit_error(char **cmd, t_list **env)
 {
-    long exit_code;
-    
-    write(1, "exit\n", 5);
-    
-    if (!cmd[1])
-    {
-        free_env_list(env);  
-        exit(g_exit_status);
-    }
-    
-    if (!numeric(cmd[1]))  
-    {
-        fprintf(stderr, "minishell: exit: %s: numeric argument required\n", cmd[1]);
-        free_env_list(env);
-        exit(255);
-    }
-    
-    if (cmd[2])
-    {
-        fprintf(stderr, "minishell: exit: too many arguments\n");
-        return 1;  
-    }
-    
-    exit_code = ft_atoi(cmd[1]);  
-    exit_code = exit_code % 256;  
-    if (exit_code < 0)
-        exit_code += 256;  
-    
-    free_env_list(env);
-    exit((int)exit_code);
+	fprintf(stderr, "minishell: exit: %s: numeric argument required\n", cmd[1]);
+	free_env_list(env);
+	exit(255);
+}
+
+/* ================================================================
+ * builtin_exit - Handle exit builtin command
+ * 
+ * Processes exit command with optional numeric argument.
+ * Validates arguments, handles errors, and exits with appropriate
+ * status code (0-255 range).
+ * 
+ * @param cmd: Command array [exit, arg1, arg2, ...]
+ * @param env: Environment list to free before exit
+ * @return: 1 if too many arguments (doesn't exit), otherwise exits
+ ================================================================ */
+int	builtin_exit(char **cmd, t_list **env)
+{
+	long	exit_code;
+
+	write(1, "exit\n", 5);
+	if (cmd[1] && cmd[2])
+	{
+		fprintf(stderr, "minishell: exit: too many arguments\n");
+		return (1);
+	}
+	if (cmd[1])
+	{
+		if (!numeric(cmd[1]))
+			handle_exit_error(cmd, env);
+		exit_code = ft_atoi(cmd[1]);
+		exit_code = exit_code % 256;
+		if (exit_code < 0)
+			exit_code += 256;
+		g_exit_status = (int)exit_code;
+	}
+	else
+		g_exit_status = g_exit_status;
+	free_env_list(env);
+	exit(g_exit_status);
 }
 

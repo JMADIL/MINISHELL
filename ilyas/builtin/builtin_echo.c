@@ -35,36 +35,30 @@ int	is_vaid_n_flag(const char *str)
 char	*join_args_from_index(char **cmd, int i)
 {
 	char	*result;
-	size_t	total_len;
-	int		j;
-	int		k;
+	char	*temp;
+	char	*with_space;
 
-	total_len = 0;
-	j = i;
-	k = 0;
 	if (!cmd || !cmd[i])
 		return (ft_strdup(""));
-	while (cmd[j])
-	{
-		total_len = ft_strlen(cmd[j]);
-		if (cmd[j + 1])
-			total_len++;
-		j++;
-	}
-	result = malloc(total_len + 1);
+	result = ft_strdup(cmd[i]);
 	if (!result)
 		return (NULL);
-	result[0] = '\0';
+	i++;
 	while (cmd[i])
 	{
-		ft_strlcat(result, cmd[i]);
-		if (cmd[i + 1])
-			ft_strlcat(result, " ");
+		with_space = ft_strjoin(result, " ");
+		if (!with_space)
+			return (free(result), NULL);
+		temp = ft_strjoin(with_space, cmd[i]);
+		free(result);
+		free(with_space);
+		if (!temp)
+			return (NULL);
+		result = temp;
 		i++;
 	}
 	return (result);
 }
-
 
 /*
  * Outputs the echo string with or without a trailing newline.
@@ -73,11 +67,11 @@ char	*join_args_from_index(char **cmd, int i)
  * @param n_flag: If non-zero, suppresses trailing newline
  */
 
-void prent_echo_output(const char *tmp, int n_flag)
+void	prent_echo_output(const char *tmp, int n_flag)
 {
 	if (tmp)
-		write(STDOUT_FILENO, tmp, ft_strlen(tmp));
-	if(!n_flag)
+		write(STDOUT_FILENO, tmp, ft_strlen((char *)tmp));
+	if (!n_flag)
 		write(STDOUT_FILENO, "\n", 1);
 }
 /*
@@ -88,22 +82,24 @@ void prent_echo_output(const char *tmp, int n_flag)
  * @param shell: (unused)
  * @return: Always returns 0
  */
-int builtin_echo(char **cmd)
+int	builtin_echo(char **cmd, t_cmdarg *shell)
 {
-	int i = 1;
-	int n_flag = 0;
-	char *joined;
+	int		i;
+	int		n_flag;
+	char	*joined;
 
-	while(cmd[i] && is_valid_n_flag(cmd[i]))
+	(void)shell;
+	i = 1;
+	n_flag = 0;
+	while (cmd[i] && is_valid_n_flag(cmd[i]))
 	{
 		n_flag = 1;
-		
 		i++;
 	}
 	joined = join_args_from_index(cmd, i);
-	if(!joined)
-		return 1;
+	if (!joined)
+		return (1);
 	print_echo_output(!joined, n_flag);
 	free(joined);
-	return 0;
+	return (0);
 }

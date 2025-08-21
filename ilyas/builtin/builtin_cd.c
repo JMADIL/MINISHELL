@@ -116,7 +116,7 @@ int	resolve_cd_target(char **cmd, char **path, char *old_path, t_list **env)
 			free(tmp);
 	}
 	return (0);
-}
+} // n9dar nzid macros bax na9as sora
 
 /*
  * Implements the cd builtin command.

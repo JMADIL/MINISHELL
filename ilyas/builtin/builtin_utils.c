@@ -12,6 +12,8 @@
  * @param value: Value string (caller must strdup before passing, can be NULL)
  * @return: 1 on success, 0 on failure (memory allocation error)
  */
+
+// i use this function in unset.c blast "ft_lstadd_back"
 int add_env_node(t_list **env, char *key, char *value)
 {
     t_list *new_node;
@@ -104,7 +106,7 @@ t_list *copy_env_list(t_list *env)
 		{
 			free(key_copy);
 			free(val_copy);
-			free_env_list(&copy);
+			free_env_list(&copy); // n9edro nsta3mlo ft_lstadd_back w ft_lstnew blasta
 			return NULL;
 		}
 		add_env_node(&copy, key_copy, val_copy);

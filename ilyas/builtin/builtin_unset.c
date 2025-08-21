@@ -63,7 +63,7 @@ int	init_minimal_env(t_list **env)
 	else
 		cwd = ft_strdup("/"); 
 
-	add_env_node(env, ft_strdup("PWD"), cwd);
+	add_env_node(env, ft_strdup("PWD"), cwd);//i can change it with ft_lstadd_back
 	add_env_node(env, ft_strdup("OLDPWD"), NULL);
 	add_env_node(env, ft_strdup("SHLVL"), ft_strdup("1"));
 	add_env_node(env, ft_strdup("_"), ft_strdup("/usr/bin/env"));
@@ -92,17 +92,16 @@ int	builtin_unset(char **cmd, t_list **env)
 	i = 1; 
 	while (cmd[i])
 	{
-		
 		if (ft_strcmp(cmd[i], "_") == 0)
 		{
 			i++;
 			continue; 
 		}
 		
-		target = find_env_var(cmd[i], *env);
+		target = find_env_var(cmd[i], *env);// from builtin_export.c
 		if (target)
 			remove_env_node(env, target);
 		i++;
 	}
-	return (1);
+	return (0);
 }

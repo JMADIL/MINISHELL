@@ -49,8 +49,6 @@ int	handle_output_redi(t_redi_list *redi)
 			}
 			close(fd);
 		}
-		else
-			close(fd);
 	}
 	else if (redi->type == APPEND)
 	{
@@ -94,14 +92,14 @@ int	setup_builtin_redirections(t_cmdarg *cmd)
 	cmd->origin_stdin = dup(STDIN_FILENO);
 	if (cmd->origin_stdin == -1)
 	{
-		print_error("dup stdin failed");
+		perror("minishell: dup stdin");
 		g_exit_status = 1;
 		return (1);
 	}
 	cmd->origin_stdout = dup(STDOUT_FILENO);
 	if (cmd->origin_stdout == -1)
 	{
-		print_error("dup stdout failed");
+		perror("minishell: dup stdout");
 		close(cmd->origin_stdin);
 		g_exit_status = 1;
 		return (1);
@@ -121,26 +119,21 @@ int	execute_builtin_with_redi(t_cmdarg *cmd_list, t_list **env)
 
 	if (!cmd_list || !cmd_list->cmd)
 		return (0);
-	builtin_check = check_if_builtin(cmd_list->cmd[0]);
+	builtin_check = is_builtin(cmd_list->cmd[0]);
 	if (size_list(cmd_list) == 1 && builtin_check)
 	{
-		if (cmd_list->redirections)
-		{
-			if (setup_builtin_redirections(cmd_list) == 1)
-			{
-				restore_original_fds(cmd_list);
-				return (1);
-			}
-		}
-		if (execute_builtin_command(cmd_list, env) == 1)
+		if (cmd_list->redirections && setup_builtin_redirections(cmd_list) == 1)
 		{
 			if (cmd_list->redirections)
 				restore_original_fds(cmd_list);
 			return (1);
 		}
-		if (cmd_list->redirections)
-			restore_original_fds(cmd_list);
-		return (1);
+		if (exec_builtin(cmd_list, env) == 1)
+		{
+			if (cmd_list->redirections)
+				restore_original_fds(cmd_list);
+			return (1);
+		}
 	}
 	return (0);
 }

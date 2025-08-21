@@ -119,21 +119,23 @@ int builtin_cd(char **cmd, t_list **env);
 int	is_vaid_n_flag(const char *str);
 char	*join_args_from_index(char **cmd, int i);
 void prent_echo_output(const char *tmp, int n_flag);
-int builtin_echo(char **cmd);
+int builtin_echo(char **cmd, t_cmdarg *shell);
 //builtin_env
 int builtin_env(t_list **env);
 //builtin_exit
 int numeric(const char *str);
 int builtin_exit(char **cmd, t_list **env);
 //builtin_export_utils
+void add_new_env_var(t_list **env, char *key, char *value);
 void	print_export_format(t_list *head);
-void	print_sorted_export(t_list *env);
+void	print_sorted_export(t_list **env);
 void swap_env_nodes(t_list *ptr1);
-void	update_existing_env(t_list *dup_key, char *key, char *value, char *cmd);
+void	update_existing_env(t_list *dup_key, char **key, char **value,
+		char *cmd);
 //builtin_export_utils1
 int	print_export_identifier_error(const char *cmd);
 void	handle_export_no_assign(char **key, char **value, const char *cmd);
-void	append_to_env_value(t_list *dup_key, char *key, char *value);
+void	append_to_env_value(t_list *dup_key, char **key, char **value);
 int	parse_export_argument(const char *cmd, char **key, char **value);
 //builtin_export
 t_list *find_env_var(const char *key, t_list *env);
@@ -141,7 +143,7 @@ t_list *find_env_var(const char *key, t_list *env);
 int validate_export_identifier(const char *cmd);
 int	builtin_export(char **cmd, t_list **env);
 //builtin_pwd	
-int ft_pwd(t_list *env);
+int builtin_pwd(t_list **env);
 //builtin_redirection_utils
 int	open_file_for_builtin(char *filename, t_token_type type);
 void	restore_original_fds(t_cmdarg *cmd);
@@ -149,10 +151,7 @@ void	display_redi_error(char *filename, char *error_msg);
 void	handle_file_open_error(char *filename);
 int	process_all_redirections(t_redi_list *redi_list);
 bool	check_ambiguous_redirect(char *filename);
-int	count_commands(t_cmdarg *cmd_list);
-int	check_if_builtin(char *cmd);
-int	execute_builtin_command(t_cmdarg *cmd, t_list **env);
-void	print_error(char *msg);
+bool	dontexpand_heredoc_del(t_token *tmp);
 //builtin_redirection
 int	handle_append_redi(t_redi_list *redi);
 int	handle_output_redi(t_redi_list *redi);

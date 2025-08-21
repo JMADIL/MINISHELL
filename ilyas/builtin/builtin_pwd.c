@@ -9,12 +9,11 @@
  * @return: Always returns 1
  * Side effects: Writes current directory to stdout, may write error to stderr
  */
-int ft_pwd(t_list *env)
+int builtin_pwd(t_list **env)
 {
-    char cwd;
-    (void) env;
+    char *cwd;
 
-    cwd = getcwd(NULL, 0);
+	cwd = ft_getenv("PWD", *env);// parsing ajemi
     if(cwd != NULL)
     {
         printf("%s\n", cwd);
