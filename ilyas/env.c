@@ -1,3 +1,5 @@
+//z3ma get_cmd_path
+
 #include "help.h"
 
 // Free the linked list of t_env

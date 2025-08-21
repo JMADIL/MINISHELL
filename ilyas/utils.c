@@ -1,6 +1,7 @@
 
 #include "help.h"
 
+//i need to modifie xwiya
 /*
  * Counts the number of nodes in a command argument linked list.
  * Iterates through the linked list to determine the total number

@@ -1,111 +1,47 @@
-lets firt made an ft_error.c file that will contain sume functions that gona help us and 
-we will uset in auther files
--this is a descreptions of the functions that i want
-1-/*
- * Safely frees a character pointer and sets it to NULL.
- * Provides null-safe string deallocation by checking for null pointer
- * before freeing. Sets pointer to NULL after freeing to prevent
- * double-free errors and dangling pointer issues.
+now i need to make the parsing_split.c file
+- this is a descreption of the functions i need
+1- /*
+ * Counts the number of words/tokens separated by a given character.
+ * Special handling for braced variables (e.g., ${VAR}) to treat them
+ * as single tokens. Skips over separator characters and counts distinct
+ * word boundaries in the input string.
  *
- * @param s: Character pointer to free
- * Side effects: Frees memory if pointer is not NULL, sets pointer to NULL
+ * @param s: Input string to analyze
+ * @param p: Character used as separator
+ * @return: Number of distinct words/tokens found
  */
  2-/*
- * Prints error message and exits with specified status code.
- * Formats and displays shell error messages with consistent format:
- * "minishell : [command]: [error]". Terminates the current process
- * with the provided exit status after printing the error.
+ * Skips over separators and extracts the next word boundaries.
+ * Handles special case of braced variables by treating content within
+ * braces as a single unit. Updates the string pointer, length, and
+ * start position for the next token to be extracted.
  *
- * @param cmd_name: Command name to include in error message (can be NULL)
- * @param error: Error message string to display
- * @param status: Exit status code for process termination
- * Side effects: Writes error to stderr, terminates process
+ * @param s: Pointer to current position in string (modified)
+ * @param len: Pointer to store length of found token
+ * @param p: Separator character to skip
+ * @param start: Pointer to store start of found token
+ * Side effects: Modifies s pointer position and sets len and start values
  */
  3-/*
- * Opens files with specified flags for redirection operations.
- * Handles different file opening modes: truncate (flag 0), read-only (flag 1),
- * and append (flag 2). Reports appropriate error messages for common
- * failure cases like file not found, directory access, and permission issues.
+ * Copies characters from source to destination buffer.
+ * Extracts a token of specified length from the start position
+ * into the allocated buffer array at the given index. Null-terminates
+ * the copied string for proper C string handling.
  *
- * @param file: Filename to open
- * @param flag: Opening mode (0=truncate, 1=read, 2=append)
- * @return: File descriptor on success, -1 on failure (with error reported)
- * Side effects: Opens file, may write error messages, sets g_exit_status
- * on error
+ * @param len: Number of characters to copy
+ * @param j: Index in the buffer array to store the token
+ * @param start: Source position to copy from
+ * @param buff: Destination buffer array
+ * Side effects: Modifies buffer array at index j
  */
  4-/*
- * Handles cleanup and error reporting for execve failures.
- * Frees allocated memory for command path, name, and environment array
- * before reporting execution errors. Determines appropriate error message
- * and exit code based on errno (permission denied vs general failure).
+ * Splits a string into an array of tokens based on a separator character.
+ * Main parsing function that allocates memory for token array, counts
+ * words, and extracts each token while handling special braced variable
+ * syntax. Returns a null-terminated array of string tokens.
  *
- * @param cmd_path: Pointer to command path string to free
- * @param cmd_name: Pointer to command name string to free
- * @param envp: Pointer to environment array to free
- * Side effects: Frees memory, reports error, terminates process
+ * @param s: Input string to split
+ * @param p: Character to use as separator
+ * @return: Null-terminated array of string tokens, NULL on failure
+ * Side effects: Allocates memory for token array and individual strings
  */
- now i wanna made the ambiguous functions as errors2.c file this is a descreption of he functions 
- that i will use
- 1-/*
- * Checks if a filename contains spaces that would make redirection ambiguous.
- * Detects cases where variable expansion or other operations result in
- * filenames containing spaces, which creates ambiguous redirection in shell.
- * Returns true for empty/null strings and strings containing spaces.
- *
- * @param file: Filename string to check for ambiguity
- * @return: true if filename is ambiguous (empty or contains spaces), false
- * otherwise
- */
- 2-/*
- * Completes execution process with proper signal handling and child waiting.
- * Sets up parent process signal handling for waiting state, waits for all
- * child processes to complete, then restores original signal handlers.
- * Used to properly finish command execution in pipeline.
- *
- * Side effects: Modifies signal handlers, waits for child processes
- */
-now we will pass to the real work, pipex.c
-this is the descreption of function that i will use
-1-/*
- * Checks if a given path points to a directory.
- * Uses stat system call to determine if the path exists and represents
- * a directory. Only checks paths that contain forward slashes and are
- * not empty or null.
- *
- * @param path: File path string to check
- * @return: true if path is a directory, false otherwise
- */
- 2-/*
- * Handles the execution of external commands.
- * Manages the complete process of executing non-builtin commands including
- * path resolution, directory checking, environment preparation, and final
- * execution via execve. Handles various error conditions and cleanup.
- *
- * @param current_cmd: Command structure containing command and arguments
- * @param env: Environment variables list
- * Side effects: May exit process, allocates/frees memory, executes command
- */
-3-/*
- * Executes builtin commands in child processes.
- * Checks if the current command is a builtin and executes it if so.
- * Handles the exit status and terminates the child process after
- * builtin execution with the appropriate exit code.
- *
- * @param current_cmd: Command structure to check and execute
- * @param env: Pointer to environment variables list
- * Side effects: May exit process with global exit status
- */
- 4-/*
- * Main function for child process execution in pipeline.
- * Sets up the child process environment including signal handling,
- * file descriptor duplication for pipes, redirection handling,
- * and final command execution (either builtin or external).
- *
- * @param current_cmd: Command structure to execute
- * @param env: Environment variables list
- * @param tmp_in: Input file descriptor from previous command in pipeline
- * @param p_fd: Pipe file descriptors for output to next command
- * Side effects: Modifies file descriptors, handles redirections,
- * executes command
- */
- use any utility function that will be useful and help to made a perfect code

@@ -63,7 +63,6 @@ static void	exec_external_command(t_cmdarg *current_cmd, t_list *env)
 		execve_error_cleanup(&cmd_path, &cmd_name, envp);
 }
 
-
 /*
  * Executes builtin commands in child processes.
  * Checks if the current command is a builtin and executes it if so.
@@ -77,13 +76,13 @@ static void	exec_external_command(t_cmdarg *current_cmd, t_list *env)
 
 void	exec_builtin_in_child(t_cmdarg *current_cmd, t_list **env)
 {
-	char **cmd;
+	char	**cmd;
 
 	if (!current_cmd || !current_cmd->cmd || !current_cmd->cmd[0])
 		return ;
 	if (cmd && cmd[0] && is_builtin(current_cmd->cmd[0]))
 	{
-		if(exec_builtin(current_cmd, env))
+		if (exec_builtin(current_cmd, env))
 		{
 			exit(g_exit_status);
 		}
@@ -109,22 +108,23 @@ void	exec_child_process(t_cmdarg *current_cmd, t_list *env, int tmp_in,
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	if (dup2(tmp_in, STDIN_FILENO) == -1)
+	if (tmp_in != STDIN_FILENO && dup2(tmp_in, STDIN_FILENO) == -1)
 		print_error_exit("dup2", "failed to dup input", 1);
-	close(tmp_in);
+	if (tmp_in != STDIN_FILENO)
+		close(tmp_in);
 	if (current_cmd->next != NULL)
 	{
 		if (dup2(p_fd[1], STDOUT_FILENO) == -1)
 			print_error_exit("dup2", "failed to dup output", 1);
+		close(p_fd[1]);
+		close(p_fd[0]);
 	}
-	close(p_fd[0]);
-	close(p_fd[1]);
 	if (!process_input_redirections(current_cmd->input))
 		_exit(1);
 	if (!process_output_redirections(current_cmd->output))
 		_exit(1);
 	if (is_builtin(current_cmd->cmd[0]))
-		exec_builtin_in_child(current_cmd, shell);
+		exec_builtin_in_child(current_cmd, &env);
 	else
 		exec_external_command(current_cmd, env);
 	_exit(127);

@@ -150,7 +150,7 @@ void	restore_original_fds(t_cmdarg *cmd);
 void	display_redi_error(char *filename, char *error_msg);
 void	handle_file_open_error(char *filename);
 int	process_all_redirections(t_redi_list *redi_list);
-bool	check_ambiguous_redirect(char *filename);
+bool	check_ambiguous_redirect(char *filename);// hadi blast is ambiguous
 bool	dontexpand_heredoc_del(t_token *tmp);
 //builtin_redirection
 int	handle_append_redi(t_redi_list *redi);

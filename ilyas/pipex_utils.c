@@ -1,6 +1,7 @@
 #include "help.h"
 
 
+//run_cmd_utils z3ma
 /* ===========================================================
  * 1) Command-not-found / no-file error + exit(127)
  *    no_file == 1  -> "No such file or directory"
@@ -8,15 +9,13 @@
  * =========================================================== */
 void	cmd_not_found_exit(t_cmdarg *curr_cmd, int no_file)
 {
-	const char *name;
+	const char	*name;
 
 	name = NULL;
 	if (curr_cmd && curr_cmd->cmd && curr_cmd->cmd[0])
 		name = curr_cmd->cmd[0];
-
 	if (name == NULL)
 		name = "(null)";
-
 	if (no_file == 1)
 		print_error_exit(name, "no such file or directory", 127);
 	else
@@ -29,7 +28,7 @@ void	cmd_not_found_exit(t_cmdarg *curr_cmd, int no_file)
 void	handle_heredoc_input(t_redi_list *input)
 {
 	if (!input)
-		return;
+		return ;
 	if (dup2(input->heredoc_fd, STDIN_FILENO) == -1)
 		print_error_exit("dup2", "heredoc failed", 1);
 	close(input->heredoc_fd);
@@ -43,7 +42,7 @@ void	handle_heredoc_input(t_redi_list *input)
  * =========================================================== */
 static int	open_redir_file(const char *filename, int mode)
 {
-	int fd;
+	int	fd;
 
 	fd = safe_open(filename, mode);
 	return (fd);
@@ -55,7 +54,7 @@ static int	open_redir_file(const char *filename, int mode)
  * =========================================================== */
 int	handle_append_output(t_redi_list *output)
 {
-	int fd;
+	int	fd;
 
 	if (!output || !output->file)
 		return (1);
@@ -75,6 +74,30 @@ int	handle_append_output(t_redi_list *output)
 }
 
 /* ===========================================================
+ * Helper function for handling > redirection
+ * =========================================================== */
+static int	handle_output_redirect(t_redi_list *node)
+{
+	int	fd;
+
+	if (!node || !node->file)
+		return (1);
+	if (check_ambiguous_redirect(node->file))
+		print_error_exit(node->file, "ambiguous redirect", 1);
+	fd = safe_open(node->file, 0);
+	if (node->is_last == true)
+	{
+		if (dup2(fd, STDOUT_FILENO) == -1)
+		{
+			close(fd);
+			print_error_exit("dup2", "output redirection failed", 1);
+		}
+	}
+	close(fd);
+	return (1);
+}
+
+/* ===========================================================
  * 4) Handle all OUTPUT redirections (> and >>)
  *     earlier ones: open/close only
  *     last one: dup2(STDOUT_FILENO)
@@ -82,31 +105,14 @@ int	handle_append_output(t_redi_list *output)
 int	process_output_redirections(t_redi_list *output)
 {
 	t_redi_list	*node;
-	int			fd;
 
 	node = output;
 	while (node)
 	{
-		if (node->type == OUTPUT || node->type == APPEND)
-		{
-			if (check_ambiguous_redirect(node->file))
-				print_error_exit(node->file, "ambiguos redirect", 1);
-			if (node->type == OUTPUT)
-			{
-				fd = open_redir_file(node->file, 0);
-				if (node->is_last == true)
-				{
-					if (dup2(fd, STDOUT_FILENO) == -1)
-					{
-						close(fd);
-						print_error_exit("dup2", "output redirection faild", 1);
-					}
-				}
-				close(fd);
-			}
-			else
-				handle_append_output(node);
-		}
+		if (node->type == OUTPUT)
+			handle_output_redirect(node);
+		else if (node->type == APPEND)
+			handle_append_output(node);
 		node = node->next;
 	}
 	return (1);
@@ -119,40 +125,31 @@ int	process_output_redirections(t_redi_list *output)
  * =========================================================== */
 int	process_input_redirections(t_redi_list *input)
 {
-	t_redi_list	*node;
-	int			fd;
+	int	fd;
 
-	node = input;
-	while (node)
+	if (input->type == INPUT)
 	{
-		if (node->type == INPUT || node->type == HEREDOC)
+		if (check_ambiguous_redirect(input->file))
+			print_error_exit(input->file, "ambiguous redirect", 1);
+		fd = open_redir_file(input->file, 1);
+		if (input->is_last == true)
 		{
-			if (node->type == INPUT)
+			if (dup2(fd, STDIN_FILENO) == -1)
 			{
-				if (check_ambiguous_redirect(node->file))
-					print_error_exit(node->file, "ambiguous redirect", 1);
-				fd = open_redir_file(node->file, 1);
-				if (node->is_last == true)
-				{
-					if (dup2(fd, STDIN_FILENO) == -1)
-					{
-						close(fd);
-						print_error_exit("dup2", "input redirection failed", 1);
-					}
-				}
 				close(fd);
-			}
-			else
-			{
-				if (node->is_last == true)
-					handle_heredoc_input(node);
-				else if (node->heredoc_fd >= 0)
-					close(node->heredoc_fd);
+				print_error_exit("dup2", "input redirection failed", 1);
 			}
 		}
-		node = node->next;
+		close(fd);
 	}
-	return (1);
+	else if (input->type == HEREDOC)
+	{
+		if (input->is_last == true)
+			handle_heredoc_input(input);
+		else if (input->heredoc_fd >= 0)
+			close(input->heredoc_fd);
+	}
+	input = input->next;
 }
 
 /* ===========================================================
@@ -161,7 +158,6 @@ int	process_input_redirections(t_redi_list *input)
  * =========================================================== */
 char	*validate_exec_path(char *p)
 {
-
 	if (!p || p[0] == '\0')
 		return (NULL);
 	if (p[0] == '/' || p[0] == '.')
