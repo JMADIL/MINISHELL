@@ -6,11 +6,13 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:33 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/19 06:32:34 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/21 06:27:54 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int			g_exit_status = 0;
 
 int	ft_check_syntax(t_token *token_list)
 {
@@ -50,14 +52,15 @@ t_cmdarg	*parser(t_token *token_list, t_list	*minienv)
 		tmp = tmp->next;
 	}
 	token_list->current = token_list;
-	node = ->>get_next_node(token_list);<<-
+	node = get_next_node(token_list);
 	while(node)
 	{
 		if(node)
-			->>ft_nodeadd_back(&cmdarg_list, ->>ft_newnode(node)<<-);
-		->>freeall(node->cmd, node->cmdsize);<<-
+			ft_nodeadd_back(&cmdarg_list, ft_newnode(node));
+		//this free function is in ft_split.c
+		freeall(node->cmd, node->cmdsize);
 		free(node);
-		node = ->>get_next_node(token_list);<<-
+		node = get_next_node(token_list);
 	}
 	return (cmdarg_list);
 }
@@ -77,13 +80,13 @@ void	minishell(char *input, t_list **minienv)
 		// ft_check_syntax scans the tokens to detect invalid command structures.
 		return (ft_free_tokenlist(token_list));
 	// Converts the flat token list into a higher-level structure: t_cmdarg
-	cmdarg_list = ->>parser(token_list, *minienv);<<-
+	cmdarg_list = parser(token_list, *minienv);
 		// Handle here-documents (<<) :
-		if (!->> check_here_doc(cmdarg_list, *minienv) <<
-			-) return (->> ft_cleaner(token_list, cmdarg_list) << -);
+		if (!check_here_doc(cmdarg_list, *minienv)) 
+			return (ft_cleaner(token_list, cmdarg_list));
 	// Run builtin commands (no fork) :
-	if (->> check_builtin(cmdarg_list, minienv) << - == 1)
-		return (->> ft_cleaner(token_list, cmdarg_list) << -);
+	if (check_builtin(cmdarg_list, minienv) == 1)
+		return (ft_cleaner(token_list, cmdarg_list));
 	// Execute non-builtin commands :
 	if (!execution(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
@@ -96,7 +99,7 @@ int	main(int ac, char **av, char **env)
 	t_list	*minienv;
 	char	*user_input;
 
-	->> handle_signals();<<-
+	handle_signals();
 	(void)av;
 	if (ac != 1)
 		return (printf("\nError: No arguments expected\n"), 1);
@@ -107,7 +110,7 @@ int	main(int ac, char **av, char **env)
 		{
 			user_input = readline("minishell-1.0$ ");
 			if (!user_input)
-				->>ft_error_cmd();<<-
+				ft_cmd_error(NULL,  "[EOF]\n", 0);
 			minishell(user_input, &minienv);
 			free(user_input);
 		}

@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:08:16 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/19 05:13:49 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/21 06:29:32 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_token *ft_jointok(t_token *token, t_lexer **lexer, t_list *minienv, bool *here
 		&& token->value[ft_strlen(token->value) - 1] == '$'
 		&& (new_token->type == DOUBLE_QUOTE || new_token->type == SINGLE_QUOTE))
 	{
-		return (->>ft_dollar_joining(token, new_token)<<-);		
+		return (ft_dollar_joining(token, new_token));		
 	}
 	//Preserve Token Type
 	if (token->type != WORD)
@@ -115,7 +115,7 @@ t_token	*get_next_token(t_lexer *lexer, t_list *minienv, bool heredoc)
 		// Checks if the next character should be joined to current token
 		if (ft_tojoin(lexer))
 			// Combines adjacent tokens that should be treated as one
-			token = ->>ft_jointok(token, &lexer, minienv, heredoc);<<-
+			token = ft_jointok(token, &lexer, minienv, heredoc);
 		return (token);
 	}
 }
