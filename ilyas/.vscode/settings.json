@@ -1,7 +1,8 @@
 {
   "files.associations": {
-    "errno.h": "c"
-  },
+	"errno.h": "c",
+	"help.h": "c"
+},
   "C_Cpp_Runner.cCompilerPath": "clang",
   "C_Cpp_Runner.cppCompilerPath": "clang++",
   "C_Cpp_Runner.debuggerPath": "lldb",

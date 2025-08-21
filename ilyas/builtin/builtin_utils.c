@@ -1,7 +1,5 @@
 #include "../help.h"
 
-
-
 /*
  * Creates and appends a new environment variable node to the env list.
  * If key is NULL or empty, does nothing. Value can be NULL.
@@ -14,62 +12,32 @@
  */
 
 // i use this function in unset.c blast "ft_lstadd_back"
-int add_env_node(t_list **env, char *key, char *value)
+int	add_env_node(t_list **env, char *key, char *value)
 {
-    t_list *new_node;
-    t_list *tmp;
+	t_list	*new_node;
+	t_list	*tmp;
 
-    if (!env || !key || key[0] == '\0')
-        return (0);
-    new_node = malloc(sizeof(t_list));
-    if (!new_node)
-        return (0);
-    new_node->key = key;      
-    new_node->value = value;  
-    new_node->check = 0;
-    new_node->prev = NULL;
-    new_node->next = NULL;
-    if (!*env)
-    {
-        *env = new_node;
-        return (1);
-    }
-    tmp = *env;
-    while (tmp->next)
-        tmp = tmp->next;
-    tmp->next = new_node;
-    new_node->prev = tmp;
-    return (1);
-}
-char *ft_strdup(char *str)
-{
-	int i = 0;
-	int l = 0;
-	while (str[l])
-		l++;
-	char *t = malloc(l + 1);
-	
-	if(!t)
-		return NULL;
-
-	while (str[i])
+	if (!env || !key || key[0] == '\0')
+		return (0);
+	new_node = malloc(sizeof(t_list));
+	if (!new_node)
+		return (0);
+	new_node->key = key;
+	new_node->value = value;
+	new_node->check = 0;
+	new_node->prev = NULL;
+	new_node->next = NULL;
+	if (!*env)
 	{
-		t[i] = str[i];
-		i++;
+		*env = new_node;
+		return (1);
 	}
-	t[i] = '\0';
-	return t;
-}
-
-int ft_strlen(char *l)
-{
-	int i;
-	if(!l)
-		return 0;
-	i = 0;
-	while (l[i])
-		i++;
-	return i;
+	tmp = *env;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new_node;
+	new_node->prev = tmp;
+	return (1);
 }
 
 /*
@@ -83,36 +51,37 @@ int ft_strlen(char *l)
  * Side effects: Allocates memory for new list nodes and strings
  */
 
-t_list *copy_env_list(t_list *env)
+t_list	*copy_env_list(t_list *env)
 {
-	t_list *copy;
-	t_list *tmp;
-	char *key_copy;
-	char *val_copy;
-	
+	t_list	*copy;
+	t_list	*tmp;
+	char	*key_copy;
+	char	*val_copy;
+
 	copy = NULL;
 	tmp = env;
-	while(tmp)
+	while (tmp)
 	{
-		if(tmp->key)
+		if (tmp->key)
 			key_copy = ft_strdup(tmp->key);
 		else
 			key_copy = ft_strdup("");
-		if(tmp->value)
+		if (tmp->value)
 			val_copy = ft_strdup(tmp->value);
 		else
 			val_copy = NULL;
-		if(!key_copy || (tmp->value && !val_copy))
+		if (!key_copy || (tmp->value && !val_copy))
 		{
 			free(key_copy);
 			free(val_copy);
-			free_env_list(&copy); // n9edro nsta3mlo ft_lstadd_back w ft_lstnew blasta
-			return NULL;
+			free_env_list(&copy);
+				// n9edro nsta3mlo ft_lstadd_back w ft_lstnew blasta
+			return (NULL);
 		}
 		add_env_node(&copy, key_copy, val_copy);
 		tmp = tmp->next;
 	}
-	return copy;
+	return (copy);
 }
 
 /*
@@ -126,16 +95,16 @@ t_list *copy_env_list(t_list *env)
  * @param equals_pos: Pointer to '=' inside cmd
  * Side effects: Allocates memory for *key and *value
  */
-void alloc_key_value(char *cmd, char **key, char **value, char *equals_pos)
+void	alloc_key_value(char *cmd, char **key, char **value, char *equals_pos)
 {
-	size_t key_len;
+	size_t	key_len;
 
 	key_len = (size_t)(equals_pos - cmd);
 	*key = ft_substr(cmd, 0, key_len);
 	*value = ft_strdup(equals_pos + 1);
 }
 
-//cd
+// cd
 int	size_dp(char **c)
 {
 	int	i;
@@ -151,7 +120,7 @@ int	size_dp(char **c)
 
 t_list	*find_node(t_list *env, char *key)
 {
-	t_list	*tmp;
+	t_list *tmp;
 
 	tmp = env;
 	while (tmp)

@@ -120,12 +120,3 @@ extern int g_exit_status;
 #endif
 
 
-
-//functions ajemi
-char *ft_strdup(char *str);
-int ft_strlen(char *l);
-int	is_vaid_n_flag(const char *str);
-char	*join_args_from_index(char **cmd, int i);
-void prent_echo_output(const char *tmp, int n_flag);
-int builtin_echo(char **cmd);
-char *get_path_value(t_env *env);

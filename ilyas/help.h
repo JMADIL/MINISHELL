@@ -164,8 +164,6 @@ int	init_minimal_env(t_list **env);
 int	builtin_unset(char **cmd, t_list **env);
 //builtin_utils
 int add_env_node(t_list **env, char *key, char *value);
-char *ft_strdup(char *str);
-int ft_strlen(char *l);
 t_list *copy_env_list(t_list *env);
 void alloc_key_value(char *cmd, char **key, char **value, char *equals_pos);
 t_list	*find_node(t_list *env, char *key);
@@ -233,9 +231,69 @@ void	init_redirection_metadata(t_cmdarg *cmd);
 int	is_heredoc_end(char *line, const char *delimiter);
 void	read_heredoc_input_gnl(char *delim, int fd_pipe[2], t_redi_list *heredoc, t_list *env);
 
+//heredoc.c
+int	heredoc_child_process(t_redi_list *heredoc, int fd_pipe[2], t_list *env);
+void	heredoc_parent_finalize(int fd_pipe[2], pid_t pid, int *status,
+		t_redi_list *in);
+int	handle_single_heredoc(t_redi_list *in, int fd_pipe[2], t_list *env);
+int	process_all_heredocs(t_cmdarg *shell, t_list *env);
+
 //utils.c
 int	size_list(t_cmdarg *node);
 void	free_all(char **bf, int j);
 void	ft_alloc(char **envp, int *i, char *key_equals, t_list *env);
 char	**get_env(t_list *env);
 void	ft_free_isdir(char **cmd_path, char **cmd_name, t_cmdarg *current_cmd);
+
+//parsing_split.c
+char	**split_with_braces(const char *s, char sep);
+
+// Part 1 - Libc functions
+size_t				ft_strlen(const char *str);
+size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
+size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
+int					ft_atoi(const char *str);
+int					ft_isalnum(int c);
+int					ft_isalpha(int c);
+int					ft_isascii(int c);
+int					ft_isdigit(int c);
+int					ft_isprint(int c);
+int					ft_strncmp(const char *s1, const char *s2, size_t n);
+int					ft_toupper(int c);
+int					ft_tolower(int c);
+void				*ft_memset(void *b, int c, size_t len);
+void				*ft_memcpy(void *dst, const void *src, size_t n);
+char				*ft_strrchr(const char *str, int c);
+int					ft_memcmp(const void *s1, const void *s2, size_t n);
+void				*ft_memchr(const void *s, int c, size_t n);
+char				*ft_strmapi(const char *s, char (*f)(unsigned int, char));
+char				*ft_strdup(const char *s1);
+void				*ft_calloc(size_t count, size_t size);
+char				*ft_strnstr(const char *hy, const char *nd, size_t len);
+char				*ft_strchr(const char *str, int c);
+void				*ft_memmove(void *dst, const void *src, size_t len);
+int	ft_strcmp(const char *s1, const char *s2);
+// Part 2 - Additional functions
+char				*ft_strjoin(char const *s1, char const *s2);
+void				ft_putnbr_fd(int n, int fd);
+void				ft_putchar_fd(char c, int fd);
+void				ft_putstr_fd(char *s, int fd);
+void				ft_putendl_fd(char *s, int fd);
+char				*ft_substr(const char *s, unsigned int start, size_t len);
+char				*ft_strtrim(const char *s1, const char *set);
+char				*ft_strmapi(const char *s, char (*f)(unsigned int, char));
+void				ft_striteri(char *s, void (*f)(unsigned int, char *));
+char				*ft_itoa(int n);
+void				ft_bzero(void *s, size_t n);
+char				**ft_split(char const *s, char c);
+// Bonus part
+t_list				*ft_lstnew(void *content);
+void				ft_lstadd_front(t_list **lst, t_list *new);
+int					ft_lstsize(t_list *lst);
+t_list				*ft_lstlast(t_list *lst);
+void				ft_lstadd_back(t_list **lst, t_list *new);
+void				ft_lstdelone(t_list *lst, void (*del)(void *));
+void				ft_lstclear(t_list **lst, void (*del)(void *));
+void				ft_lstiter(t_list *lst, void (*f)(void *));
+t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
+						void (*del)(void *));
