@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:33 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/21 06:27:54 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 22:20:10 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	ft_check_syntax(t_token *token_list)
 
 	current = token_list;
 	if (ft_toksize(token_list) == 1 && ft_isredi(current))
-		return (printf("syntax error near unexpected token `newline'\n",
-				g_exit_status = 258, -1));
+		return (printf("syntax error near unexpected token `newline'\n"),
+				g_exit_status = 258, -1);
 	while (current)
 	{
 		if (ft_pipeerrors(current))
@@ -58,7 +58,7 @@ t_cmdarg	*parser(t_token *token_list, t_list	*minienv)
 		if(node)
 			ft_nodeadd_back(&cmdarg_list, ft_newnode(node));
 		//this free function is in ft_split.c
-		freeall(node->cmd, node->cmdsize);
+		free_s(node->cmd, node->cmdsize);
 		free(node);
 		node = get_next_node(token_list);
 	}

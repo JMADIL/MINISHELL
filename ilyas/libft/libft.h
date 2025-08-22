@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 12:52:52 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 22:07:41 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 22:19:32 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,6 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
+char	**free_s(char **split, size_t j);
+
 #endif

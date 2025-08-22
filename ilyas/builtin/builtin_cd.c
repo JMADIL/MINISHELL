@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_cd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:06 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 22:05:02 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 22:16:52 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*expand_tilde(char *cmd, t_list *env)
 
 	if (!cmd || cmd[0] != '~')
 		return (ft_strdup(cmd));
-	home = ft_getenv(env, "HOME"); // parsing function
+	home = ft_getenv("HOME", env); // parsing function
 	if (!home)
 		return (NULL);
 	if (cmd[1] == '\0')
@@ -104,13 +104,13 @@ int	resolve_cd_target(char **cmd, char **path, char *old_path, t_list **env)
 	tmp = NULL;
 	if (!cmd[1] || ft_strcmp(cmd[1], "~") == 0)
 	{
-		*path = ft_getenv(env, "HOME");// parsing amealem
+		*path = ft_getenv("HOME", *env);// parsing amealem
 		if (!*path)
 			CD_ERROR_RETURN(old_path, CD_HOME_ERROR);
 	}
 	else if (ft_strcmp(cmd[1], "-") == 0)
 	{
-		*path = ft_getenv(env, "OLDPWD");
+		*path = ft_getenv("OLDPWD", *env);
 		if (!*path)
 			CD_ERROR_RETURN(old_path, CD_OLDPWD_ERROR);
 	}

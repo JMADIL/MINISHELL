@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:08:30 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/22 05:40:43 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 22:24:45 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_lexer *ft_init_lexer(char *input)
 {
-    t_lexer lexer;
+    t_lexer *lexer;
 
     lexer = malloc(sizeof(t_lexer));
     lexer->input = input;
@@ -23,7 +23,7 @@ t_lexer *ft_init_lexer(char *input)
     return(lexer);
 }
 
-t_lexer *ft_strtok(char *input, t_list *minienv)
+t_token *ft_strtok(char *input, t_list *minienv)
 {
     t_lexer *lexer;
     t_token *token;
