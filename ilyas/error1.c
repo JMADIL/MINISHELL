@@ -100,13 +100,12 @@ void	execve_error_cleanup(char **cmd_path, char **cmd_name, char **envp)
 	int	i;
 
 	if (cmd_path)
-		safe_free(cmd_path);
+		safe_free((*cmd_path));
 	if (cmd_name)
-		safe_free(cmd_name);
+		safe_free((*cmd_name));
 	if (envp)
 	{
 		i = 0;
-		
 		while (envp[i])
 		{
 			free(envp[i]);

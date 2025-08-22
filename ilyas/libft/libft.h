@@ -6,7 +6,7 @@
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 12:52:52 by irfei             #+#    #+#             */
-/*   Updated: 2024/11/12 13:45:56 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/22 01:26:12 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char				*ft_itoa(int n);
 void				ft_bzero(void *s, size_t n);
 char				**ft_split(char const *s, char c);
 // Bonus part
-t_list				*ft_lstnew(void *content);
+t_list	*ft_lstnew(char *key, char *value);
 void				ft_lstadd_front(t_list **lst, t_list *new);
 int					ft_lstsize(t_list *lst);
 t_list				*ft_lstlast(t_list *lst);

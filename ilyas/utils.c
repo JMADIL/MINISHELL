@@ -1,7 +1,7 @@
 
 #include "help.h"
 
-//i need to modifie xwiya
+// i need to modifie xwiya
 /*
  * Counts the number of nodes in a command argument linked list.
  * Iterates through the linked list to determine the total number
@@ -117,5 +117,5 @@ void	ft_free_isdir(char **cmd_path, char **cmd_name, t_cmdarg *current_cmd)
 {
 	free(*cmd_path);
 	free(*cmd_name);
-	ft_cmd_error(current_cmd->cmd[0], "is a directory\n", 126);
+	print_error_exit(current_cmd->cmd[0], "is a directory\n", 126);
 }

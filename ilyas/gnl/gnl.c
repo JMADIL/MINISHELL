@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gnl.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 02:14:08 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/22 02:19:49 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "get_next_line.h"
+
+#include "../help.h"
 
 /*
  * Extracts remaining content after a newline character.
@@ -23,7 +35,7 @@ char	*resit(char *hold)
 	{
 		if (hold[i] == '\n')
 		{
-			ret = my_substr(hold, i + 1, my_strlen(hold) - i);
+			ret = ft_substr(hold, i + 1, ft_strlen(hold) - i);
 			free(hold);
 			hold = NULL;
 			return (ret);
@@ -56,12 +68,12 @@ char	*befor_newline(char **hold)
 		while (current[i])
 		{
 			if (current[i] == '\n')
-				return (my_substr(current, 0, i + 1));
+				return (ft_substr(current, 0, i + 1));
 			i++;
 		}
 		if (current[i] == '\0')
 		{
-			line = my_substr(current, 0, i);
+			line = ft_substr(current, 0, i);
 			free(current);
 			*hold = NULL;
 			return (line);
@@ -97,8 +109,8 @@ static char	*get_line(int fd, char *hold)
 			return (NULL);
 		}
 		buff[rd] = '\0';
-		hold = my_strjoin(hold, buff);
-		if (!hold || my_strchr(hold, '\n'))
+		hold = ft_strjoin(hold, buff);
+		if (!hold || ft_strchr(hold, '\n'))
 			break ;
 	}
 	return (hold);

@@ -6,20 +6,22 @@
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 19:44:05 by irfei             #+#    #+#             */
-/*   Updated: 2024/11/07 19:43:42 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/22 01:37:46 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../help.h"
 
-t_list	*ft_lstnew(void *content)
+t_list	*ft_lstnew(char *key, char *value)
 {
-	t_list	*new;
+	t_list	*new_node;
 
-	new = (t_list *)malloc(sizeof(t_list));
-	if (!new)
+	new_node = (t_list *)malloc(sizeof(t_list));
+	if (!new_node)
 		return (NULL);
-	new->content = content;
-	new->next = NULL;
-	return (new);
+	new_node->key = key;
+	new_node->value = value;
+	new_node->next = NULL;
+	new_node->prev = NULL;
+	return (new_node);
 }

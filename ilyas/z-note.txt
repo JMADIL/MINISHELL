@@ -1,0 +1,13 @@
+i need to add in heredoc_utils this function
+/*
+ * Performs variable expansion in character strings.
+ * Processes all variable references ($VAR, $?, $$) in a character string
+ * and replaces them with their expanded values. Handles multiple variables
+ * in a single string and manages memory allocation for the expanded result.
+ *
+ * @param value: Pointer to string containing variable references
+ * @param minienv: Environment variables list for variable lookup
+ * Side effects: Modifies the string pointer, frees/allocates memory
+ */
+void	ft_expand_var_in_char(char **value, t_list *minienv)
+///////////////////////////////////////////////////////////////////////////////////

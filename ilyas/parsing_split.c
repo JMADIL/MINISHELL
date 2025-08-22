@@ -14,7 +14,7 @@ static int	count_words_with_braces(const char *s, char sep)
 		while (*s && *s == sep)
 			s++;
 		if (!*s)
-			break;
+			break ;
 		count++;
 		while (*s && *s != sep)
 		{
@@ -37,7 +37,8 @@ static int	count_words_with_braces(const char *s, char sep)
  * 2) Get next word start & length, respecting ${VAR} braces
 
 	* ============================================================================ */
-static void	get_next_word_with_braces(char **s, size_t *len, char sep, char **start)
+static void	get_next_word_with_braces(char **s, size_t *len, char sep,
+		char **start)
 {
 	char	*str;
 	char	*end;
@@ -46,7 +47,6 @@ static void	get_next_word_with_braces(char **s, size_t *len, char sep, char **st
 	while (*str && *str == sep)
 		str++;
 	*start = str;
-	
 	while (*str && *str != sep)
 	{
 		if (*str == '$' && *(str + 1) == '{')
@@ -60,7 +60,6 @@ static void	get_next_word_with_braces(char **s, size_t *len, char sep, char **st
 		else
 			str++;
 	}
-	
 	*len = str - *start;
 	*s = str;
 }

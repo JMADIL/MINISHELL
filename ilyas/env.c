@@ -1,42 +1,40 @@
-//z3ma get_cmd_path
+// z3ma get_cmd_path
 
 #include "help.h"
 
 // Free the linked list of t_env
-void free_env_list(t_list **env)
+void	free_env_list(t_list **env)
 {
-    t_list *current;
-    t_list *next;
-    if(!env || !*env)
-        return;
-    
-    current = *env;
-    while (current)
-    {
-        next = current->next;
-        free(current->key);
-        free(current->value);
-        free(current);
-        current = next;
-    }
-    *env = NULL;
-    
+	t_list	*current;
+	t_list	*next;
+
+	if (!env || !*env)
+		return ;
+	current = *env;
+	while (current)
+	{
+		next = current->next;
+		free(current->key);
+		free(current->value);
+		free(current);
+		current = next;
+	}
+	*env = NULL;
 }
 
-//Look for the "PATH" key in your linked list.
-//Return its value if found, otherwise NULL.
-char *get_path_value(t_list *env)
+// Look for the "PATH" key in your linked list.
+// Return its value if found, otherwise NULL.
+char	*get_path_value(t_list *env)
 {
-    while(env)
-    {
-        if(env->key && ft_strcmp(env->key, "PATH") == 0)
-            return env->value;
-        env = env->next;
-    }
-    return NULL;
+	while (env)
+	{
+		if (env->key && ft_strcmp(env->key, "PATH") == 0)
+			return (env->value);
+		env = env->next;
+	}
+	return (NULL);
 }
-//mazal khasni nzid xi functions li ghan7tajom f pipex.c
-
+// mazal khasni nzid xi functions li ghan7tajom f pipex.c
 
 /*
  * Searches for an executable command in PATH directories.
@@ -101,7 +99,7 @@ char	*ft_join_with_path(char *p)
 		return (NULL);
 	}
 	free(path);
-	tmp = my_strjoin(tmp, p);
+	tmp = ft_strjoin(tmp, p);
 	if (!tmp)
 		return (NULL);
 	if (access(tmp, X_OK) == 0)
@@ -134,7 +132,7 @@ char	*check_exec(char *p, t_list *env, int *no_file)
 	path = get_path_value(env);
 	if (path)
 	{
-		path_cmd = parsing_split(path, ':');// i need to add it in parsing_split.c
+		path_cmd = split_with_braces(path, ':');
 		if (!path_cmd)
 			return (NULL);
 		ft_get_path(&full_path, path_cmd, p);

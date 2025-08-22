@@ -15,10 +15,19 @@
 #include <readline/history.h>
 #include <sys/stat.h>
 
+
+
 // Exit codes
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
 #define EXIT_MISUSE 2
+
+//macros
+#define CD_HOME_ERROR "minishell: cd: HOME not set\n"
+#define CD_OLDPWD_ERROR "minishell: cd: OLDPWD not set\n"
+#define CD_ERROR_RETURN(old_path, msg) \
+	return (free(old_path), write(2, msg, ft_strlen(msg)), 1)
+	
 
 typedef enum e_token_type
 {
@@ -110,6 +119,11 @@ extern int g_exit_status;
 
 #endif
 
+//gnl
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1000
+#endif
+
 //builtin_cd
 void update_pwd_vars(t_list *env, char *new_path, char *old_path);
 char *expand_tilde(char *cmd, t_list *env);
@@ -118,7 +132,7 @@ int builtin_cd(char **cmd, t_list **env);
 //builtin_echo
 int	is_vaid_n_flag(const char *str);
 char	*join_args_from_index(char **cmd, int i);
-void prent_echo_output(const char *tmp, int n_flag);
+void prent_echo_output(char *tmp, int n_flag);
 int builtin_echo(char **cmd, t_cmdarg *shell);
 //builtin_env
 int builtin_env(t_list **env);
@@ -126,7 +140,6 @@ int builtin_env(t_list **env);
 int numeric(const char *str);
 int builtin_exit(char **cmd, t_list **env);
 //builtin_export_utils
-void add_new_env_var(t_list **env, char *key, char *value);
 void	print_export_format(t_list *head);
 void	print_sorted_export(t_list **env);
 void swap_env_nodes(t_list *ptr1);
@@ -179,10 +192,7 @@ int exec_builtin(t_cmdarg *shell, t_list **env);
 void free_env_list(t_list **env);
 char *get_path_value(t_list *env);
 char	*check_exec(char *p, t_list *env, int *no_file);
-//exec_cmd.c
-char *search_command_in_path(char *cmd, char *path_value);
-char *resolve_command_path(char *cmd, t_list *env);
-static void xec_external_command(t_cmdarg *current_cmd, char **env);//I WILL NOT USE THIS
+
 //errors.c
 void	safe_free(char *s);
 void	print_error_exit(const char *cmd_name, const char *error, int status);
@@ -221,8 +231,7 @@ void	setup_parent_wait_signals(void);
 void	setup_parent_heredoc_signals(void);
 //gnl
 char		*get_next_line(int fd);
-char		*my_strjoin(char *s1, char *s2);
-char		*my_strdup(const char *s1);
+
 
 //heredoc_utils.c
 t_redi_list	*get_last_input_redirection(t_redi_list *redi);
@@ -249,16 +258,16 @@ void	ft_free_isdir(char **cmd_path, char **cmd_name, t_cmdarg *current_cmd);
 char	**split_with_braces(const char *s, char sep);
 
 // Part 1 - Libc functions
-size_t				ft_strlen(const char *str);
-size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
+
+
 size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
-int					ft_atoi(const char *str);
+
 int					ft_isalnum(int c);
 int					ft_isalpha(int c);
 int					ft_isascii(int c);
-int					ft_isdigit(int c);
+
 int					ft_isprint(int c);
-int					ft_strncmp(const char *s1, const char *s2, size_t n);
+
 int					ft_toupper(int c);
 int					ft_tolower(int c);
 void				*ft_memset(void *b, int c, size_t len);
@@ -267,33 +276,53 @@ char				*ft_strrchr(const char *str, int c);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 void				*ft_memchr(const void *s, int c, size_t n);
 char				*ft_strmapi(const char *s, char (*f)(unsigned int, char));
-char				*ft_strdup(const char *s1);
-void				*ft_calloc(size_t count, size_t size);
+
+
 char				*ft_strnstr(const char *hy, const char *nd, size_t len);
-char				*ft_strchr(const char *str, int c);
+
 void				*ft_memmove(void *dst, const void *src, size_t len);
-int	ft_strcmp(const char *s1, const char *s2);
+
 // Part 2 - Additional functions
-char				*ft_strjoin(char const *s1, char const *s2);
+
 void				ft_putnbr_fd(int n, int fd);
 void				ft_putchar_fd(char c, int fd);
-void				ft_putstr_fd(char *s, int fd);
+
 void				ft_putendl_fd(char *s, int fd);
-char				*ft_substr(const char *s, unsigned int start, size_t len);
+
 char				*ft_strtrim(const char *s1, const char *set);
 char				*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 void				ft_striteri(char *s, void (*f)(unsigned int, char *));
-char				*ft_itoa(int n);
+
 void				ft_bzero(void *s, size_t n);
-char				**ft_split(char const *s, char c);
+
 // Bonus part
-t_list				*ft_lstnew(void *content);
+
 void				ft_lstadd_front(t_list **lst, t_list *new);
-int					ft_lstsize(t_list *lst);
+
 t_list				*ft_lstlast(t_list *lst);
-void				ft_lstadd_back(t_list **lst, t_list *new);
+
 void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
+//libft
+void				ft_lstadd_back(t_list **lst, t_list *new);
+int					ft_lstsize(t_list *lst);
+t_list	*ft_lstnew(char *key, char *value);
+char				**ft_split(char const *s, char c);
+char				*ft_itoa(int n);
+char				*ft_substr(const char *s, unsigned int start, size_t len);
+void				ft_putstr_fd(char *s, int fd);
+char				*ft_strjoin(char const *s1, char const *s2);
+int	ft_strcmp(const char *s1, const char *s2);
+char	*ft_strcpy(char *dest, const char *src);
+char	*ft_strcat(char *dest, const char *src);
+char				*ft_strchr(const char *str, int c);
+void				*ft_calloc(size_t count, size_t size);
+char				*ft_strdup(const char *s1);
+int					ft_strncmp(const char *s1, const char *s2, size_t n);
+int					ft_isdigit(int c);
+int					ft_atoi(const char *str);
+size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
+size_t				ft_strlen(const char *str);

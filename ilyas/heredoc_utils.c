@@ -1,6 +1,5 @@
 #include "help.h"
 
-
 /*
  * Initializes and finds the last input redirection (< or <<) in the list
  */
@@ -15,10 +14,8 @@ t_redi_list	*get_last_input_redirection(t_redi_list *redi)
 		redi->is_last = false;
 		redi->heredoc_fd = -1;
 		redi->content = NULL;
-
 		if (redi->type == INPUT || redi->type == HEREDOC)
 			last_input = redi;
-
 		redi = redi->next;
 	}
 	if (last_input)
@@ -40,10 +37,8 @@ t_redi_list	*get_last_output_redirection(t_redi_list *redi)
 		redi->is_last = false;
 		redi->heredoc_fd = -1;
 		redi->content = NULL;
-
 		if (redi->type == OUTPUT || redi->type == APPEND)
 			last_output = redi;
-
 		redi = redi->next;
 	}
 	if (last_output)
@@ -63,21 +58,16 @@ void	init_redirection_metadata(t_cmdarg *cmd)
 	t_cmdarg	*tmp;
 
 	if (!cmd)
-		return;
-
+		return ;
 	tmp = cmd;
 	while (tmp)
 	{
-		last_input = get_last_input(tmp->redirections);
-		
-		last_output = get_last_output(tmp->redirections);
-		
+		last_input = get_last_input_redirection(tmp->redirections);
+		last_output = get_last_output_redirection(tmp->redirections);
 		if (last_input)
 			last_input->is_last = true;
-			
 		if (last_output)
 			last_output->is_last = true;
-			
 		tmp = tmp->next;
 	}
 }
@@ -101,12 +91,12 @@ int	is_heredoc_end(char *line, const char *delimiter)
 	return (0);
 }
 
-
 /*
  * Reads heredoc input until delimiter is encountered
  */
 
-void	read_heredoc_input_gnl(char *delim, int fd_pipe[2], t_redi_list *heredoc, t_list *env)
+void	read_heredoc_input_gnl(char *delim, int fd_pipe[2],
+		t_redi_list *heredoc, t_list *env)
 {
 	char	*line;
 
@@ -118,9 +108,9 @@ void	read_heredoc_input_gnl(char *delim, int fd_pipe[2], t_redi_list *heredoc, t
 		if (is_heredoc_end(line, delim))
 			break ;
 		if (heredoc->expand)
-			ft_expand_var_in_char(&line, env);//dyal parsing
+			expand_var_in_char(&line, env); // dyal parsing anxof nzidha ana
 		if (heredoc->is_last)
-			heredoc->content = my_strjoin(heredoc->content, line);
+			heredoc->content = ft_strjoin(heredoc->content, line);
 		free(line);
 		line = NULL;
 	}
@@ -132,4 +122,3 @@ void	read_heredoc_input_gnl(char *delim, int fd_pipe[2], t_redi_list *heredoc, t
 	heredoc->content = NULL;
 	close(fd_pipe[1]);
 }
-

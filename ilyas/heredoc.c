@@ -90,7 +90,8 @@ int	handle_single_heredoc(t_redi_list *in, int fd_pipe[2], t_list *env)
  *    - init redirection metadata (marks last nodes)
  *    - for each command node, handle each HEREDOC redirection
  *    Returns: 1 on success, 0 on failure/interruption
-* ============================================================================ */
+
+	* ============================================================================ */
 int	process_all_heredocs(t_cmdarg *shell, t_list *env)
 {
 	t_cmdarg	*cmd;
