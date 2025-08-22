@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 02:13:28 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/22 02:13:29 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../help.h"
 
 /*
@@ -9,20 +21,20 @@
  * @return: Always returns 1
  * Side effects: Writes current directory to stdout, may write error to stderr
  */
-int builtin_pwd(t_list **env)
+int	builtin_pwd(t_list **env)
 {
-    char *cwd;
+	char *cwd;
 
-	cwd = ft_getenv("PWD", *env);// parsing ajemi
-    if(cwd != NULL)
-    {
-        printf("%s\n", cwd);
-        free(cwd);
-        return 0;
-    }
-    else
-    {
-        perror("minishell: pwd");
-        return 1;
-    }
+	cwd = ft_getenv("PWD", *env); // parsing ajemi
+	if (cwd != NULL)
+	{
+		printf("%s\n", cwd);
+		free(cwd);
+		return (0);
+	}
+	else
+	{
+		perror("minishell: pwd");
+		return (1);
+	}
 }

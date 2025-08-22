@@ -1,5 +1,16 @@
-#include "../help.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_env.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 02:13:14 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/22 02:48:10 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../help.h"
 
 /* ================================================================
  * builtin_env - Print environment variables in KEY=VALUE format
@@ -11,7 +22,7 @@
  * @param env: Double pointer to environment variable list
  * @return: 0 on success, 1 on error (sets g_exit_status)
  ================================================================ */
- 
+
 int	builtin_env(t_list **env)
 {
 	t_list	*tmp;

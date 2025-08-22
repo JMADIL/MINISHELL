@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_echo.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 02:13:11 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/22 02:47:41 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../help.h"
 
 /*
@@ -67,7 +79,7 @@ char	*join_args_from_index(char **cmd, int i)
  * @param n_flag: If non-zero, suppresses trailing newline
  */
 
-void	prent_echo_output(const char *tmp, int n_flag)
+void	prent_echo_output(char *tmp, int n_flag)
 {
 	if (tmp)
 		write(STDOUT_FILENO, tmp, ft_strlen((char *)tmp));
@@ -82,6 +94,7 @@ void	prent_echo_output(const char *tmp, int n_flag)
  * @param shell: (unused)
  * @return: Always returns 0
  */
+
 int	builtin_echo(char **cmd, t_cmdarg *shell)
 {
 	int		i;
@@ -91,7 +104,7 @@ int	builtin_echo(char **cmd, t_cmdarg *shell)
 	(void)shell;
 	i = 1;
 	n_flag = 0;
-	while (cmd[i] && is_valid_n_flag(cmd[i]))
+	while (cmd[i] && is_vaid_n_flag(cmd[i]))
 	{
 		n_flag = 1;
 		i++;
@@ -99,7 +112,7 @@ int	builtin_echo(char **cmd, t_cmdarg *shell)
 	joined = join_args_from_index(cmd, i);
 	if (!joined)
 		return (1);
-	print_echo_output(!joined, n_flag);
+	prent_echo_output(joined, n_flag);
 	free(joined);
 	return (0);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 02:13:47 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/22 02:13:48 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../help.h"
 
 /*
@@ -36,7 +48,7 @@ int	is_builtin(char *cmd)
 
 int	exec_builtin(t_cmdarg *shell, t_list **env)
 {
-	int result;
+	int	result;
 
 	if (ft_strcmp(shell->cmd[0], "cd") == 0)
 		result = builtin_cd(shell->cmd, env);
@@ -54,7 +66,6 @@ int	exec_builtin(t_cmdarg *shell, t_list **env)
 		result = builtin_unset(shell->cmd, env);
 	else
 		return (1);
-
 	g_exit_status = result;
 	return (result);
 }

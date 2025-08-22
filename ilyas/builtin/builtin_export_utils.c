@@ -1,9 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export_utils.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 02:13:20 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/22 02:13:21 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../help.h"
 
-void add_new_env_var(t_list **env, char *key, char *value)
-{
-    ft_lstadd_back(env, ft_lstnew(key, value));
-}
 
 /*
  * Prints environment variables in export format.

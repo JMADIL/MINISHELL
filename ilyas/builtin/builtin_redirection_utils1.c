@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_redirection_utils1.c                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 02:13:34 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/22 02:13:35 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../help.h"
 
 // ghadi nsta3melha f minishell.c ya3ni n9dar nbedela blasa
@@ -12,7 +24,6 @@ bool	dontexpand_heredoc_del(t_token *tmp)
 	return (false);
 }
 
-
 void	handle_file_open_error(char *filename)
 {
 	if (errno == ENOENT)
@@ -24,8 +35,6 @@ void	handle_file_open_error(char *filename)
 	else
 		display_redi_error(filename, "Cannot open file");
 }
-
-
 
 /*
  * Checks if redirect target is ambiguous
@@ -47,4 +56,3 @@ bool	check_ambiguous_redirect(char *filename)
 	}
 	return (false);
 }
-

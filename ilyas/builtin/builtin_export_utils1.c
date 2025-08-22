@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export_utils1.c                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 02:13:23 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/22 02:13:24 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../help.h"
 
 /*
@@ -42,7 +54,6 @@ void	append_to_env_value(t_list *dup_key, char **key, char **value)
 
 	if (!dup_key || !key || !value || !*value)
 		return ;
-	
 	old_value = dup_key->value;
 	if (!old_value)
 		dup_key->value = ft_strdup(*value);
@@ -51,7 +62,6 @@ void	append_to_env_value(t_list *dup_key, char **key, char **value)
 		dup_key->value = ft_strjoin(old_value, *value);
 		free(old_value);
 	}
-	
 	free(*key);
 	free(*value);
 	*key = NULL;
@@ -65,7 +75,6 @@ void	append_to_env_value(t_list *dup_key, char **key, char **value)
  * Returns 1 if append operation, 0 if normal, -1 if invalid
  */
 
-
 /* ================================================================
  * parse_assignment_type - Determine assignment type and extract key/value
  ================================================================ */
@@ -76,7 +85,6 @@ static int	parse_assignment_type(const char *cmd, char **key, char **value)
 
 	plus_pos = ft_strchr(cmd, '+');
 	eq_pos = ft_strchr(cmd, '=');
-	
 	if (plus_pos && *(plus_pos + 1) == '=')
 	{
 		*key = ft_substr((char *)cmd, 0, plus_pos - cmd);
@@ -106,9 +114,7 @@ int	parse_export_argument(const char *cmd, char **key, char **value)
 		return (-1);
 	*key = NULL;
 	*value = NULL;
-	
 	result = parse_assignment_type(cmd, key, value);
-	
 	if (!*key)
 	{
 		if (*value)

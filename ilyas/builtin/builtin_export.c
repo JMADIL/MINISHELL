@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_export.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 02:13:26 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/22 02:13:27 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../help.h"
 
 /*
@@ -69,7 +81,7 @@ static void	process_export_variable(const char *cmd, char **key, char **value,
 			update_existing_env(dup_key, key, value, (char *)cmd);
 	}
 	else
-		add_new_env_var(env, *key, *value);
+		ft_lstadd_back(env, ft_lstnew(*key, *value));
 }
 
 /*
@@ -122,7 +134,8 @@ int	validate_export_identifier(const char *cmd)
 	if (cmd[0] == '=')
 		return (print_export_identifier_error(cmd));
 	len = 0;
-	while (cmd[len] && cmd[len] != '=' && !(cmd[len] == '+' && cmd[len + 1] == '='))
+	while (cmd[len] && cmd[len] != '=' && !(cmd[len] == '+' && cmd[len
+			+ 1] == '='))
 		len++;
 	if (len == 0)
 		return (print_export_identifier_error(cmd));
@@ -160,9 +173,9 @@ int	validate_export_identifier(const char *cmd)
  */
 int	builtin_export(char **cmd, t_list **env)
 {
-	int error_flag;
-	char *key;
-	char *value;
+	int		error_flag;
+	char	*key;
+	char	*value;
 
 	error_flag = 0;
 	if (!cmd[1])

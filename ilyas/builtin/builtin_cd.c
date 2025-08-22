@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_cd.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 02:13:06 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/22 02:46:37 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../help.h"
 
 /*
@@ -58,7 +70,7 @@ char	*expand_tilde(char *cmd, t_list *env)
 
 	if (!cmd || cmd[0] != '~')
 		return (ft_strdup(cmd));
-	home = get_env_value(env, "HOME"); // parsing function
+	home = ft_getenv(env, "HOME"); // parsing function
 	if (!home)
 		return (NULL);
 	if (cmd[1] == '\0')
@@ -92,31 +104,27 @@ int	resolve_cd_target(char **cmd, char **path, char *old_path, t_list **env)
 	tmp = NULL;
 	if (!cmd[1] || ft_strcmp(cmd[1], "~") == 0)
 	{
-		*path = get_env_value(env, "HOME");
+		*path = ft_getenv(env, "HOME");// parsing amealem
 		if (!*path)
-			return (free(old_path), write(2, "minishell: cd: HOME not set\n",
-					28), 1);
-		*path = ft_strdup(*path);
+			CD_ERROR_RETURN(old_path, CD_HOME_ERROR);
 	}
 	else if (ft_strcmp(cmd[1], "-") == 0)
 	{
-		*path = get_env_value(env, "OLDPWD");
+		*path = ft_getenv(env, "OLDPWD");
 		if (!*path)
-			return (free(old_path), write(2, "minishell: cd: OLDPWD not set\n",
-					30), 1);
+			CD_ERROR_RETURN(old_path, CD_OLDPWD_ERROR);
 	}
 	else
 	{
 		tmp = expand_tilde(cmd[1], *env);
 		if (!tmp)
-			return (free(old_path), write(2, "minishell: cd: HOME not set\n",
-					28), 1);
+			CD_ERROR_RETURN(old_path, CD_HOME_ERROR);
 		*path = ft_strdup(tmp);
 		if (tmp != cmd[1])
 			free(tmp);
 	}
 	return (0);
-} // n9dar nzid macros bax na9as sora
+}
 
 /*
  * Implements the cd builtin command.

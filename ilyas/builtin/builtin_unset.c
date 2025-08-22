@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   builtin_unset.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/22 02:13:39 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/22 02:13:40 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../help.h"
 
 /*
@@ -13,21 +25,16 @@
  */
 int	remove_env_node(t_list **env_list, t_list *node)
 {
-
 	if (!node)
 		return (1);
-
 	if (!env_list)
 		return (1);
-	
 	if (node->prev)
 		node->prev->next = node->next;
 	else
 		*env_list = node->next;
 	if (node->next)
 		node->next->prev = node->prev;
-	
-
 	if (node->key)
 		free(node->key);
 	if (node->value)
@@ -49,21 +56,18 @@ int	remove_env_node(t_list **env_list, t_list *node)
 int	init_minimal_env(t_list **env)
 {
 	char	*cwd;
-	char	cwd_buffer[1024]; 
-
+	char	cwd_buffer[1024];
 
 	if (!env)
 		return (0);
-	if (*env) 
+	if (*env)
 		return (0);
-	
-
 	if (getcwd(cwd_buffer, sizeof(cwd_buffer)) != NULL)
 		cwd = ft_strdup(cwd_buffer);
 	else
-		cwd = ft_strdup("/"); 
-
-	add_env_node(env, ft_strdup("PWD"), cwd);//i can change it with ft_lstadd_back
+		cwd = ft_strdup("/");
+	add_env_node(env, ft_strdup("PWD"), cwd);
+		// i can change it with ft_lstadd_back
 	add_env_node(env, ft_strdup("OLDPWD"), NULL);
 	add_env_node(env, ft_strdup("SHLVL"), ft_strdup("1"));
 	add_env_node(env, ft_strdup("_"), ft_strdup("/usr/bin/env"));
@@ -88,17 +92,15 @@ int	builtin_unset(char **cmd, t_list **env)
 
 	if (!cmd || !cmd[0] || !env || !*env)
 		return (1);
-	
-	i = 1; 
+	i = 1;
 	while (cmd[i])
 	{
 		if (ft_strcmp(cmd[i], "_") == 0)
 		{
 			i++;
-			continue; 
+			continue ;
 		}
-		
-		target = find_env_var(cmd[i], *env);// from builtin_export.c
+		target = find_env_var(cmd[i], *env); // from builtin_export.c
 		if (target)
 			remove_env_node(env, target);
 		i++;
