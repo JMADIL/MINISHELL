@@ -1,4 +1,4 @@
-#include "help.h"
+#include "../minishell.h"
 
 /* ============================================================================
  * 1) Count tokens, respecting ${VAR} braces as single words

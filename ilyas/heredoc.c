@@ -1,4 +1,4 @@
-#include "help.h"
+#include "../minishell.h"
 
 /* ============================================================================
  * 1) Child-side: read heredoc until delimiter with GNL; write to pipe and exit

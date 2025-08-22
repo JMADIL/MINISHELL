@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_redirection_utils1.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:34 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 02:13:35 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/22 22:05:36 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../help.h"
+#include "../../minishell.h"
 
 // ghadi nsta3melha f minishell.c ya3ni n9dar nbedela blasa
 bool	dontexpand_heredoc_del(t_token *tmp)

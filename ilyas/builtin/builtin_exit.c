@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:17 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 02:13:18 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/22 22:05:17 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../help.h"
+#include "../../minishell.h"
 /*
  * Validates if a string represents a valid numeric value.
  * Checks for optional sign followed by digits only. Handles edge cases

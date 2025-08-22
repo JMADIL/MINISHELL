@@ -1,4 +1,4 @@
-#include "help.h"
+#include "../minishell.h"
 
 /* ===========================================================
  SIGINT handler for interactive prompt

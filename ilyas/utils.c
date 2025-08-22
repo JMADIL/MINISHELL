@@ -1,5 +1,5 @@
 
-#include "help.h"
+#include "../../minishell.h"
 
 // i need to modifie xwiya
 /*

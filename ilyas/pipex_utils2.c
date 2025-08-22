@@ -1,5 +1,5 @@
 
-#include "help.h"
+#include "../minishell.h"
 
 /* ===========================================================
  * Helper function for handling > redirection

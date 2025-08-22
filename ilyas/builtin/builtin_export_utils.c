@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:20 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 02:13:21 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/22 22:05:20 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../help.h"
+#include "../../minishell.h"
 
 
 /*

@@ -1,4 +1,4 @@
-#include "help.h"
+#include "../minishell.h"
 
 /*
  * Safely frees a character pointer and sets it to NULL.

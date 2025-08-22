@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:14 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 02:48:10 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/22 22:05:14 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../help.h"
+#include "../../minishell.h"
 
 /* ================================================================
  * builtin_env - Print environment variables in KEY=VALUE format

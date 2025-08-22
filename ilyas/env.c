@@ -1,6 +1,6 @@
 // z3ma get_cmd_path
 
-#include "help.h"
+#include "../minishell.h"
 
 // Free the linked list of t_env
 void	free_env_list(t_list **env)

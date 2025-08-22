@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:47 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 02:13:48 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/22 22:05:50 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../help.h"
+#include "../../minishell.h"
 
 /*
  * Frees a null-terminated array of strings (double pointer).

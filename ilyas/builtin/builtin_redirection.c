@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_redirection.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:37 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 02:13:38 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/22 22:05:38 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../help.h"
+#include "../../minishell.h"
 
 /*
  * Handles append redirection for builtin commands

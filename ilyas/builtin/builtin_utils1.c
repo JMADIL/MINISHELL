@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils1.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:44 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 02:13:45 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/22 22:05:46 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../help.h"
+#include "../../minishell.h"
 
 // cd
 int	size_dp(char **c)

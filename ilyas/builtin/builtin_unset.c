@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:39 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 02:13:40 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/22 22:05:41 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../help.h"
+#include "../../minishell.h"
 
 /*
  * Removes a specific node from the environment variables linked list.

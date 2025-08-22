@@ -1,4 +1,4 @@
-#include "help.h"
+#include "../minishell.h"
 
 /*
  * Checks if a given path points to a directory.

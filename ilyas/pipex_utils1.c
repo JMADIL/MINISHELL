@@ -1,4 +1,4 @@
-#include "help.h"
+#include "../minishell.h"
 
 
 //run_cmd_utils z3ma

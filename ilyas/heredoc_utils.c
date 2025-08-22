@@ -1,4 +1,4 @@
-#include "help.h"
+#include "../minishell.h"
 
 /*
  * Initializes and finds the last input redirection (< or <<) in the list

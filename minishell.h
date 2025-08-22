@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:45 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/22 05:41:48 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 22:07:25 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,21 @@
 #include <errno.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <sys/stat.h>
+
+
 
 // Exit codes
 #define EXIT_SUCCESS 0
 #define EXIT_FAILURE 1
 #define EXIT_MISUSE 2
+
+//macros
+#define CD_HOME_ERROR "minishell: cd: HOME not set\n"
+#define CD_OLDPWD_ERROR "minishell: cd: OLDPWD not set\n"
+#define CD_ERROR_RETURN(old_path, msg) \
+	return (free(old_path), write(2, msg, ft_strlen(msg)), 1)
+	
 
 typedef enum e_token_type
 {
@@ -95,17 +105,231 @@ typedef struct s_cmdarg
 	t_redi_list			*output;
 	struct s_cmdarg		*next;
 }						t_cmdarg;
-//this one should be on the libft.h
-typedef struct s_list
-{
-	char			*key;
-	char			*value;
-	int				check;
-	struct s_list	*prev;
-	struct s_list	*next;
-}					t_list;
+
+// Shell state struct
+typedef struct s_shell {
+    t_list           *env;       // Environment variables
+    int             last_status;// Last command exit status
+    bool            running;    // Shell running state
+    char            *pwd;       // Current working directory
+    char            *old_pwd;   // Previous working directory
+}   t_shell;
 
 
+
+extern int g_exit_status;
+
+#endif
+
+//gnl
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1000
+#endif
+
+//builtin_cd
+void update_pwd_vars(t_list *env, char *new_path, char *old_path);
+char *expand_tilde(char *cmd, t_list *env);
+int resolve_cd_target(char **cmd, char **path, char *old_path, t_list **env);
+int builtin_cd(char **cmd, t_list **env);
+//builtin_echo
+int	is_vaid_n_flag(const char *str);
+char	*join_args_from_index(char **cmd, int i);
+void prent_echo_output(char *tmp, int n_flag);
+int builtin_echo(char **cmd, t_cmdarg *shell);
+//builtin_env
+int builtin_env(t_list **env);
+//builtin_exit
+int numeric(const char *str);
+int builtin_exit(char **cmd, t_list **env);
+//builtin_export_utils
+void	print_export_format(t_list *head);
+void	print_sorted_export(t_list **env);
+void swap_env_nodes(t_list *ptr1);
+void	update_existing_env(t_list *dup_key, char **key, char **value,
+		char *cmd);
+//builtin_export_utils1
+int	print_export_identifier_error(const char *cmd);
+void	handle_export_no_assign(char **key, char **value, const char *cmd);
+void	append_to_env_value(t_list *dup_key, char **key, char **value);
+int	parse_export_argument(const char *cmd, char **key, char **value);
+//builtin_export
+t_list *find_env_var(const char *key, t_list *env);
+// static void process_export_variable(const char *cmd, char **key, char **value, t_list **env);
+int validate_export_identifier(const char *cmd);
+int	builtin_export(char **cmd, t_list **env);
+//builtin_pwd	
+int builtin_pwd(t_list **env);
+//builtin_redirection_utils
+int	open_file_for_builtin(char *filename, t_token_type type);
+void	restore_original_fds(t_cmdarg *cmd);
+void	display_redi_error(char *filename, char *error_msg);
+void	handle_file_open_error(char *filename);
+int	process_all_redirections(t_redi_list *redi_list);
+bool	check_ambiguous_redirect(char *filename);// hadi blast is ambiguous
+bool	dontexpand_heredoc_del(t_token *tmp);
+//builtin_redirection
+int	handle_append_redi(t_redi_list *redi);
+int	handle_output_redi(t_redi_list *redi);
+int	handle_input_redi(t_redi_list *redi);
+int	setup_builtin_redirections(t_cmdarg *cmd);
+int	execute_builtin_with_redi(t_cmdarg *cmd_list, t_list **env);
+//builtin_unset
+int	remove_env_node(t_list **env_list, t_list *node);
+int	init_minimal_env(t_list **env);
+int	builtin_unset(char **cmd, t_list **env);
+//builtin_utils
+int add_env_node(t_list **env, char *key, char *value);
+t_list *copy_env_list(t_list *env);
+void alloc_key_value(char *cmd, char **key, char **value, char *equals_pos);
+t_list	*find_node(t_list *env, char *key);
+int	size_dp(char **c);
+//builtin
+void	free_arr(char **cmd);
+int is_builtin(char *cmd);
+int exec_builtin(t_cmdarg *shell, t_list **env);
+
+//out the builtin directory i have this 
+
+//env.c
+void free_env_list(t_list **env);
+char *get_path_value(t_list *env);
+char	*check_exec(char *p, t_list *env, int *no_file);
+
+//errors.c
+void	safe_free(char *s);
+void	print_error_exit(const char *cmd_name, const char *error, int status);
+int	safe_open(const char *file, int flag);
+void	execve_error_cleanup(char **cmd_path, char **cmd_name, char **envp);
+
+void	finish_exec(pid_t last_cmd_pid);
+
+//pipex_utils.c
+void	cmd_not_found_exit(t_cmdarg *curr_cmd, int no_file);
+void	handle_heredoc_input(t_redi_list *input);
+static int	open_redir_file(const char *filename, int mode);
+int	handle_append_output(t_redi_list *output);
+int	process_output_redirections(t_redi_list *output);
+int	process_input_redirections(t_redi_list *input);
+char	*validate_exec_path(char *p);
+void	exec_malloc_fail(char *cmd_path, char *cmd_name);
+
+//pipex.c
+bool	is_directory(const char *path);
+static void	exec_external_command(t_cmdarg *current_cmd, t_list *env);
+void	exec_builtin_in_child(t_cmdarg *current_cmd, t_list **env);
+void	exec_child_process(t_cmdarg *current_cmd, t_list *env, int tmp_in,
+		int p_fd[2]);
+
+//signals.c
+void	sigint_interactive(int sig);
+void	sigint_parent_wait(int sig);
+void	sigint_heredoc(int sig);
+void	sigint_heredoc_child(int sig);
+void	setup_interactive_signals(void);
+void	setup_heredoc_signals(void);
+void	restore_interactive_signals(void);
+void	setup_child_signals(void);
+void	setup_parent_wait_signals(void);
+void	setup_parent_heredoc_signals(void);
+//gnl
+char		*get_next_line(int fd);
+
+
+//heredoc_utils.c
+t_redi_list	*get_last_input_redirection(t_redi_list *redi);
+t_redi_list	*get_last_output_redirection(t_redi_list *redi);
+void	init_redirection_metadata(t_cmdarg *cmd);
+int	is_heredoc_end(char *line, const char *delimiter);
+void	read_heredoc_input_gnl(char *delim, int fd_pipe[2], t_redi_list *heredoc, t_list *env);
+
+//heredoc.c
+int	heredoc_child_process(t_redi_list *heredoc, int fd_pipe[2], t_list *env);
+void	heredoc_parent_finalize(int fd_pipe[2], pid_t pid, int *status,
+		t_redi_list *in);
+int	handle_single_heredoc(t_redi_list *in, int fd_pipe[2], t_list *env);
+int	process_all_heredocs(t_cmdarg *shell, t_list *env);
+
+//utils.c
+int	size_list(t_cmdarg *node);
+void	free_all(char **bf, int j);
+void	ft_alloc(char **envp, int *i, char *key_equals, t_list *env);
+char	**get_env(t_list *env);
+void	ft_free_isdir(char **cmd_path, char **cmd_name, t_cmdarg *current_cmd);
+
+//parsing_split.c
+char	**split_with_braces(const char *s, char sep);
+
+// Part 1 - Libc functions
+
+
+size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
+
+int					ft_isalnum(int c);
+int					ft_isalpha(int c);
+int					ft_isascii(int c);
+
+int					ft_isprint(int c);
+
+int					ft_toupper(int c);
+int					ft_tolower(int c);
+void				*ft_memset(void *b, int c, size_t len);
+void				*ft_memcpy(void *dst, const void *src, size_t n);
+char				*ft_strrchr(const char *str, int c);
+int					ft_memcmp(const void *s1, const void *s2, size_t n);
+void				*ft_memchr(const void *s, int c, size_t n);
+char				*ft_strmapi(const char *s, char (*f)(unsigned int, char));
+
+
+char				*ft_strnstr(const char *hy, const char *nd, size_t len);
+
+void				*ft_memmove(void *dst, const void *src, size_t len);
+
+// Part 2 - Additional functions
+
+void				ft_putnbr_fd(int n, int fd);
+void				ft_putchar_fd(char c, int fd);
+
+void				ft_putendl_fd(char *s, int fd);
+
+char				*ft_strtrim(const char *s1, const char *set);
+char				*ft_strmapi(const char *s, char (*f)(unsigned int, char));
+void				ft_striteri(char *s, void (*f)(unsigned int, char *));
+
+void				ft_bzero(void *s, size_t n);
+
+// Bonus part
+
+void				ft_lstadd_front(t_list **lst, t_list *new);
+
+t_list				*ft_lstlast(t_list *lst);
+
+void				ft_lstdelone(t_list *lst, void (*del)(void *));
+void				ft_lstclear(t_list **lst, void (*del)(void *));
+void				ft_lstiter(t_list *lst, void (*f)(void *));
+t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
+						void (*del)(void *));
+//libft
+void				ft_lstadd_back(t_list **lst, t_list *new);
+int					ft_lstsize(t_list *lst);
+t_list	*ft_lstnew(char *key, char *value);
+char				**ft_split(char const *s, char c);
+char				*ft_itoa(int n);
+char				*ft_substr(const char *s, unsigned int start, size_t len);
+void				ft_putstr_fd(char *s, int fd);
+char				*ft_strjoin(char const *s1, char const *s2);
+int	ft_strcmp(const char *s1, const char *s2);
+char	*ft_strcpy(char *dest, const char *src);
+char	*ft_strcat(char *dest, const char *src);
+char				*ft_strchr(const char *str, int c);
+void				*ft_calloc(size_t count, size_t size);
+char				*ft_strdup(const char *s1);
+int					ft_strncmp(const char *s1, const char *s2, size_t n);
+int					ft_isdigit(int c);
+int					ft_atoi(const char *str);
+size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
+size_t				ft_strlen(const char *str);
+
+// parsing
 bool	ft_redierrors(t_token	*token);
 bool	ft_pipeerrors(t_token *token);
 void	expand_norm(t_token **token, t_list	*minienv, ssize_t dpos);
