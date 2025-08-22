@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:33 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/22 22:20:10 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/23 00:51:23 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,10 @@ void	minishell(char *input, t_list **minienv)
 	// Converts the flat token list into a higher-level structure: t_cmdarg
 	cmdarg_list = parser(token_list, *minienv);
 		// Handle here-documents (<<) :
-		if (!check_here_doc(cmdarg_list, *minienv)) 
+		if (!process_all_heredocs(cmdarg_list, *minienv)) 
 			return (ft_cleaner(token_list, cmdarg_list));
 	// Run builtin commands (no fork) :
-	if (check_builtin(cmdarg_list, minienv) == 1)
+	if (exec_builtin(cmdarg_list, minienv) == 1)
 		return (ft_cleaner(token_list, cmdarg_list));
 	// Execute non-builtin commands :
 	if (!execution(cmdarg_list, *minienv))
@@ -99,7 +99,7 @@ int	main(int ac, char **av, char **env)
 	t_list	*minienv;
 	char	*user_input;
 
-	handle_signals();
+	setup_interactive_signals();
 	(void)av;
 	if (ac != 1)
 		return (printf("\nError: No arguments expected\n"), 1);
@@ -110,7 +110,7 @@ int	main(int ac, char **av, char **env)
 		{
 			user_input = readline("minishell-1.0$ ");
 			if (!user_input)
-				ft_cmd_error(NULL,  "[EOF]\n", 0);
+				print_error_exit(NULL,  "[EOF]\n", 0);
 			minishell(user_input, &minienv);
 			free(user_input);
 		}

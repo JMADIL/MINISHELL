@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:45 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 00:06:59 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/23 00:42:56 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,9 @@ extern int g_exit_status;
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1000
 #endif
+
+//execution
+int	execution(t_cmdarg *current_cmd, t_list *env);
 
 //builtin_cd
 void update_pwd_vars(t_list *env, char *new_path, char *old_path);
@@ -279,8 +282,8 @@ void	ft_free_cmdlist(t_cmdarg *cmdarg_list);
 t_lexer *ft_init_lexer(char *input);
 t_token *ft_strtok(char *input, t_list *minienv);
 void	ft_init_fields(t_token *token);
-void	ft_set_token_type(t_token token, int op_len, char *op, bool *heredoc);
-t_token	*handling_operator(t_lexer lexer, bool heredoc);
+void	ft_set_token_type(t_token *token, int op_len, char *op, bool *heredoc);
+t_token	*handling_operator(t_lexer *lexer, bool *heredoc);
 t_token	*handling_quotes(t_lexer *lexer, char quote);
 t_token	*handling_words(t_lexer *lexer);
 t_list	*ft_initenv(char **env);
@@ -293,7 +296,7 @@ int	ft_pars_env(char *env_line, char **key, char **value);
 static int	extend_cmd_for_word(t_cmdarg **node);
 static void	add_or_join_word(t_cmdarg **node, t_token *token_list, char *value);
 void	*parsing_word(t_cmdarg	**node, t_token *token_list);
-void	*parsing_redi(t_cmdarg **node, t_token *token_list);
+void	parsing_redi(t_cmdarg **node, t_token *token_list);
 int	no_need_chars(char *input);
 bool ft_quote_checker(char *input);
 bool	ft_isredi(t_token *token);
@@ -312,7 +315,7 @@ t_token	*newtok(t_token *token);
 void	ft_tokadd_back(t_token **token_list, t_token *token);
 bool	ft_tojoin(t_lexer *lexer);
 t_token *ft_jointok(t_token *token, t_lexer **lexer, t_list *minienv, bool *heredoc);
-t_token	*get_next_token(t_lexer *lexer, t_list *minienv, bool heredoc);
+t_token	*get_next_token(t_lexer *lexer, t_list *minienv, bool *heredoc);
 int ft_isspace(char c);
 int	ft_isspecial(char c);
 ssize_t	dollar_position(char *str);
@@ -323,8 +326,9 @@ char	*expand_inchar(char *value, t_list *minienv, ssize_t dollar_pos);
 void	expand_exit_status_inchar(char **value);
 bool	ft_condition_inchar(char *value, ssize_t dollar_pos);
 void	expand_var_in_char(char	**value, t_list *minienv);
-bool	op_is_duplicated(t_lexer lexer, char op[3]);
-
-
+bool	op_is_duplicated(t_lexer *lexer, char op[3]);
+char	*help_tmp2_inchar(char *value, ssize_t dollar_pos);
+void	ft_cleaner(t_token *token_list, t_cmdarg *cmdarg_list);
+void	ft_close_pipe(t_redi_list *redi);
 
 #endif

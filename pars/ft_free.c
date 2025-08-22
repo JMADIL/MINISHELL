@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 05:01:20 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/22 05:36:50 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 00:37:48 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	ft_free_cmdlist(t_cmdarg *cmdarg_list)
 		ft_free_node(tmp);
 	}
 }
+
 void	ft_free_node(t_cmdarg *node)
 {
 	int	i;

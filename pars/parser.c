@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 04:49:59 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/22 05:43:54 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 00:38:14 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	*parsing_word(t_cmdarg	**node, t_token *token_list)
 	return (NULL);
 }
 
-void	*parsing_redi(t_cmdarg **node, t_token *token_list)
+void	parsing_redi(t_cmdarg **node, t_token *token_list)
 {
 	if (token_list->current->type == INPUT
 		|| token_list->current->type == HEREDOC)

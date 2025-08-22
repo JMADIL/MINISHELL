@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 12:52:52 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/23 00:09:03 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/23 00:36:54 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 void				ft_lstadd_back(t_list **lst, t_list *new);
 int					ft_lstsize(t_list *lst);
 t_list	*ft_lstnew(char *key, char *value);
-char				**ft_split(char const *s, char c);
+char				**ft_split(char const *s, char *c);
 char				*ft_itoa(int n);
 char				*ft_substr(const char *s, unsigned int start, size_t len);
 void				ft_putstr_fd(char *s, int fd);

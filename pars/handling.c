@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 03:09:27 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/22 05:42:18 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 00:37:55 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_init_fields(t_token *token)
 	token->prev = NULL;
 }
 
-void	ft_set_token_type(t_token token, int op_len, char *op, bool *heredoc)
+void	ft_set_token_type(t_token *token, int op_len, char *op, bool *heredoc)
 {
 	if (op_len == 2)
 	{
@@ -43,7 +43,7 @@ void	ft_set_token_type(t_token token, int op_len, char *op, bool *heredoc)
 	}
 }
 
-t_token	*handling_operator(t_lexer lexer, bool heredoc)
+t_token	*handling_operator(t_lexer *lexer, bool *heredoc)
 {
 	char	op[3];
 	int		op_len;
@@ -91,7 +91,7 @@ t_token	*handling_quotes(t_lexer *lexer, char quote)
 	token = malloc(sizeof(t_token));
 	if (!token || !content)
 		return (NULL);
-	if (quote_char == '\'')
+	if (quote == '\'')
 		token->type = SINGLE_QUOTE;
 	else
 		token->type = DOUBLE_QUOTE;
@@ -102,7 +102,8 @@ t_token	*handling_quotes(t_lexer *lexer, char quote)
 	else
 		token->addspace = false;
 	// Initialize Other Token Fields
-	ft_init_token_fields(token);
+	ft_init_fields(token);
+	return (token);
 }
 
 t_token	*handling_words(t_lexer *lexer)
@@ -116,8 +117,8 @@ t_token	*handling_words(t_lexer *lexer)
 		&& !ft_isspecial(lexer->input[lexer->pos])
 		&& lexer->input[lexer->pos] != '\'' && lexer->input[lexer->pos] != '"')
 		lexer->pos++;
-	value = ft_substr(lexer->input, start, lexer->pos - start)
-	token = malloc(sizeof(token));
+	value = ft_substr(lexer->input, start, lexer->pos - start);
+	token = malloc(sizeof(t_token));
 	if(!value || !token)
 		return (NULL);
 	token->type = WORD;
@@ -126,6 +127,6 @@ t_token	*handling_words(t_lexer *lexer)
     	token->addspace = true;
 	else
     	token->addspace = false;
-	ft_init_token_fields(token);
+	ft_init_fields(token);
 	return (token);
 }

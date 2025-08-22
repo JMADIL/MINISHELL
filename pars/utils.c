@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:59:55 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/22 05:30:31 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 00:38:35 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_isspecial(char c)
 	return (c == '|' || c == '<' || c == '>');
 }
 
-bool	op_is_duplicated(t_lexer lexer, char op[3])
+bool	op_is_duplicated(t_lexer *lexer, char op[3])
 {
 	return ((op[0] == '>' && lexer->pos + 1 < lexer->len
 		&& lexer->input[lexer->pos + 1] == '>') || (op[0] == '<'

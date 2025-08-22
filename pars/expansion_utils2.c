@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 01:56:36 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/22 05:34:30 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 00:37:39 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_getenv(char *var, t_list *minienv)
 	
 	tmp = minienv;
 	if(tmp == NULL)
-		return (tmp == NULL);
+		return (NULL);
 	while(tmp)
 	{
 		if (ft_strcmp(var, tmp->key) == 0)

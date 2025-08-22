@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 05:17:48 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/22 05:38:46 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 00:37:58 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,12 @@ bool	ft_condition_inchar(char *value, ssize_t dollar_pos)
 		|| ft_isdigit(value[dollar_pos + 1]));
 }
 
+char	*help_tmp2_inchar(char *value, ssize_t dollar_pos)
+{
+	return (ft_substr(value, dollar_pos + ft_get_varlen(value + dollar_pos + 1)
+			+ 1, ft_strlen(value)));
+}
+
 void	expand_var_in_char(char	**value, t_list *minienv)
 {
 	ssize_t	dollar_pos;
@@ -71,7 +77,7 @@ void	expand_var_in_char(char	**value, t_list *minienv)
 		}
 		expanded = expand_inchar(*value, minienv, dollar_pos);
 		tmp = ft_strjoin_free(ft_substr(*value, 0, dollar_pos), expanded);
-		tmp2 = help_tmp2(*value, dollar_pos);
+		tmp2 = help_tmp2_inchar(*value, dollar_pos);
 		old_value = *value;
 		*value = ft_strjoin_free(tmp, tmp2);
 		free(old_value);

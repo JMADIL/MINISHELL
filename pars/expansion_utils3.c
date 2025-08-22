@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 04:28:17 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/22 05:29:32 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 00:37:45 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int	ft_get_varlen(char *str)
 		i++;
 	return (i);
 }
+
 char	*help_tmp2(t_token **token, ssize_t dollar_pos)
 {
 	return (ft_substr((*token)->value, dollar_pos

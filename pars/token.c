@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:08:16 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/22 05:47:41 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 00:38:31 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_token *ft_jointok(t_token *token, t_lexer **lexer, t_list *minienv, bool *here
 	return (new_token);             // Return modified new_token
 }
 
-t_token	*get_next_token(t_lexer *lexer, t_list *minienv, bool heredoc)
+t_token	*get_next_token(t_lexer *lexer, t_list *minienv, bool *heredoc)
 {
 	char	current_char;
 	t_token	*token;
