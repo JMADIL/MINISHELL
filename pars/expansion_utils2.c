@@ -6,11 +6,11 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 01:56:36 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/17 04:55:45 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 05:34:30 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell"
+#include "../minishell.h"
 
 bool	ft_condition(t_token **token, ssize_t dollar_pos)
 {
@@ -27,7 +27,7 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	return (result);
 }
 
-char	*ft_expand(t_token **token, t_list	*minienv, ssize_t dollat_pos)
+char	*ft_expand(t_token **token, t_list	*minienv, ssize_t dollar_pos)
 {
 	char	*var;
 	char	*expanded;

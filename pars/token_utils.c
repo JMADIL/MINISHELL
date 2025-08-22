@@ -6,11 +6,11 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 05:06:57 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/18 04:14:37 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 05:30:23 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell"
+#include "../minishell.h"
 
 t_token	*ft_dollar_joining(t_token *token, t_token *new_token)
 {

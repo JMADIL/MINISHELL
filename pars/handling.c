@@ -6,11 +6,11 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 03:09:27 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/15 19:35:24 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 05:42:18 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell"
+#include "../minishell.h"
 
 void	ft_init_fields(t_token *token)
 {
@@ -66,7 +66,7 @@ t_token	*handling_operator(t_lexer lexer, bool heredoc)
 		return (free(token), NULL);
 	token->addspace = false;
 	// Initialize Other Token Fields
-	ft_init_token_fields(token);
+	ft_init_fields(token);
 	// This function likely sets token->type based on the operator
 	ft_set_token_type(token, op_len, op, heredoc);
 	// Advance Lexer Position

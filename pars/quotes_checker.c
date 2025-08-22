@@ -6,11 +6,11 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 22:55:21 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/15 17:40:51 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 05:30:10 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell"
+#include "../minishell.h"
 
 int	no_need_chars(char *input)
 {

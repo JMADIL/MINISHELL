@@ -6,11 +6,11 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 04:49:59 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/21 06:04:06 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 05:43:54 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell"
+#include "../minishell.h"
 
 static int	extend_cmd_for_word(t_cmdarg **node)
 {
@@ -63,7 +63,7 @@ void	*parsing_word(t_cmdarg	**node, t_token *token_list)
 		//Ensures the cmd array has enough space (reallocates if needed)
 		if(!extend_cmd_for_word(node))
 			return (free(value), NULL);
-		add_or_join_word(node, token_list, val);
+		add_or_join_word(node, token_list, value);
 	}
 	return (NULL);
 }

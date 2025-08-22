@@ -6,11 +6,11 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 06:16:59 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/21 06:27:38 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 05:30:34 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell"
+#include "minishell.h"
 
 void	ft_close_pipe(t_redi_list *redi)
 {

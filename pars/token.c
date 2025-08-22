@@ -6,11 +6,11 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:08:16 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/21 06:29:32 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 05:47:41 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell"
+#include "../minishell.h"
 
 t_token	*newtok(t_token *token)
 {
@@ -19,7 +19,8 @@ t_token	*newtok(t_token *token)
 	new_token = malloc(sizeof(t_token));
 	if (!new_token)
 		return (NULL);
-	new_token->type = token->type new_token->value = ft_strdup(token->value);
+	new_token->type = token->type;
+	new_token->value = ft_strdup(token->value);
 	new_token->addspace = token->addspace;
 	new_token->next = NULL;
 	new_token->prev = NULL;

@@ -6,11 +6,11 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 01:59:55 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/19 04:49:13 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 05:30:31 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell"
+#include "../minishell.h"
 
 int ft_isspace(char c)
 {

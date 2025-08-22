@@ -6,11 +6,11 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 03:36:35 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/17 05:00:23 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 05:33:01 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell"
+#include "../minishell.h"
 
 void	expand_norm(t_token **token, t_list	*minienv, ssize_t dpos)
 {
@@ -22,10 +22,10 @@ void	expand_norm(t_token **token, t_list	*minienv, ssize_t dpos)
 	tmp = ft_strjoin_free(ft_substr((*token)->value, 0, dpos), expanded);
 	tmp2 = help_tmp2(token, dpos);
 	free((*token)->value);
-	(*token)->value = ft_strjoin_free(temp, temp2);
-	free(temp2);
+	(*token)->value = ft_strjoin_free(tmp, tmp2);
+	free(tmp2);
 	(*token)->variable = true;
-	free(exp);
+	free(expanded);
 }
 
 void	expand_exit_status(t_token **token)
@@ -50,7 +50,7 @@ void	expand_exit_status(t_token **token)
 	free(expanded);
 	free(leak);
 	(*token)->variable = true;
-	free(temp2);
+	free(tmp2);
 }
 
 void	expand_variables(t_token **token, t_list *minienv)
@@ -66,7 +66,7 @@ void	expand_variables(t_token **token, t_list *minienv)
 		// Determine Variable Type
 		if (ft_condition(token, dpos))
 		{
-			ft_expand_exit_status(token);
+			expand_exit_status(token);
 			dpos = dollar_position((*token)->value);
 			continue ;
 		}

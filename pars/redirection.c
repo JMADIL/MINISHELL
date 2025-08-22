@@ -6,11 +6,11 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 04:16:39 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/21 06:05:42 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 05:30:14 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell"
+#include "../minishell.h"
 
 bool	ft_isredi(t_token *token)
 {

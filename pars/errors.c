@@ -6,11 +6,11 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 04:28:54 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/18 04:43:16 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 05:29:03 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell"
+#include "../minishell.h"
 
 bool	ft_redierrors(t_token	*token)
 {

@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:45 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/22 04:26:26 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 05:41:48 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,14 @@ int ft_isspace(char c);
 int	ft_isspecial(char c);
 ssize_t	dollar_position(char *str);
 bool	ft_is_cmd(t_token *current);
+void	ft_free_node(t_cmdarg *node);
+void	ft_free_redi_list(t_redi_list *redi);
+char	*expand_inchar(char *value, t_list *minienv, ssize_t dollar_pos);
+void	expand_exit_status_inchar(char **value);
+bool	ft_condition_inchar(char *value, ssize_t dollar_pos);
+void	expand_var_in_char(char	**value, t_list *minienv);
+bool	op_is_duplicated(t_lexer lexer, char op[3]);
+
 
 
 #endif

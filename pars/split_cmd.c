@@ -6,11 +6,11 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 02:39:22 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/21 05:40:31 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/22 05:46:54 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell"
+#include "../minishell.h"
 
 void	join_or_add_first_word(t_cmdarg **node, char **split_words,
 		bool first_word_joins)
@@ -57,7 +57,7 @@ void	add_split_words(t_cmdarg **node, char **split_words,
 	extend_cmd_array_if_needed(node, needed_capacity);
 	join_or_add_first_word(node, split_words, first_word_joins);
 	i = 1;
-	while (split_cmd[i])
+	while (split_words[i])
 	{
 		(*node)->cmd[(*node)->cmdsize++] = ft_strdup(split_words[i]);
 		i++;
@@ -95,10 +95,10 @@ void	handle_split_word(t_cmdarg **node, t_token *token_list, char *value)
 		return ;
 	}
 	if (!split_words[0])
-		return (free_split_words(split_words),
-				free(value))should_join = (token_list->current->prev != NULL
-				&& token_list->current->prev->addspace == false);
+		return (ft_free_split_words(split_words), free(value));
+	should_join = (token_list->current->prev != NULL
+			&& token_list->current->prev->addspace == false);
 	add_split_words(node, split_words, should_join);
-	free_split_words(split_words);
+	ft_free_split_words(split_words);
 	free(value);
 }
