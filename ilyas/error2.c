@@ -1,7 +1,5 @@
 #include "../minishell.h"
 
-
-
 /*
  * Completes execution process with proper signal handling and child waiting.
  * Sets up parent process signal handling for waiting state, waits for all
@@ -19,4 +17,3 @@ void	finish_exec(pid_t last_cmd_pid)
 	wait_for_all_children(&status, last_cmd_pid);
 	restore_interactive_signals();
 }
-

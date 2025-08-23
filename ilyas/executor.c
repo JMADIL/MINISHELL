@@ -4,7 +4,7 @@
 /* ============================================================================
  * 1) Create a pipe safely, set g_exit_status on error
  * ============================================================================ */
-static int	create_pipe_safe(int pip[2])
+int	create_pipe_safe(int pip[2])
 {
 	if (pipe(pip) == -1)
 	{
@@ -18,7 +18,7 @@ static int	create_pipe_safe(int pip[2])
 /* ============================================================================
  * 2) Handle parent process responsibilities in a pipeline
  * ============================================================================ */
-static void	handle_parent_fd(int *tmp_in, int pip_fd[2], t_cmdarg *current_cmd)
+void	handle_parent_fd(int *tmp_in, int pip_fd[2], t_cmdarg *current_cmd)
 {
 	if (*tmp_in != STDIN_FILENO)
 		close(*tmp_in);
@@ -33,7 +33,7 @@ static void	handle_parent_fd(int *tmp_in, int pip_fd[2], t_cmdarg *current_cmd)
 /* ============================================================================
  * 3) Wait for all children and update global exit status
  * ============================================================================ */
-static void	wait_for_all_children(int *status, pid_t last_pid)
+void	wait_for_all_children(int *status, pid_t last_pid)
 {
 	pid_t	pid;
 	int		last_status;
@@ -60,7 +60,7 @@ static void	wait_for_all_children(int *status, pid_t last_pid)
 /* ============================================================================
  * 4) Execute a pipeline of commands with fork & pipes
  * ============================================================================ */
-static int	ft_fork_and_exec(t_cmdarg *cmd, t_list *env, int *tmp_in,
+int	ft_fork_and_exec(t_cmdarg *cmd, t_list *env, int *tmp_in,
 						pid_t *last_cmd_pid)
 {
 	int		pip_fd[2];

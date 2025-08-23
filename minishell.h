@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:45 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 00:42:56 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 01:05:08 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,11 @@ extern int g_exit_status;
 
 //execution
 int	execution(t_cmdarg *current_cmd, t_list *env);
+void	wait_for_all_children(int *status, pid_t last_pid);
+void	handle_parent_fd(int *tmp_in, int pip_fd[2], t_cmdarg *current_cmd);
+int	create_pipe_safe(int pip[2]);
+int	ft_fork_and_exec(t_cmdarg *cmd, t_list *env, int *tmp_in,
+						pid_t *last_cmd_pid);
 
 //builtin_cd
 void update_pwd_vars(t_list *env, char *new_path, char *old_path);
@@ -209,7 +214,7 @@ void	finish_exec(pid_t last_cmd_pid);
 //pipex_utils.c
 void	cmd_not_found_exit(t_cmdarg *curr_cmd, int no_file);
 void	handle_heredoc_input(t_redi_list *input);
-static int	open_redir_file(const char *filename, int mode);
+int	open_redir_file(const char *filename, int mode);
 int	handle_append_output(t_redi_list *output);
 int	process_output_redirections(t_redi_list *output);
 int	process_input_redirections(t_redi_list *input);
@@ -331,4 +336,7 @@ char	*help_tmp2_inchar(char *value, ssize_t dollar_pos);
 void	ft_cleaner(t_token *token_list, t_cmdarg *cmdarg_list);
 void	ft_close_pipe(t_redi_list *redi);
 
+
+//test test 
+void rl_replace_line(const char *text, int clear_undo);
 #endif

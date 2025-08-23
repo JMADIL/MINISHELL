@@ -6,7 +6,7 @@
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:06 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/23 00:09:15 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/23 00:30:12 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	resolve_cd_target(char **cmd, char **path, char *old_path, t_list **env)
 	tmp = NULL;
 	if (!cmd[1] || ft_strcmp(cmd[1], "~") == 0)
 	{
-		*path = ft_getenv("HOME", *env);// parsing amealem
+		*path = ft_getenv("HOME", *env); // parsing amealem
 		if (!*path)
 			CD_ERROR_RETURN(old_path, CD_HOME_ERROR);
 	}

@@ -40,7 +40,7 @@ void	handle_heredoc_input(t_redi_list *input)
  *       1 => '<'  (O_RDONLY)
  *       2 => '>>' (O_WRONLY|O_CREAT|O_APPEND)
  * =========================================================== */
-static int	open_redir_file(const char *filename, int mode)
+int	open_redir_file(const char *filename, int mode)
 {
 	int	fd;
 
