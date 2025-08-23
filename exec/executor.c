@@ -54,7 +54,6 @@ void	wait_for_all_children(int *status, pid_t last_pid)
 					last_status = 128 + WTERMSIG(*status);
 			}
 		}
-		// Remove the redundant else clause
 	}
 	g_exit_status = last_status;
 }

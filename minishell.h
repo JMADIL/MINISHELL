@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:45 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 09:28:58 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/23 11:47:44 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,11 +101,11 @@ typedef struct s_cmdarg
 
 // Shell state struct
 typedef struct s_shell {
-    t_list           *env;       // Environment variables
-    int             last_status;// Last command exit status
-    bool            running;    // Shell running state
-    char            *pwd;       // Current working directory
-    char            *old_pwd;   // Previous working directory
+    t_list           *env;       
+    int             last_status;
+    bool            running;   
+    char            *pwd;       
+    char            *old_pwd;
 }   t_shell;
 
 
