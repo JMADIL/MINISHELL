@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   nodes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 04:24:13 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 06:57:41 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/23 23:19:16 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdio.h>
 
 t_cmdarg	*ft_init_node(void)
 {

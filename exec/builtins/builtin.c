@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:47 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/23 12:42:41 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 23:17:46 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,14 @@ int setup_builtin_io(t_cmdarg *shell, int *input_fd, int *output_fd)
     *input_fd = 0;  
     *output_fd = 1; 
     
+    if(!shell->input)
+        return 0;
     // Handle input redirection
     if (shell->input)
     {
         t_redi_list *input_redir = shell->input;
         
-        if (input_redir->type == INPUT) // <
+        if (input_redir->type == INPUT ) // <
         {
             *input_fd = open(input_redir->next->file, O_RDONLY);
             if (*input_fd == -1)
