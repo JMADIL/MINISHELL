@@ -79,13 +79,13 @@ all: $(TARGET)
 $(TARGET): $(NAME) $(HEADER) $(LIBFT)
 	@echo "$(BLUE)Making $(TARGET) ...$(DEF_COLOR)"
 	@${CC} ${CFLAGS} -o $(TARGET) $(TARGET).c $(NAME) $(LIBFT) ${MINIFLAGS}
-	@echo "$(GREEN) ___  ____       _     _          _ _"
-	@echo "$(GREEN) |  \/  |_|     |_|   | |        | | |"
-	@echo "$(GREEN) | .  . |_ _ __  _ ___| |__   ___| | |"
-	@echo "$(GREEN) | |\/| | | '_ \| / __| '_ \ / _ \ | |"
-	@echo "$(GREEN) | |  | | | | | | \__ \ | | |  __/ | |"
-	@echo "$(GREEN) \_|  |_/_|_| |_|_|___/_| |_|\___|_|_|"
-	@echo "$(GREEN)\n==The Executable of [$(TARGET)] has been compiled!==\n$(DEF_COLOR)"
+	@echo "$(GRAY) ___  ____       _     _          _ _"
+	@echo "$(GRAY) |  \/  |_|     |_|   | |        | | |"
+	@echo "$(GRAY) | .  . |_ _ __  _ ___| |__   ___| | |"
+	@echo "$(GRAY) | |\/| | | '_ \| / __| '_ \ / _ \ | |"
+	@echo "$(GRAY) | |  | | | | | | \__ \ | | |  __/ | |"
+	@echo "$(GRAY) \_|  |_/_|_| |_|_|___/_| |_|\___|_|_|"
+	@echo "$(GRAY)\n==The Executable of [$(TARGET)] has been compiled!==\n$(DEF_COLOR)"
 	@echo "$(YELLOW)\n=> Usage: ./$(TARGET)\n$(DEF_COLOR)"
 
 $(NAME): $(OBJS)
@@ -98,19 +98,19 @@ $(NAME): $(OBJS)
 
 $(LIBFT):
 	@echo "$(BLUE)Compiling the Library LIBFT ...$(DEF_COLOR)"
-	@make -C ./libft
+	@make -C ./exec/libft
 
 clean:
 	@echo "$(MAGENTA)Cleaning minishell objects ...$(DEF_COLOR)"
 	@$(RM) $(OBJS)
-	@make -C ./libft clean
+	@make -C ./exec/libft clean
 	@echo "$(MAGENTA)Cleaning libft objects ...$(DEF_COLOR)"
 
 fclean: clean
 	@echo "$(RED)Cleaning $(LIBFT) ...$(DEF_COLOR)"
 	@echo "$(RED)Cleaning $(NAME) and $(TARGET) ...$(DEF_COLOR)"
 	@$(RM) $(NAME) $(TARGET)
-	@make -C ./libft fclean
+	@make -C ./exec/libft fclean
 	@rm -rf minishell.dSYM/
 
 re: fclean all
