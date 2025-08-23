@@ -37,21 +37,15 @@ SRCS    = ft_isalpha.c\
 			ft_putstr_fd.c\
 			ft_putendl_fd.c\
 			ft_putnbr_fd.c\
+			ft_lstnew.c\
+			ft_lstadd_back.c\
+			ft_lstsize.c\
+			ft_strcat.c\
+			ft_strcpy.c\
+			
 
 OBJS	= $(SRCS:.c=.o)
 
-BONUS_SRC = ft_lstnew_bonus.c\
-			ft_lstadd_front_bonus.c\
-			ft_lstsize_bonus.c\
-			ft_lstlast_bonus.c\
-			ft_lstadd_back_bonus.c\
-			ft_lstdelone_bonus.c\
-			ft_lstclear_bonus.c\
-			ft_lstiter_bonus.c\
-			ft_lstmap_bonus.c\
-
-
-BONUS_OBJS = ${BONUS_SRC:.c=.o}
 %.o: %.c ${HEADER}
 	${CC} ${CFLAGS} -c $< -o $@
 
@@ -60,11 +54,8 @@ $(NAME): $(OBJS)
 
 all: $(NAME)
 
-bonus: ${BONUS_OBJS}
-	ar rcs ${NAME} ${BONUS_OBJS}
-
 clean:
-	rm -f $(OBJS) $(BONUS_OBJS)
+	rm -f $(OBJS) 
 
 fclean: clean
 	rm -f $(NAME)

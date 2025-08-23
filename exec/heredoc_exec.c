@@ -10,6 +10,7 @@
 int	heredoc_child_process(t_redi_list *heredoc, int fd_pipe[2], t_list *env)
 {
 	char	*delim;
+	delim = heredoc->delim;//nxofo leiba
 
 	if (!heredoc)
 		_exit(1);
@@ -109,7 +110,8 @@ int	process_all_heredocs(t_cmdarg *shell, t_list *env)
 		{
 			if (r->type == HEREDOC)
 			{
-				res = handle_single_heredoc(r, NULL, env);
+				int a[2];
+				res = handle_single_heredoc(r, a, env);
 				if (res == -1)
 					return (0);
 			}

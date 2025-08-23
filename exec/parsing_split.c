@@ -41,7 +41,6 @@ static void	get_next_word_with_braces(char **s, size_t *len, char sep,
 		char **start)
 {
 	char	*str;
-	char	*end;
 
 	str = *s;
 	while (*str && *str == sep)

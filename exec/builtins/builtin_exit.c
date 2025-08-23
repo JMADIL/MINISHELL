@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:17 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 22:05:17 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 03:37:30 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,7 @@ int	builtin_exit(char **cmd, t_list **env)
 			exit_code += 256;
 		g_exit_status = (int)exit_code;
 	}
-	else
-		g_exit_status = g_exit_status;
+
 	free_env_list(env);
 	exit(g_exit_status);
 }

@@ -82,7 +82,7 @@ int	is_heredoc_end(char *line, const char *delimiter)
 		g_exit_status = 0;
 		return (1);
 	}
-	if (delimiter && ft_strlen(line) == ft_strlen((char *)delimiter)
+	if (delimiter && ft_strlen(line) - 1 == ft_strlen((char *)delimiter)
 		&& ft_strncmp(line, delimiter, ft_strlen((char *)delimiter)) == 0)
 	{
 		free(line);
@@ -114,7 +114,7 @@ void	read_heredoc_input_gnl(char *delim, int fd_pipe[2],
 		free(line);
 		line = NULL;
 	}
-	if (heredoc->is_last)
+	if (heredoc->content && heredoc->is_last)
 	{
 		write(fd_pipe[1], heredoc->content, ft_strlen(heredoc->content));
 	}

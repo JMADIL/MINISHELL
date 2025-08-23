@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 04:49:59 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 00:38:14 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 08:12:27 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,15 @@ void	*parsing_word(t_cmdarg	**node, t_token *token_list)
 }
 
 void	parsing_redi(t_cmdarg **node, t_token *token_list)
-{
+{	
 	if (token_list->current->type == INPUT
 		|| token_list->current->type == HEREDOC)
 	{
-		if (token_list->current->next->type == WORD)
+		if (token_list->current->next->type == WORD) {
 			ft_rediradd(&(*node)->redirections,
 				ft_redinew(token_list->current, true));
+			(*node)->redirections->delim = token_list->current->next->value;
+		}
 		else
 			ft_rediradd(&(*node)->redirections,
 				ft_redinew(token_list->current, false));

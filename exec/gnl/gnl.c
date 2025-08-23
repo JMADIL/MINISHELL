@@ -6,12 +6,12 @@
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:14:08 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 02:19:49 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/23 03:34:44 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "../help.h"
+#include "../../minishell.h"
 
 /*
  * Extracts remaining content after a newline character.

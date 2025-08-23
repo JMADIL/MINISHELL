@@ -30,20 +30,23 @@ static int	handle_output_redirect(t_redi_list *node)
  *     earlier ones: open/close only
  *     last one: dup2(STDOUT_FILENO)
  * =========================================================== */
-int	process_output_redirections(t_redi_list *output)
+void	process_output_redirections(t_redi_list *output)
 {
 	t_redi_list	*node;
 
 	node = output;
+	// if (!node->type)
+	// 	return ;
 	while (node)
 	{
-		if (node->type == OUTPUT)
+		if (node->type == OUTPUT) {
 			handle_output_redirect(node);
-		else if (node->type == APPEND)
+		}
+		else if (node->type == APPEND) {
 			handle_append_output(node);
+		}
 		node = node->next;
 	}
-	return (1);
 }
 
 /* ===========================================================
@@ -51,33 +54,41 @@ int	process_output_redirections(t_redi_list *output)
  *     earlier ones: open/close only
  *     last one: dup2(STDIN_FILENO)
  * =========================================================== */
-int	process_input_redirections(t_redi_list *input)
+void	process_input_redirections(t_redi_list *input)
 {
 	int	fd;
+	t_redi_list	*node;
 
-	if (input->type == INPUT)
+	if (!input)
+		return ;
+
+	node = input;
+	while (node)
 	{
-		if (check_ambiguous_redirect(input->file))
-			print_error_exit(input->file, "ambiguous redirect", 1);
-		fd = open_redir_file(input->file, 1);
-		if (input->is_last == true)
+		if (node->type == INPUT)
 		{
-			if (dup2(fd, STDIN_FILENO) == -1)
+			if (check_ambiguous_redirect(node->file))
+				print_error_exit(node->file, "ambiguous redirect", 1);
+			fd = open_redir_file(node->file, 1);
+			if (node->is_last == true)
 			{
-				close(fd);
-				print_error_exit("dup2", "input redirection failed", 1);
+				if (dup2(fd, STDIN_FILENO) == -1)
+				{
+					close(fd);
+					print_error_exit("dup2", "input redirection failed", 1);
+				}
 			}
+			close(fd);
 		}
-		close(fd);
+		else if (node->type == HEREDOC)
+		{
+			if (node->is_last == true)
+				handle_heredoc_input(input);
+			else if (node->heredoc_fd >= 0)
+				close(node->heredoc_fd);
+		}
+		node = node->next;
 	}
-	else if (input->type == HEREDOC)
-	{
-		if (input->is_last == true)
-			handle_heredoc_input(input);
-		else if (input->heredoc_fd >= 0)
-			close(input->heredoc_fd);
-	}
-	return (input = input->next, 0);
 }
 
 /* ===========================================================

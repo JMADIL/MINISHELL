@@ -6,7 +6,7 @@
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 15:55:10 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/21 08:48:03 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/23 03:53:19 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	}
 	return (0);
 }
+
 int	ft_strcmp(const char *s1, const char *s2)
 {
 	if (!s1 || !s2)

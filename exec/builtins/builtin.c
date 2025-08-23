@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:47 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 22:05:50 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 09:06:17 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,16 @@ int	is_builtin(char *cmd)
 int	exec_builtin(t_cmdarg *shell, t_list **env)
 {
 	int	result;
+	// int saved_stdin;
+    // int saved_stdout;
+
+
+	// if (setup_builtin_io(shell, &saved_stdin, &saved_stdout) == -1)
+    // {
+    //     g_exit_status = 1;
+    //     return (1);
+    // }
+
 
 	if (ft_strcmp(shell->cmd[0], "cd") == 0)
 		result = builtin_cd(shell->cmd, env);

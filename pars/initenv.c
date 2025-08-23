@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initenv.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 04:47:26 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 00:38:06 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 03:28:46 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_list	*ft_initenv(char **env)
 
 	minienv = NULL;
 	if(!env || !*env)
-		return (->>ft_create_env()<<-);
+		return (init_minimal_env((&minienv)), minienv);
 	i = 0;
 	while(env && env[i])
 	{
@@ -37,4 +37,5 @@ t_list	*ft_initenv(char **env)
 		ft_lstadd_back(&minienv, new_node);
 		i++;
 	}
+	return (minienv);
 }

@@ -24,7 +24,8 @@ void	handle_parent_fd(int *tmp_in, int pip_fd[2], t_cmdarg *current_cmd)
 		close(*tmp_in);
 
 	*tmp_in = pip_fd[0];
-	close(pip_fd[1]);
+	if (current_cmd->next)
+		close(pip_fd[1]);
 
 	if (current_cmd->redirections)
 		ft_close_pipe(current_cmd->redirections);// minishell_utis.c
@@ -53,6 +54,7 @@ void	wait_for_all_children(int *status, pid_t last_pid)
 					last_status = 128 + WTERMSIG(*status);
 			}
 		}
+		// Remove the redundant else clause
 	}
 	g_exit_status = last_status;
 }

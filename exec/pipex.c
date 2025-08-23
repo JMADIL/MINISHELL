@@ -78,6 +78,7 @@ void	exec_external_command(t_cmdarg *current_cmd, t_list *env)
 void	exec_builtin_in_child(t_cmdarg *current_cmd, t_list **env)
 {
 	char	**cmd;
+	cmd = NULL;
 
 	if (!current_cmd || !current_cmd->cmd || !current_cmd->cmd[0])
 		return ;
@@ -120,13 +121,14 @@ void	exec_child_process(t_cmdarg *current_cmd, t_list *env, int tmp_in,
 		close(p_fd[1]);
 		close(p_fd[0]);
 	}
-	if (!process_input_redirections(current_cmd->input))
-		_exit(1);
-	if (!process_output_redirections(current_cmd->output))
-		_exit(1);
-	if (is_builtin(current_cmd->cmd[0]))
+	process_input_redirections(current_cmd->redirections);
+	process_output_redirections(current_cmd->redirections);
+
+	if (is_builtin(current_cmd->cmd[0])){
 		exec_builtin_in_child(current_cmd, &env);
-	else
+	}
+	else {
 		exec_external_command(current_cmd, env);
+	}
 	_exit(127);
 }

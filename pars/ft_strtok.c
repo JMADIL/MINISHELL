@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtok.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:08:30 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 00:37:51 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 08:47:32 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,5 +49,6 @@ t_token *ft_strtok(char *input, t_list *minienv)
         token = get_next_token(lexer, minienv, &heredoc);
     }
     free(token);
+	free(lexer);
     return (token_list);
 }

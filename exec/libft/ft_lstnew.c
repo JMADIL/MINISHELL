@@ -6,11 +6,11 @@
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 19:44:05 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 01:37:46 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/23 03:47:39 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../help.h"
+#include "libft.h"
 
 t_list	*ft_lstnew(char *key, char *value)
 {

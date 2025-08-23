@@ -6,7 +6,7 @@
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:45 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 02:11:07 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/23 08:12:12 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <sys/stat.h>
-
-
 
 // Exit codes
 #define EXIT_SUCCESS 0
@@ -54,13 +52,6 @@ typedef enum e_token_type
 }						t_token_type;
 
 //--structs
-typedef struct s_list_heredoc
-{
-	char				*delimiter;
-	char				*line;
-	int					fd;
-}						t_list_heredoc;
-
 typedef struct s_token
 {
 	t_token_type		type;
@@ -86,6 +77,7 @@ typedef struct s_redi_list
 	char				*content;
 	bool				is_last;
 	int					tmp_fd;
+	char				*delim;
 	bool				is_ambiguous;
 	bool				expand;
 	bool				variable;
@@ -140,9 +132,9 @@ char *expand_tilde(char *cmd, t_list *env);
 int resolve_cd_target(char **cmd, char **path, char *old_path, t_list **env);
 int builtin_cd(char **cmd, t_list **env);
 //builtin_echo
-int	is_vaid_n_flag(const char *str);
+int	is_valid_n_flag(const char *str);
 char	*join_args_from_index(char **cmd, int i);
-void prent_echo_output(char *tmp, int n_flag);
+void print_echo_output(char *tmp, int n_flag);
 int builtin_echo(char **cmd, t_cmdarg *shell);
 //builtin_env
 int builtin_env(t_list **env);
@@ -216,8 +208,8 @@ void	cmd_not_found_exit(t_cmdarg *curr_cmd, int no_file);
 void	handle_heredoc_input(t_redi_list *input);
 int	open_redir_file(const char *filename, int mode);
 int	handle_append_output(t_redi_list *output);
-int	process_output_redirections(t_redi_list *output);
-int	process_input_redirections(t_redi_list *input);
+void	process_output_redirections(t_redi_list *output);
+void	process_input_redirections(t_redi_list *input);
 char	*validate_exec_path(char *p);
 void	exec_malloc_fail(char *cmd_path, char *cmd_name);
 

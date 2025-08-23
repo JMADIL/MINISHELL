@@ -1,6 +1,6 @@
 TARGET = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -Wunreachable-code
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 MINIFLAGS = -lreadline
 
 READLINE = $(shell brew --prefix readline)
@@ -20,17 +20,18 @@ SRCS=	$(TARGET).c 							\
 	./pars/token_utils.c 						\
 	./pars/parser.c 							\
 	./pars/expansion_utils.c 					\
-	./pars/expanding_utils2.c 					\
+	./pars/expansion_utils2.c 					\
 	./pars/expansion_utils3.c 					\
-	./pars/quotes_checker.c						\
+	./pars/quotes_checker.c	 					\
 	./pars/nodes.c 								\
 	./pars/heredoc.c 							\
 	./pars/redirection.c 						\
+	./pars/split_cmd.c 							\
 	./exec/error1.c								\
 	./exec/error2.c 							\
 	./exec/executor.c 						    \
 	./exec/heredoc_utils.c 						\
-	./exec/heredoc.c 							\
+	./exec/heredoc_exec.c 						\
 	./exec/parsing_split.c 						\
 	./exec/pipex_utils1.c 						\
 	./exec/env.c								\
