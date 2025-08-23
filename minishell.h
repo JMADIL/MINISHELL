@@ -6,14 +6,14 @@
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:45 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 01:05:08 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/23 02:11:07 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-#include "ilyas/libft/libft.h"
+#include "exec/libft/libft.h"
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdbool.h>
@@ -223,7 +223,7 @@ void	exec_malloc_fail(char *cmd_path, char *cmd_name);
 
 //pipex.c
 bool	is_directory(const char *path);
-static void	exec_external_command(t_cmdarg *current_cmd, t_list *env);
+void	exec_external_command(t_cmdarg *current_cmd, t_list *env);
 void	exec_builtin_in_child(t_cmdarg *current_cmd, t_list **env);
 void	exec_child_process(t_cmdarg *current_cmd, t_list *env, int tmp_in,
 		int p_fd[2]);
@@ -298,8 +298,6 @@ t_cmdarg	*ft_newnode(t_cmdarg *node);
 void	ft_nodeadd_back(t_cmdarg **lst, t_cmdarg *new);
 bool	resize_cmd_array(t_cmdarg **node, int new_capacity);
 int	ft_pars_env(char *env_line, char **key, char **value);
-static int	extend_cmd_for_word(t_cmdarg **node);
-static void	add_or_join_word(t_cmdarg **node, t_token *token_list, char *value);
 void	*parsing_word(t_cmdarg	**node, t_token *token_list);
 void	parsing_redi(t_cmdarg **node, t_token *token_list);
 int	no_need_chars(char *input);
@@ -336,7 +334,4 @@ char	*help_tmp2_inchar(char *value, ssize_t dollar_pos);
 void	ft_cleaner(t_token *token_list, t_cmdarg *cmdarg_list);
 void	ft_close_pipe(t_redi_list *redi);
 
-
-//test test 
-void rl_replace_line(const char *text, int clear_undo);
 #endif

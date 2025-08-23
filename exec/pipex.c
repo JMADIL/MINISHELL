@@ -1,3 +1,4 @@
+
 #include "../minishell.h"
 
 /*
@@ -34,7 +35,7 @@ bool	is_directory(const char *path)
  * Side effects: May exit process, allocates/frees memory, executes command
  */
 
-static void	exec_external_command(t_cmdarg *current_cmd, t_list *env)
+void	exec_external_command(t_cmdarg *current_cmd, t_list *env)
 {
 	char	*cmd_path;
 	char	**envp;
