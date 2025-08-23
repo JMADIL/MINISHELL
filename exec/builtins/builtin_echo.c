@@ -6,7 +6,7 @@
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:11 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/23 05:04:14 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/23 09:53:32 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,12 @@ char	*join_args_from_index(char **cmd, int i)
  * @param n_flag: If non-zero, suppresses trailing newline
  */
 
-void	print_echo_output(char *tmp, int n_flag)
+void	print_echo_output(char *tmp, int n_flag, int out)
 {
 	if (tmp)
-		write(STDOUT_FILENO, tmp, ft_strlen((char *)tmp));
+		write(out, tmp, ft_strlen((char *)tmp));
 	if (!n_flag)
-		write(STDOUT_FILENO, "\n", 1);
+		write(out, "\n", 1);
 }
 /*
  * Implements the echo builtin command.
@@ -95,7 +95,7 @@ void	print_echo_output(char *tmp, int n_flag)
  * @return: Always returns 0
  */
 
-int	builtin_echo(char **cmd, t_cmdarg *shell)
+int	builtin_echo(char **cmd, t_cmdarg *shell, int out)
 {
 	int		i;
 	int		n_flag;
@@ -113,7 +113,7 @@ int	builtin_echo(char **cmd, t_cmdarg *shell)
 	joined = join_args_from_index(cmd, i);
 	if (!joined)
 		return (1);
-	print_echo_output(joined, n_flag);
+	print_echo_output(joined, n_flag, out);
 	free(joined);
 	return (0);
 }

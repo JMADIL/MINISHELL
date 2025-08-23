@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_pwd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:28 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 22:05:30 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 09:54:34 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@
  * @return: Always returns 1
  * Side effects: Writes current directory to stdout, may write error to stderr
  */
-int	builtin_pwd(t_list **env)
+int	builtin_pwd(t_list **env, int out)
 {
 	char *cwd;
 
 	cwd = ft_getenv("PWD", *env); // parsing ajemi
 	if (cwd != NULL)
 	{
-		printf("%s\n", cwd);
+		write(out, cwd, ft_strlen(cwd));
+		write(1, "\n",1);
 		free(cwd);
 		return (0);
 	}

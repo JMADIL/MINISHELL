@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_env.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:14 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 22:05:14 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 09:28:25 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
  * @return: 0 on success, 1 on error (sets g_exit_status)
  ================================================================ */
 
-int	builtin_env(t_list **env)
+int	builtin_env(t_list **env, int out)
 {
 	t_list	*tmp;
 
@@ -40,10 +40,10 @@ int	builtin_env(t_list **env)
 			}
 			else
 			{
-				ft_putstr_fd(tmp->key, 1);
-				ft_putstr_fd("=", 1);
-				ft_putstr_fd(tmp->value, 1);
-				ft_putstr_fd("\n", 1);
+				ft_putstr_fd(tmp->key, out);
+				ft_putstr_fd("=", out);
+				ft_putstr_fd(tmp->value, out);
+				ft_putstr_fd("\n", out);
 			}
 		}
 		tmp = tmp->next;

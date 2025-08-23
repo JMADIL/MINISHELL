@@ -6,7 +6,7 @@
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:45 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 08:12:12 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/23 09:28:58 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,10 +134,10 @@ int builtin_cd(char **cmd, t_list **env);
 //builtin_echo
 int	is_valid_n_flag(const char *str);
 char	*join_args_from_index(char **cmd, int i);
-void print_echo_output(char *tmp, int n_flag);
-int builtin_echo(char **cmd, t_cmdarg *shell);
+void print_echo_output(char *tmp, int n_flag, int out);
+int builtin_echo(char **cmd, t_cmdarg *shell, int out);
 //builtin_env
-int builtin_env(t_list **env);
+int builtin_env(t_list **env, int out);
 //builtin_exit
 int numeric(const char *str);
 int builtin_exit(char **cmd, t_list **env);
@@ -158,7 +158,7 @@ t_list *find_env_var(const char *key, t_list *env);
 int validate_export_identifier(const char *cmd);
 int	builtin_export(char **cmd, t_list **env);
 //builtin_pwd	
-int builtin_pwd(t_list **env);
+int builtin_pwd(t_list **env, int out);
 //builtin_redirection_utils
 int	open_file_for_builtin(char *filename, t_token_type type);
 void	restore_original_fds(t_cmdarg *cmd);
