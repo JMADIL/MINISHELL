@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:47 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/23 12:13:29 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 12:42:41 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,6 @@ int setup_builtin_io(t_cmdarg *shell, int *input_fd, int *output_fd)
         
         if (input_redir->type == INPUT) // <
         {
-            // if (!input_redir->next || !input_redir->next->file)
-            // {
-            //     write(2, "minishell: syntax error near unexpected token\n", 47);
-            //     return (-1);
-            // }
             *input_fd = open(input_redir->next->file, O_RDONLY);
             if (*input_fd == -1)
             {
@@ -86,13 +81,6 @@ int setup_builtin_io(t_cmdarg *shell, int *input_fd, int *output_fd)
         
         if (output_redir->type == OUTPUT) // >
         {
-            // if (!output_redir->next || !output_redir->next->file)
-            // {
-            //     write(2, "minishell: syntax error near unexpected token\n", 47);
-            //     if (*input_fd != STDIN_FILENO)
-            //         close(*input_fd);
-            //     return (-1);
-            // }
             *output_fd = open(output_redir->next->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
             if (*output_fd == -1)
             {
@@ -104,13 +92,6 @@ int setup_builtin_io(t_cmdarg *shell, int *input_fd, int *output_fd)
         }
         else if (output_redir->type == APPEND) // >>
         {
-            // if (!output_redir->next || !output_redir->next->file)
-            // {
-            //     write(2, "minishell: syntax error near unexpected token\n", 47);
-            //     if (*input_fd != STDIN_FILENO)
-            //         close(*input_fd);
-            //     return (-1);
-            // }
             *output_fd = open(output_redir->next->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
             if (*output_fd == -1)
             {
