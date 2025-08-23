@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:33 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 12:06:41 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/23 12:20:50 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ t_cmdarg	*parser(t_token *token_list, t_list	*minienv)
 	{
 		if(node)
 			ft_nodeadd_back(&cmdarg_list, ft_newnode(node));
-			// ft_free_redi_list(node->redirections);
-			// ft_free_redi_list(node->input);
 		//this free function is in ft_split.c
 		frees(node->cmd, node->cmdsize);
 		free(node);
