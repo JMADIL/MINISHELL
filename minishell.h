@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:45 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/24 10:08:20 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/24 19:15:11 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ extern int g_exit_status;
 
 //heredoc
 int create_tmp_heredoc(void);
+int create_tmp_heredoc2(void);
+
 //gnl
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1000

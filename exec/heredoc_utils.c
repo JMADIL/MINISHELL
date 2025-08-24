@@ -115,7 +115,7 @@ void	read_heredoc_input_gnl(char *delim, int fd_pipe[2],
 	}
 	if (heredoc->content && heredoc->is_last)
 	{
-		heredoc->heredoc_fd = create_tmp_heredoc();
+		heredoc->heredoc_fd = create_tmp_heredoc2();
 		write(heredoc->heredoc_fd, heredoc->content, ft_strlen(heredoc->content));
 	}
 	close(heredoc->heredoc_fd);
