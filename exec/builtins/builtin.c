@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:47 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/23 23:17:46 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/24 05:14:03 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,14 @@ int	is_builtin(char *cmd)
 int setup_builtin_io(t_cmdarg *shell, int *input_fd, int *output_fd)
 {
     *input_fd = 0;  
-    *output_fd = 1; 
+    *output_fd = 1;
     
-    if(!shell->input)
+    if(!shell->redirections)
         return 0;
     // Handle input redirection
-    if (shell->input)
+    if (shell->redirections)
     {
-        t_redi_list *input_redir = shell->input;
+        t_redi_list *input_redir = shell->redirections;
         
         if (input_redir->type == INPUT ) // <
         {
@@ -73,17 +73,18 @@ int setup_builtin_io(t_cmdarg *shell, int *input_fd, int *output_fd)
                 *input_fd = input_redir->heredoc_fd;
             else if (input_redir->tmp_fd != -1)
                 *input_fd = input_redir->tmp_fd;
+			// *input_fd = open(input_redir->delim, O_RDONLY, 0644);
         }
     }
     
     // Handle output redirection
-    if (shell->output)
+    if (shell->redirections->type)
     {
-        t_redi_list *output_redir = shell->output;
+        t_redi_list *output_redir = shell->redirections;
         
         if (output_redir->type == OUTPUT) // >
         {
-            *output_fd = open(output_redir->next->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+            *output_fd = open(output_redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
             if (*output_fd == -1)
             {
                 perror(output_redir->file);
@@ -94,7 +95,7 @@ int setup_builtin_io(t_cmdarg *shell, int *input_fd, int *output_fd)
         }
         else if (output_redir->type == APPEND) // >>
         {
-            *output_fd = open(output_redir->next->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+            *output_fd = open(output_redir->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
             if (*output_fd == -1)
             {
                 perror(output_redir->file);

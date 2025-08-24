@@ -15,12 +15,14 @@ int	heredoc_child_process(t_redi_list *heredoc, int fd_pipe[2], t_list *env)
 	if (!heredoc)
 		_exit(1);
 	setup_heredoc_signals();
-	if (fd_pipe[0] >= 0)
-		close(fd_pipe[0]);
+	// if (fd_pipe[0] >= 0) {
+	// 	printf("walo sedina\n");
+	// 	close(fd_pipe[0]);
+	// }
 	read_heredoc_input_gnl(delim, fd_pipe, heredoc, env);
-	if (fd_pipe[1] >= 0)
-		close(fd_pipe[1]);
+
 	_exit(g_exit_status);
+
 }
 
 /* ============================================================================
@@ -47,8 +49,9 @@ void	heredoc_parent_finalize(int fd_pipe[2], pid_t pid, int *status,
 		g_exit_status = 128 + WTERMSIG(*status);
 	else
 		g_exit_status = WEXITSTATUS(*status);
-	if (in && in->is_last && g_exit_status == 0)
+	if (in && in->is_last && g_exit_status == 0) {
 		in->heredoc_fd = fd_pipe[0];
+	}
 	else
 		close(fd_pipe[0]);
 	restore_interactive_signals();

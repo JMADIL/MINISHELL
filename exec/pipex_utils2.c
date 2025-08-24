@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_utils2.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/24 02:16:45 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/24 04:59:30 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
@@ -83,7 +94,7 @@ void	process_input_redirections(t_redi_list *input)
 		else if (node->type == HEREDOC)
 		{
 			if (node->is_last == true)
-				handle_heredoc_input(input);
+				handle_heredoc_input(input);		
 			else if (node->heredoc_fd >= 0)
 				close(node->heredoc_fd);
 		}

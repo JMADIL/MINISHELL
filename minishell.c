@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:33 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/24 00:23:10 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/24 05:35:41 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ void	minishell(char *input, t_list **minienv)
 	// Converts the flat token list into a higher-level structure: t_cmdarg
 	cmdarg_list = parser(token_list, *minienv);
 		// Handle here-documents (<<) :
-		if (!process_all_heredocs(cmdarg_list, *minienv)) 
-			return (ft_cleaner(token_list, cmdarg_list));
+	if (!process_all_heredocs(cmdarg_list, *minienv)) 
+		return (ft_cleaner(token_list, cmdarg_list));
 	// Run builtin commands (no fork) :
 	if (!exec_builtin(cmdarg_list, minienv))
 		return (ft_cleaner(token_list, cmdarg_list));

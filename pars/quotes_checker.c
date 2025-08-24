@@ -6,7 +6,7 @@
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/11 22:55:21 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 04:29:21 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/24 04:59:55 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ bool	ft_quote_checker(char *input)
 			while (input[i] && input[i] != quo)
 				i++;
 			if (!input[i])
-				return (printf("UNCLOSED QUOTES"), g_exit_status = 258, false);
+				return (printf("UNCLOSED QUOTES\n"), g_exit_status = 258, false);
 			if (input[i])
 				i++;
 		}

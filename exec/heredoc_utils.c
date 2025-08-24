@@ -95,6 +95,30 @@ int	is_heredoc_end(char *line, const char *delimiter)
  * Reads heredoc input until delimiter is encountered
  */
 
+
+int create_tmp_heredoc(void)
+{
+    int fd;
+
+    // Create a unique temporary file inside /tmp
+    fd = open("/tmp/.heredoc_tmp", O_CREAT | O_RDWR | O_TRUNC, 0600);
+    if (fd == -1)
+    {
+        perror("open");
+        exit(EXIT_FAILURE);
+    }
+
+    // Immediately unlink so it gets removed automatically when closed
+    // if (unlink("/tmp/.heredoc_tmp") == -1)
+    // {
+    //     perror("unlink");
+    //     close(fd);
+    //     exit(EXIT_FAILURE);
+    // }
+
+    return fd; // Return the open file descriptor
+}
+
 void	read_heredoc_input_gnl(char *delim, int fd_pipe[2],
 		t_redi_list *heredoc, t_list *env)
 {
@@ -116,8 +140,10 @@ void	read_heredoc_input_gnl(char *delim, int fd_pipe[2],
 	}
 	if (heredoc->content && heredoc->is_last)
 	{
-		write(fd_pipe[1], heredoc->content, ft_strlen(heredoc->content));
+		heredoc->heredoc_fd = create_tmp_heredoc();
+		write(heredoc->heredoc_fd, heredoc->content, ft_strlen(heredoc->content));
 	}
+	close(heredoc->heredoc_fd);
 	free(heredoc->content);
 	heredoc->content = NULL;
 	close(fd_pipe[1]);

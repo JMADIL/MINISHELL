@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:45 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 11:47:44 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/24 06:41:47 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,9 @@ typedef struct s_shell {
 
 extern int g_exit_status;
 
+
+//heredoc
+int create_tmp_heredoc(void);
 
 //gnl
 # ifndef BUFFER_SIZE

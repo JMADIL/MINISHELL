@@ -29,8 +29,10 @@ void	handle_heredoc_input(t_redi_list *input)
 {
 	if (!input)
 		return ;
-	if (dup2(input->heredoc_fd, STDIN_FILENO) == -1)
+	int fd = create_tmp_heredoc();
+	if (dup2(fd, STDIN_FILENO) == -1) {
 		print_error_exit("dup2", "heredoc failed", 1);
+	}
 	close(input->heredoc_fd);
 }
 
