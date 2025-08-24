@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:20 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 22:05:20 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/24 07:45:14 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,11 @@ void	print_export_format(t_list *head)
 			printf("\n");
 			head = head->next;
 		}
-		head = head->next;
+		else
+			return ;
 	}
 }
+
 /*
  * Swaps two adjacent nodes in environment list during sorting.
  * Compares keys alphabetically and swaps both key and value pointers

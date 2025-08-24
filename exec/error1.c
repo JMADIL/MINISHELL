@@ -73,7 +73,7 @@ int	safe_open(const char *file, int flag)
 	if (fd == -1)
 	{
 		if (errno == ENOENT)
-			print_error_exit("no sush file or directory\n", file, 1);
+			print_error_exit("no sush file or directory", file, 1);
 		else if (errno == EACCES)
 			print_error_exit("permission denied\n", file, 1);
 		else if (errno == EISDIR)

@@ -6,7 +6,7 @@
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:13:47 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/24 05:14:03 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/24 07:37:49 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int setup_builtin_io(t_cmdarg *shell, int *input_fd, int *output_fd)
     
     if(!shell->redirections)
         return 0;
+	if(!shell->next)
+		return (0);
     // Handle input redirection
     if (shell->redirections)
     {
