@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_export_utils1.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/22 02:13:23 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 22:05:22 by ajamoun          ###   ########.fr       */
+/*   Created: 2025/07/28 02:13:23 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/24 08:08:51 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/*
- * Prints error message for invalid export variable identifiers.
- * Example: minishell: export: `1abc`: not a valid identifier
- */
 int	print_export_identifier_error(const char *cmd)
 {
 	if (!cmd)
@@ -26,10 +22,6 @@ int	print_export_identifier_error(const char *cmd)
 	return (1);
 }
 
-/*
- * Helper for variable without assignment: export VAR
- * Allocates key, sets value to NULL
- */
 void	handle_export_no_assign(char **key, char **value, const char *cmd)
 {
 	if (!key || !value || !cmd)
@@ -44,10 +36,6 @@ void	handle_export_no_assign(char **key, char **value, const char *cmd)
 	*value = NULL;
 }
 
-/*
- * Handles append operation: VAR+=value
- * If variable exists, appends value; if not, sets new value.
- */
 void	append_to_env_value(t_list *dup_key, char **key, char **value)
 {
 	char	*old_value;
@@ -69,15 +57,6 @@ void	append_to_env_value(t_list *dup_key, char **key, char **value)
 	dup_key->check = 1;
 }
 
-/*
- * Parses export command string into key/value.
- * Handles VAR=value and VAR+=value
- * Returns 1 if append operation, 0 if normal, -1 if invalid
- */
-
-/* ================================================================
- * parse_assignment_type - Determine assignment type and extract key/value
- ================================================================ */
 static int	parse_assignment_type(const char *cmd, char **key, char **value)
 {
 	char	*plus_pos;
@@ -103,9 +82,6 @@ static int	parse_assignment_type(const char *cmd, char **key, char **value)
 	}
 }
 
-/* ================================================================
- * parse_export_argument - Parse export command argument
- ================================================================ */
 int	parse_export_argument(const char *cmd, char **key, char **value)
 {
 	int	result;

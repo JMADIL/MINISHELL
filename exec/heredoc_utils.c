@@ -94,31 +94,6 @@ int	is_heredoc_end(char *line, const char *delimiter)
 /*
  * Reads heredoc input until delimiter is encountered
  */
-
-
-int create_tmp_heredoc(void)
-{
-    int fd;
-
-    // Create a unique temporary file inside /tmp
-    fd = open("/tmp/.heredoc_tmp", O_CREAT | O_RDWR | O_TRUNC, 0600);
-    if (fd == -1)
-    {
-        perror("open");
-        exit(EXIT_FAILURE);
-    }
-
-    // Immediately unlink so it gets removed automatically when closed
-    // if (unlink("/tmp/.heredoc_tmp") == -1)
-    // {
-    //     perror("unlink");
-    //     close(fd);
-    //     exit(EXIT_FAILURE);
-    // }
-
-    return fd; // Return the open file descriptor
-}
-
 void	read_heredoc_input_gnl(char *delim, int fd_pipe[2],
 		t_redi_list *heredoc, t_list *env)
 {
@@ -132,7 +107,7 @@ void	read_heredoc_input_gnl(char *delim, int fd_pipe[2],
 		if (is_heredoc_end(line, delim))
 			break ;
 		if (heredoc->expand)
-			expand_var_in_char(&line, env); // dyal parsing anxof nzidha ana
+			expand_var_in_char(&line, env);
 		if (heredoc->is_last)
 			heredoc->content = ft_strjoin(heredoc->content, line);
 		free(line);

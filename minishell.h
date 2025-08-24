@@ -6,7 +6,7 @@
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:45 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/24 07:10:30 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/24 10:08:20 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ extern int g_exit_status;
 
 //heredoc
 int create_tmp_heredoc(void);
-
 //gnl
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1000

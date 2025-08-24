@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_pwd.c                                      :+:      :+:    :+:   */
+/*   create_tmp_heredoc.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/28 02:13:28 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/24 08:09:42 by irfei            ###   ########.fr       */
+/*   Created: 2025/08/24 09:56:26 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/24 10:07:47 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../minishell.h"
 
-int	builtin_pwd(t_list **env, int out)
+int create_tmp_heredoc(void)
 {
-	char	*cwd;
+    int fd;
 
-	cwd = ft_getenv("PWD", *env);
-	if (cwd != NULL)
-	{
-		write(out, cwd, ft_strlen(cwd));
-		write(out, "\n", 1);
-		free(cwd);
-		return (0);
-	}
-	else
-	{
-		perror("minishell: pwd");
-		return (1);
-	}
+    // Create a unique temporary file inside /tmp
+    fd = open("/tmp/.heredoc_tmp", O_CREAT | O_RDWR, 0600);
+    if (fd == -1)
+    {
+        perror("open");
+        exit(EXIT_FAILURE);
+    }
+    return fd;
 }

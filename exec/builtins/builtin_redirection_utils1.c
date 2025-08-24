@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_redirection_utils1.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/22 02:13:34 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 22:05:36 by ajamoun          ###   ########.fr       */
+/*   Created: 2025/07/28 02:13:34 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/24 08:10:23 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-// ghadi nsta3melha f minishell.c ya3ni n9dar nbedela blasa
 bool	dontexpand_heredoc_del(t_token *tmp)
 {
 	if (!tmp || !tmp->prev)
@@ -36,11 +35,6 @@ void	handle_file_open_error(char *filename)
 		display_redi_error(filename, "Cannot open file");
 }
 
-/*
- * Checks if redirect target is ambiguous
- */
-
-// i use this function in pipex_utils.c
 bool	check_ambiguous_redirect(char *filename)
 {
 	char	*tmp;

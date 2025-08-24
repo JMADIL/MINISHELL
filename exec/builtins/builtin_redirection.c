@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_redirection.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/22 02:13:37 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 22:05:38 by ajamoun          ###   ########.fr       */
+/*   Created: 2025/07/28 02:13:37 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/24 08:10:45 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/*
- * Handles append redirection for builtin commands
- * Opens file in append mode and redirects stdout if it's the last redirection
- */
 int	handle_append_redi(t_redi_list *redi)
 {
 	int	fd;
@@ -38,10 +34,6 @@ int	handle_append_redi(t_redi_list *redi)
 	return (1);
 }
 
-/*
- * Handles regular output redirection for builtin commands
- * Opens file in write mode and redirects stdout if it's the last redirection
- */
 int	handle_output_redi(t_redi_list *redi)
 {
 	int	fd;
@@ -70,10 +62,6 @@ int	handle_output_redi(t_redi_list *redi)
 	return (1);
 }
 
-/*
- * Handles input redirection for builtin commands
- * Opens input file and redirects stdin
- */
 int	handle_input_redi(t_redi_list *redi)
 {
 	int	fd;
@@ -93,10 +81,6 @@ int	handle_input_redi(t_redi_list *redi)
 	return (1);
 }
 
-/*
- * Sets up all redirections for builtin command execution
- * Saves original file descriptors and processes redirections
- */
 int	setup_builtin_redirections(t_cmdarg *cmd)
 {
 	if (!cmd || !cmd->redirections)
@@ -121,10 +105,6 @@ int	setup_builtin_redirections(t_cmdarg *cmd)
 	return (0);
 }
 
-/*
- * Main function to check if command is builtin and execute it
- * Handles single builtin commands with proper redirection setup
- */
 int	execute_builtin_with_redi(t_cmdarg *cmd_list, t_list **env)
 {
 	int	builtin_check;

@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_redirection_utils.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/22 02:13:31 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 22:05:33 by ajamoun          ###   ########.fr       */
+/*   Created: 2025/07/28 02:13:31 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/24 08:10:02 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/*
- * Opens file for builtin redirection based on type
- * Returns file descriptor or -1 on error
- */
 int	open_file_for_builtin(char *filename, t_token_type type)
 {
 	int	fd;
@@ -43,9 +39,6 @@ int	open_file_for_builtin(char *filename, t_token_type type)
 	return (fd);
 }
 
-/*
- * Restores original stdin and stdout after builtin execution
- */
 void	restore_original_fds(t_cmdarg *cmd)
 {
 	if (cmd->origin_stdout != -1)
@@ -64,9 +57,6 @@ void	restore_original_fds(t_cmdarg *cmd)
 	}
 }
 
-/*
- * Displays redirection error in minishell format
- */
 void	display_redi_error(char *filename, char *error_msg)
 {
 	write(STDERR_FILENO, "minishell: ", 11);
@@ -80,9 +70,6 @@ void	display_redi_error(char *filename, char *error_msg)
 	g_exit_status = 1;
 }
 
-/*
- * Processes all redirections in the list
- */
 int	process_all_redirections(t_redi_list *redi_list)
 {
 	t_redi_list	*current;

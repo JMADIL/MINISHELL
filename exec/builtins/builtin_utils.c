@@ -3,27 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/22 02:13:42 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/22 22:05:43 by ajamoun          ###   ########.fr       */
+/*   Created: 2025/07/28 02:13:42 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/24 08:11:32 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/*
- * Creates and appends a new environment variable node to the env list.
- * If key is NULL or empty, does nothing. Value can be NULL.
- * Allocates memory for the node, assigns key/value ownership to the list.
- *
- * @param env: Pointer to environment list head
- * @param key: Key string (caller must strdup before passing)
- * @param value: Value string (caller must strdup before passing, can be NULL)
- * @return: 1 on success, 0 on failure (memory allocation error)
- */
-
-// i use this function in unset.c blast "ft_lstadd_back"
 int	add_env_node(t_list **env, char *key, char *value)
 {
 	t_list	*new_node;
@@ -51,17 +39,6 @@ int	add_env_node(t_list **env, char *key, char *value)
 	new_node->prev = tmp;
 	return (1);
 }
-
-/*
- * Creates a deep copy of the environment variable linked list.
- * Each node's key and value are duplicated so the new list is
- * completely independent from the original.
- *
- * @param env: Pointer to the head of the environment variables list
- * @return: Pointer to the head of the new copied list,
- *          or NULL if env is NULL or allocation fails
- * Side effects: Allocates memory for new list nodes and strings
- */
 
 static int	copy_env_node(t_list **copy, t_list *node)
 {
@@ -107,17 +84,6 @@ t_list	*copy_env_list(t_list *env)
 	return (copy);
 }
 
-/*
- * Splits a string into a key and value at the first '=' character.
- * The key is the part before '=', and the value is the part after.
- * Memory is allocated for both parts, which must be freed by the caller.
- *
- * @param cmd: Full command string (e.g., "VAR=value")
- * @param key: Pointer to store allocated key string
- * @param value: Pointer to store allocated value string
- * @param equals_pos: Pointer to '=' inside cmd
- * Side effects: Allocates memory for *key and *value
- */
 void	alloc_key_value(char *cmd, char **key, char **value, char *equals_pos)
 {
 	size_t	key_len;
