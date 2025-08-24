@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 03:36:35 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 00:37:34 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/24 20:00:46 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	expand_exit_status(t_token **token)
 	char	*tmp2;
 	char	*leak;
 
+	
 	dollar_pos = dollar_position((*token)->value);
 	if ((*token)->value[dollar_pos + 1] == '?')
 		expanded = ft_itoa(g_exit_status);
@@ -47,9 +48,10 @@ void	expand_exit_status(t_token **token)
 	tmp = ft_strjoin_free(ft_substr((*token)->value, 0, dollar_pos), expanded);
 	tmp2 = ft_substr((*token)->value, dollar_pos + 2,
 			ft_strlen((*token)->value));
+	(*token)->value = ft_strjoin_free(tmp, tmp2);
+	(*token)->variable = true;
 	free(expanded);
 	free(leak);
-	(*token)->variable = true;
 	free(tmp2);
 }
 

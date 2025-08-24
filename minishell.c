@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:33 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/24 07:43:10 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/24 19:43:52 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	main(int ac, char **av, char **env)
 		{
 			user_input = readline("minishell-1.0$ ");
 			if (!user_input)
-				print_error_exit(NULL,  "[EOF]\n", 0);
+				print_error_exit(NULL,  "exit", 0);
 			minishell(user_input, &minienv);
 			free(user_input);
 		}
