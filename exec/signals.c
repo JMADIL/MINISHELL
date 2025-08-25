@@ -7,7 +7,7 @@ void	sigint_interactive(int sig)
 {
 	(void)sig;
 	write(STDOUT_FILENO, "\n", 1);
-	rl_replace_line("", 0);// ymkn ytla3 moxkil dyal lib
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 	g_exit_status = 1;
@@ -49,6 +49,6 @@ void	setup_parent_wait_signals(void)
  * =========================================================== */
 void	setup_parent_heredoc_signals(void)
 {
-	signal(SIGINT, sigint_heredoc_child);
+	// signal(SIGINT, sigint_heredoc_child);
 	signal(SIGQUIT, SIG_IGN);
 }

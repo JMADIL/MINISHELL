@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:45 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/24 19:15:11 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/24 22:45:57 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ extern int g_exit_status;
 //heredoc
 int create_tmp_heredoc(void);
 int create_tmp_heredoc2(void);
+char	*quotes_skip(char	*str);
 
 //gnl
 # ifndef BUFFER_SIZE

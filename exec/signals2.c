@@ -23,7 +23,7 @@ Setup signal handlers for heredoc input collection
  * =========================================================== */
 void	setup_heredoc_signals(void)
 {
-	signal(SIGINT, sigint_heredoc);
+	signal(SIGINT, sigint_heredoc_child);
 	signal(SIGQUIT, SIG_IGN);
 }
 

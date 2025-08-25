@@ -1,6 +1,6 @@
 CC = cc
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror -I$(shell brew --prefix readline)/include -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I$(shell brew --prefix readline)/include #-g3 -fsanitize=address
 LDFLAGS = -lreadline -L$(shell brew --prefix readline)/lib
 
 SRCS = minishell.c \
@@ -52,7 +52,7 @@ SRCS = minishell.c \
        exec/builtins/builtin_utils.c \
        exec/builtins/builtin_utils1.c \
        exec/builtins/builtin.c\
-	   exec/create_tmp_heredoc.c
+	exec/create_tmp_heredoc.c
 
 OBJS = $(SRCS:.c=.o)
 LIBFT = exec/libft/libft.a

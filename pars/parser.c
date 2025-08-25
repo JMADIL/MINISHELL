@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 04:49:59 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 08:12:27 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/25 01:35:31 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+#include <stdio.h>
 
 static int	extend_cmd_for_word(t_cmdarg **node)
 {
@@ -73,14 +74,17 @@ void	parsing_redi(t_cmdarg **node, t_token *token_list)
 	if (token_list->current->type == INPUT
 		|| token_list->current->type == HEREDOC)
 	{
-		if (token_list->current->next->type == WORD) {
+		// (*node)->redirections->delim = NULL;
+		
+		if (token_list->current->next->type == WORD || token_list->current->next->type == DOUBLE_QUOTE || token_list->current->next->type == SINGLE_QUOTE) {
 			ft_rediradd(&(*node)->redirections,
 				ft_redinew(token_list->current, true));
-			(*node)->redirections->delim = token_list->current->next->value;
+			(*node)->redirections->delim = ft_strdup(token_list->current->next->value);
 		}
-		else
+		else {
 			ft_rediradd(&(*node)->redirections,
 				ft_redinew(token_list->current, false));
+		}
 	}
 	else
 		ft_rediradd(&(*node)->redirections,

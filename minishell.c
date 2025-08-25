@@ -6,11 +6,12 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:33 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/24 19:43:52 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/25 01:34:06 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdlib.h>
 
 int			g_exit_status = 0;
 
@@ -93,6 +94,7 @@ void	minishell(char *input, t_list **minienv)
 	// Cleanup after command execution :
 	ft_cleaner(token_list, cmdarg_list);
 }
+
 
 int	main(int ac, char **av, char **env)
 {

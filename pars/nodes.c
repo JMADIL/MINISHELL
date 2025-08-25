@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 04:24:13 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 23:19:16 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/24 23:59:13 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_cmdarg	*get_next_node(t_token	*token_list)
         	parsing_word(&node, token_list);
 		else if (token_list->current && ft_isredi(token_list->current))
         	parsing_redi(&node, token_list);
+		// node->redirections->delim = token_list->current->next->value;
 		token_list->current = token_list->current->next;
 	}
 	node->cmd[node->cmdsize] = NULL;

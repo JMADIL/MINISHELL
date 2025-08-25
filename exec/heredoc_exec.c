@@ -10,15 +10,13 @@
 int	heredoc_child_process(t_redi_list *heredoc, int fd_pipe[2], t_list *env)
 {
 	char	*delim;
-	delim = heredoc->delim;//nxofo leiba
+	delim = heredoc->delim;
 
 	if (!heredoc)
 		_exit(1);
 	setup_heredoc_signals();
 	read_heredoc_input_gnl(delim, fd_pipe, heredoc, env);
-
 	_exit(g_exit_status);
-
 }
 
 /* ============================================================================
@@ -77,7 +75,7 @@ int	handle_single_heredoc(t_redi_list *in, int fd_pipe[2], t_list *env)
 		close(fd_pipe[1]);
 		print_error_exit("fork", "fork failed", 1);
 	}
-	if (pid == 0)
+	if (pid == 0) 
 		heredoc_child_process(in, fd_pipe, env);
 	heredoc_parent_finalize(fd_pipe, pid, &status, in);
 	if (g_exit_status != 0)
