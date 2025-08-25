@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:33 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/25 01:34:06 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/25 08:51:43 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	minishell(char *input, t_list **minienv)
 	if (!process_all_heredocs(cmdarg_list, *minienv)) 
 		return (ft_cleaner(token_list, cmdarg_list));
 	// Run builtin commands (no fork) :
-	if (!exec_builtin(cmdarg_list, minienv))
+	if (!cmdarg_list->next && !exec_builtin(cmdarg_list, minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
 	// Execute non-builtin commands :
 	if (!execution(cmdarg_list, *minienv))

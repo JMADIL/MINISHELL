@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:45 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/24 22:45:57 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/25 08:57:57 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,7 +179,7 @@ int	handle_input_redi(t_redi_list *redi);
 int	setup_builtin_redirections(t_cmdarg *cmd);
 int	execute_builtin_with_redi(t_cmdarg *cmd_list, t_list **env);
 //builtin_unset
-int	remove_env_node(t_list **env_list, t_list *node);
+int	remove_env_node(t_list **env_list, int node);
 int	init_minimal_env(t_list **env);
 int	builtin_unset(char **cmd, t_list **env);
 //builtin_utils

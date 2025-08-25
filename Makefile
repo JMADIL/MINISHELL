@@ -1,6 +1,6 @@
 CC = cc
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror -I$(shell brew --prefix readline)/include #-g3 -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -I$(shell brew --prefix readline)/include -g3 -fsanitize=address
 LDFLAGS = -lreadline -L$(shell brew --prefix readline)/lib
 
 SRCS = minishell.c \

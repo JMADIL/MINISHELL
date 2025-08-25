@@ -124,11 +124,11 @@ void	exec_child_process(t_cmdarg *current_cmd, t_list *env, int tmp_in,
 	process_input_redirections(current_cmd->redirections);
 	process_output_redirections(current_cmd->redirections);
 
-	if (is_builtin(current_cmd->cmd[0])){
-		exec_builtin_in_child(current_cmd, &env);
-	}
-	else {
+	// if (is_builtin(current_cmd->cmd[0])){
+	// 	exec_builtin_in_child(current_cmd, &env);
+	// }
+	// else {
 		exec_external_command(current_cmd, env);
-	}
+	// }
 	_exit(127);
 }

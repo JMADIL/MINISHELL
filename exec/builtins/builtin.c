@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 02:13:47 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/24 09:24:11 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/25 08:54:36 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ int	setup_builtin_io(t_cmdarg *shell, int *input_fd, int *output_fd)
 	*input_fd = 0;
 	*output_fd = 1;
 	if (!shell->redirections)
-		return (0);
-	if (!shell->next)
 		return (0);
 	if (shell->redirections)
 	{
@@ -118,6 +116,8 @@ int	exec_builtin(t_cmdarg *shell, t_list **env)
 		g_exit_status = 1;
 		return (1);
 	}
+	printf("Executing builtin: %s\n", shell->cmd[0]);
+	printf("Input FD: %d, Output FD: %d\n", input_fd, output_fd);
 	if (ft_strcmp(shell->cmd[0], "cd") == 0)
 		result = builtin_cd(shell->cmd, env);
 	else if (ft_strcmp(shell->cmd[0], "echo") == 0)

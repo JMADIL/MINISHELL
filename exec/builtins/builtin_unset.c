@@ -3,39 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 02:13:39 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/24 08:26:12 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/25 08:57:23 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	remove_env_node(t_list **env_list, t_list *node)
+int    remove_env_node(t_list **env_list, int i)
 {
-	if (!node)
+	t_list *current;
+	int index = 0;
+	if (!env_list || !*env_list)
 		return (1);
-	if (!env_list)
+	current = *env_list;
+	while (current && index < i)
+	{
+		current = current->next;
+		index++;
+	}
+	if (!current) // i is out of bounds
 		return (1);
-	if (node->prev)
-		node->prev->next = node->next;
+	if (current->prev)
+		current->prev->next = current->next;
 	else
-		*env_list = node->next;
-	if (node->next)
-		node->next->prev = node->prev;
-	if (node->key)
-		free(node->key);
-	if (node->value)
-		free(node->value);
-	free(node);
+		*env_list = current->next;
+	if (current->next)
+		current->next->prev = current->prev;
+	if (current->key)
+		free(current->key);
+	if (current->value)
+		free(current->value);
+	free(current);
 	return (1);
 }
 
-int	init_minimal_env(t_list **env)
+int    init_minimal_env(t_list **env)
 {
-	char	*cwd;
-	char	cwd_buffer[1024];
+	char    *cwd;
+	char    cwd_buffer[1024];
 
 	if (!env)
 		return (0);
@@ -52,10 +60,10 @@ int	init_minimal_env(t_list **env)
 	return (1);
 }
 
-int	builtin_unset(char **cmd, t_list **env)
+int    builtin_unset(char **cmd, t_list **env)
 {
-	int		i;
-	t_list	*target;
+	int        i;
+	t_list    *target;
 
 	if (!cmd || !cmd[0] || !env || !*env)
 		return (1);
@@ -69,7 +77,7 @@ int	builtin_unset(char **cmd, t_list **env)
 		}
 		target = find_env_var(cmd[i], *env);
 		if (target)
-			remove_env_node(env, target);
+			remove_env_node(env, i);
 		i++;
 	}
 	return (0);
