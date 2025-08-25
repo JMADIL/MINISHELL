@@ -52,6 +52,7 @@ SRCS = minishell.c \
        exec/builtins/builtin_utils.c \
        exec/builtins/builtin_utils1.c \
        exec/builtins/builtin.c\
+       exec/builtins/io.c\
 	exec/create_tmp_heredoc.c
 
 OBJS = $(SRCS:.c=.o)

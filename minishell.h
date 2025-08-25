@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 02:12:45 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/25 08:57:57 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/25 15:13:35 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 #define EXIT_MISUSE 2
 
 //macros
+#define QUOTES "unexpected EOF while looking for matching quote\n"
 #define CD_HOME_ERROR "minishell: cd: HOME not set\n"
 #define CD_OLDPWD_ERROR "minishell: cd: OLDPWD not set\n"
 #define CD_ERROR_RETURN(old_path, msg) \
@@ -245,7 +246,7 @@ t_redi_list	*get_last_input_redirection(t_redi_list *redi);
 t_redi_list	*get_last_output_redirection(t_redi_list *redi);
 void	init_redirection_metadata(t_cmdarg *cmd);
 int	is_heredoc_end(char *line, const char *delimiter);
-void	read_heredoc_input_gnl(char *delim, int fd_pipe[2], t_redi_list *heredoc, t_list *env);
+void	rd_hr_in_gl(char *delim, int fd_pipe[2], t_redi_list *herc, t_list *env);
 
 //heredoc.c
 int	heredoc_child_process(t_redi_list *heredoc, int fd_pipe[2], t_list *env);
@@ -253,6 +254,7 @@ void	heredoc_parent_finalize(int fd_pipe[2], pid_t pid, int *status,
 		t_redi_list *in);
 int	handle_single_heredoc(t_redi_list *in, int fd_pipe[2], t_list *env);
 int	process_all_heredocs(t_cmdarg *shell, t_list *env);
+int    setup_builtin_io(t_cmdarg *shell, int *input_fd, int *output_fd);
 
 //utils.c
 int	size_list(t_cmdarg *node);
