@@ -6,7 +6,7 @@
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 02:13:06 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/24 08:25:51 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/25 14:30:18 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int	builtin_cd(char **cmd, t_list **env)
 
 	if (cmd[1] && cmd[2])
 	{
-		fprintf(stderr, "minishell: cd: too many arguments\n");
+		write(2, "minishell: cd: too many arguments\n", 35);
 		return (1);
 	}
 	old_path = getcwd(NULL, 0);

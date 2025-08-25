@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 05:06:57 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 00:38:26 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/25 11:44:03 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 t_token	*ft_dollar_joining(t_token *token, t_token *new_token)
 {
 	char	*prefix;
-	char 	*value;
+	char	*value;
 
-	if(ft_strlen(token->value) == 1)
+	if (ft_strlen(token->value) == 1)
 		return (ft_free_token(token), new_token);
 	else
 	{

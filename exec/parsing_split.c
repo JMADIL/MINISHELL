@@ -1,9 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_split.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/25 13:26:22 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/25 13:31:06 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-/* ============================================================================
- * 1) Count tokens, respecting ${VAR} braces as single words
-
-	* ============================================================================ */
 static int	count_words_with_braces(const char *s, char sep)
 {
 	int	count;
@@ -33,10 +41,6 @@ static int	count_words_with_braces(const char *s, char sep)
 	return (count);
 }
 
-/* ============================================================================
- * 2) Get next word start & length, respecting ${VAR} braces
-
-	* ============================================================================ */
 static void	get_next_word_with_braces(char **s, size_t *len, char sep,
 		char **start)
 {
@@ -63,10 +67,6 @@ static void	get_next_word_with_braces(char **s, size_t *len, char sep,
 	*s = str;
 }
 
-/* ============================================================================
- * 3) Copy a token into destination buffer at index j
-
-	* ============================================================================ */
 static void	copy_token_to_buffer(size_t len, size_t j, char *start, char **buff)
 {
 	buff[j] = malloc(len + 1);
@@ -75,28 +75,22 @@ static void	copy_token_to_buffer(size_t len, size_t j, char *start, char **buff)
 	ft_strlcpy(buff[j], start, len + 1);
 }
 
-/* ============================================================================
- * 4) Split string into tokens based on sep, handling ${VAR} braces
-
-	* ============================================================================ */
 char	**split_with_braces(const char *s, char sep)
 {
 	char	**buff;
-	char	*start;
 	char	*tmp;
+	char	*start;
 	size_t	len;
 	size_t	j;
-	int		words;
 
 	if (!s)
 		return (NULL);
-	words = count_words_with_braces(s, sep);
-	buff = malloc(sizeof(char *) * (words + 1));
+	buff = malloc(sizeof(char *) * (count_words_with_braces(s, sep) + 1));
 	if (!buff)
 		return (NULL);
 	tmp = (char *)s;
 	j = 0;
-	while (j < (size_t)words)
+	while (j < (size_t)count_words_with_braces(s, sep))
 	{
 		get_next_word_with_braces(&tmp, &len, sep, &start);
 		copy_token_to_buffer(len, j, start, buff);

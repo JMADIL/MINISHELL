@@ -6,12 +6,11 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 04:24:13 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/24 23:59:13 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/25 11:40:21 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
 
 t_cmdarg	*ft_init_node(void)
 {
@@ -31,34 +30,33 @@ t_cmdarg	*ft_init_node(void)
 	return (node);
 }
 
-t_cmdarg	*get_next_node(t_token	*token_list)
+t_cmdarg	*get_next_node(t_token *token_list)
 {
 	t_cmdarg	*node;
 	int			capa;
 
-	if(!token_list || !token_list->current)
+	if (!token_list || !token_list->current)
 		return (NULL);
 	node = ft_init_node();
 	capa = ft_toksize(token_list);
-	node->cmd = malloc(sizeof(char	*) * (capa + 1));
-	if(!node->cmd)
+	node->cmd = malloc(sizeof(char *) * (capa + 1));
+	if (!node->cmd)
 		return (free(node), NULL);
 	node->cmd_capacity = capa;
-	if(token_list->current->type == PIPE)
+	if (token_list->current->type == PIPE)
 		token_list->current = token_list->current->next;
 	if (!token_list->current)
-    	return (free(node->cmd), free(node), NULL);
-	while(token_list->current && token_list->current->type != PIPE)
+		return (free(node->cmd), free(node), NULL);
+	while (token_list->current && token_list->current->type != PIPE)
 	{
 		if (token_list->current && ft_is_cmd(token_list->current))
-        	parsing_word(&node, token_list);
+			parsing_word(&node, token_list);
 		else if (token_list->current && ft_isredi(token_list->current))
-        	parsing_redi(&node, token_list);
-		// node->redirections->delim = token_list->current->next->value;
+			parsing_redi(&node, token_list);
 		token_list->current = token_list->current->next;
 	}
 	node->cmd[node->cmdsize] = NULL;
-		return (node);
+	return (node);
 }
 
 t_cmdarg	*ft_newnode(t_cmdarg *node)

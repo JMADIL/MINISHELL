@@ -1,12 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_utils1.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/25 13:34:02 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/25 13:34:04 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-
-//run_cmd_utils z3ma
-/* ===========================================================
- * 1) Command-not-found / no-file error + exit(127)
- *    no_file == 1  -> "No such file or directory"
- *    no_file == 0  -> "command not found"
- * =========================================================== */
 void	cmd_not_found_exit(t_cmdarg *curr_cmd, int no_file)
 {
 	const char	*name;
@@ -22,26 +27,20 @@ void	cmd_not_found_exit(t_cmdarg *curr_cmd, int no_file)
 		print_error_exit(name, "comand not found", 127);
 }
 
-/* ===========================================================
- * 2) Heredoc -> stdin
- * =========================================================== */
 void	handle_heredoc_input(t_redi_list *input)
 {
+	int	fd;
+
 	if (!input)
 		return ;
-	int fd = create_tmp_heredoc();
-	if (dup2(fd, STDIN_FILENO) == -1) {
+	fd = create_tmp_heredoc();
+	if (dup2(fd, STDIN_FILENO) == -1)
+	{
 		print_error_exit("dup2", "heredoc failed", 1);
 	}
 	close(input->heredoc_fd);
 }
 
-/* ===========================================================
- * helpers: open file with error handling in child
- * mode: 0 => '>'  (O_WRONLY|O_CREAT|O_TRUNC)
- *       1 => '<'  (O_RDONLY)
- *       2 => '>>' (O_WRONLY|O_CREAT|O_APPEND)
- * =========================================================== */
 int	open_redir_file(const char *filename, int mode)
 {
 	int	fd;
@@ -50,10 +49,6 @@ int	open_redir_file(const char *filename, int mode)
 	return (fd);
 }
 
-/* ===========================================================
- * 3) Handle >> append redirection for one node
- *     returns 1 on success
- * =========================================================== */
 int	handle_append_output(t_redi_list *output)
 {
 	int	fd;
@@ -75,9 +70,6 @@ int	handle_append_output(t_redi_list *output)
 	return (1);
 }
 
-/* ===========================================================
- * 7) Malloc failure cleanup + exit
- * =========================================================== */
 void	exec_malloc_fail(char *cmd_path, char *cmd_name)
 {
 	if (cmd_path)
@@ -86,4 +78,3 @@ void	exec_malloc_fail(char *cmd_path, char *cmd_name)
 		free(cmd_name);
 	print_error_exit("malloc", "allocation failed", 1);
 }
-

@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/25 12:16:36 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/25 12:16:37 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 // z3ma get_cmd_path
 
 #include "../minishell.h"
 
-// Free the linked list of t_env
 void	free_env_list(t_list **env)
 {
 	t_list	*current;
@@ -22,8 +33,6 @@ void	free_env_list(t_list **env)
 	*env = NULL;
 }
 
-// Look for the "PATH" key in your linked list.
-// Return its value if found, otherwise NULL.
 char	*get_path_value(t_list *env)
 {
 	while (env)
@@ -34,20 +43,7 @@ char	*get_path_value(t_list *env)
 	}
 	return (NULL);
 }
-// mazal khasni nzid xi functions li ghan7tajom f pipex.c
 
-/*
- * Searches for an executable command in PATH directories.
- * Iterates through PATH directories, constructs full paths by joining
- * directory with command name, and tests each for executable access.
- * Returns the first valid executable path found.
- *
- * @param full_path: Pointer to store the found executable path
- * @param path_cmd: Array of PATH directory strings
- * @param p: Command name to search for
- * Side effects: Allocates memory for path construction,
- * modifies full_path pointer
- */
 void	ft_get_path(char **full_path, char **path_cmd, char *p)
 {
 	char	*tmp;
@@ -73,16 +69,6 @@ void	ft_get_path(char **full_path, char **path_cmd, char *p)
 	}
 }
 
-/*
- * Attempts to find command in current working directory.
- * Constructs a path by joining the current working directory with
- * the command name and checks if it's executable. Used when command
- * doesn't contain path separators but might be in current directory.
- *
- * @param p: Command name to search for in current directory
- * @return: Full path to executable if found and accessible, NULL otherwise
- * Side effects: Allocates memory for path construction, calls getcwd()
- */
 char	*ft_join_with_path(char *p)
 {
 	char	*path;
@@ -108,17 +94,6 @@ char	*ft_join_with_path(char *p)
 	return (NULL);
 }
 
-/*
- * Resolves command name to full executable path.
- * Main command resolution function that handles different path cases:
- * absolute/relative paths, current directory search, and PATH variable search.
- * Implements the shell's command lookup algorithm.
- *
- * @param p: Command name or path to resolve
- * @param env: Environment variables list for PATH lookup
- * @return: Full path to executable if found, NULL if not found
- * Side effects: Allocates memory for path strings, performs file system access
- */
 char	*check_exec(char *p, t_list *env, int *no_file)
 {
 	char	*full_path;

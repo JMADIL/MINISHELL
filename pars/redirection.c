@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 04:16:39 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 00:38:20 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/25 11:43:24 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,3 @@ void	ft_rediradd(t_redi_list **redi, t_redi_list *new)
 		tmp = tmp->next;
 	tmp->next = new;
 }
-

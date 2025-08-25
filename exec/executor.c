@@ -1,9 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/25 13:09:46 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/25 13:16:40 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-
-/* ============================================================================
- * 1) Create a pipe safely, set g_exit_status on error
- * ============================================================================ */
 int	create_pipe_safe(int pip[2])
 {
 	if (pipe(pip) == -1)
@@ -15,32 +23,25 @@ int	create_pipe_safe(int pip[2])
 	return (1);
 }
 
-/* ============================================================================
- * 2) Handle parent process responsibilities in a pipeline
- * ============================================================================ */
 void	handle_parent_fd(int *tmp_in, int pip_fd[2], t_cmdarg *current_cmd)
 {
 	if (*tmp_in != STDIN_FILENO)
 		close(*tmp_in);
-
 	*tmp_in = pip_fd[0];
 	if (current_cmd->next)
 		close(pip_fd[1]);
-
 	if (current_cmd->redirections)
-		ft_close_pipe(current_cmd->redirections);// minishell_utis.c
+		ft_close_pipe(current_cmd->redirections);
 }
 
-/* ============================================================================
- * 3) Wait for all children and update global exit status
- * ============================================================================ */
 void	wait_for_all_children(int *status, pid_t last_pid)
 {
 	pid_t	pid;
 	int		last_status;
 
 	last_status = 0;
-	while ((pid = wait(status)) > 0)
+	pid = wait(status);
+	while (pid > 0)
 	{
 		if (pid == last_pid)
 		{
@@ -54,26 +55,22 @@ void	wait_for_all_children(int *status, pid_t last_pid)
 					last_status = 128 + WTERMSIG(*status);
 			}
 		}
+		pid = wait(status);
 	}
 	g_exit_status = last_status;
 }
 
-/* ============================================================================
- * 4) Execute a pipeline of commands with fork & pipes
- * ============================================================================ */
 int	ft_fork_and_exec(t_cmdarg *cmd, t_list *env, int *tmp_in,
-						pid_t *last_cmd_pid)
+		pid_t *last_cmd_pid)
 {
 	int		pip_fd[2];
 	pid_t	pid;
 
 	if (cmd->next && !create_pipe_safe(pip_fd))
 		return (0);
-
 	pid = fork();
 	if (pid == -1)
 		return (g_exit_status = 1, perror("minishell: fork"), 0);
-
 	if (pid == 0)
 		exec_child_process(cmd, env, *tmp_in, pip_fd);
 	else
@@ -83,6 +80,7 @@ int	ft_fork_and_exec(t_cmdarg *cmd, t_list *env, int *tmp_in,
 	}
 	return (1);
 }
+
 int	execution(t_cmdarg *current_cmd, t_list *env)
 {
 	int		tmp_in;
@@ -98,4 +96,3 @@ int	execution(t_cmdarg *current_cmd, t_list *env)
 	finish_exec(last_cmd_pid);
 	return (1);
 }
-

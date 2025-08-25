@@ -6,23 +6,12 @@
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 02:14:08 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/23 03:34:44 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/25 12:03:13 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../minishell.h"
 
-/*
- * Extracts remaining content after a newline character.
- * After finding and returning a line, this function preserves
- * any remaining content in the buffer for the next call to
- * get_next_line. Handles memory management for the static buffer.
- *
- * @param hold: Static buffer containing read data
- * @return: Remaining content after newline, NULL if no remainder
- * Side effects: Frees original buffer, allocates new buffer for remainder
- */
 char	*resit(char *hold)
 {
 	int		i;
@@ -45,16 +34,6 @@ char	*resit(char *hold)
 	return (NULL);
 }
 
-/*
- * Extracts a complete line from the buffer up to and including newline.
- * Searches for a newline character in the buffered data and extracts
- * the complete line including the newline. If no newline is found,
- * returns the entire remaining content as the final line.
- *
- * @param hold: Pointer to static buffer containing read data
- * @return: Complete line including newline, or remaining content
- * Side effects: May modify or free the static buffer
- */
 char	*befor_newline(char **hold)
 {
 	int		i;

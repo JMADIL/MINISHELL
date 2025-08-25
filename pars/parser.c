@@ -6,12 +6,11 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 04:49:59 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/25 01:35:31 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/25 12:04:27 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include <stdio.h>
 
 static int	extend_cmd_for_word(t_cmdarg **node)
 {
@@ -48,21 +47,21 @@ static void	add_or_join_word(t_cmdarg **node, t_token *token_list, char *value)
 	}
 }
 
-void	*parsing_word(t_cmdarg	**node, t_token *token_list)
+void	*parsing_word(t_cmdarg **node, t_token *token_list)
 {
 	char	*value;
-	
+
 	value = ft_strdup(token_list->current->value);
-	if(!value)
-		return(perror("malloc failure"), g_exit_status = 1, NULL);
-	if(token_list->current->variable == true && token_list->current->type == WORD)
+	if (!value)
+		return (perror("malloc failure"), g_exit_status = 1, NULL);
+	if (token_list->current->variable == true
+		&& token_list->current->type == WORD)
 	{
 		handle_split_word(node, token_list, value);
 	}
 	else
 	{
-		//Ensures the cmd array has enough space (reallocates if needed)
-		if(!extend_cmd_for_word(node))
+		if (!extend_cmd_for_word(node))
 			return (free(value), NULL);
 		add_or_join_word(node, token_list, value);
 	}
@@ -70,24 +69,29 @@ void	*parsing_word(t_cmdarg	**node, t_token *token_list)
 }
 
 void	parsing_redi(t_cmdarg **node, t_token *token_list)
-{	
+{
+	t_token	*next; 
+
 	if (token_list->current->type == INPUT
 		|| token_list->current->type == HEREDOC)
 	{
-		// (*node)->redirections->delim = NULL;
-		
-		if (token_list->current->next->type == WORD || token_list->current->next->type == DOUBLE_QUOTE || token_list->current->next->type == SINGLE_QUOTE) {
-			ft_rediradd(&(*node)->redirections,
-				ft_redinew(token_list->current, true));
-			(*node)->redirections->delim = ft_strdup(token_list->current->next->value);
+		if (token_list->current->next->type == WORD
+			|| token_list->current->next->type == DOUBLE_QUOTE
+			|| token_list->current->next->type == SINGLE_QUOTE)
+		{
+			ft_rediradd(&(*node)->redirections, ft_redinew(token_list->current,
+					true));
+			next = token_list->current->next;
+			(*node)->redirections->delim = ft_strdup(next->value);
 		}
-		else {
-			ft_rediradd(&(*node)->redirections,
-				ft_redinew(token_list->current, false));
+		else
+		{
+			ft_rediradd(&(*node)->redirections, ft_redinew(token_list->current,
+					false));
 		}
 	}
 	else
-		ft_rediradd(&(*node)->redirections,
-			ft_redinew(token_list->current, true));
+		ft_rediradd(&(*node)->redirections, ft_redinew(token_list->current,
+				true));
 	token_list->current = token_list->current->next;
 }

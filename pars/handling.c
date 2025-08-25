@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handling.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 03:09:27 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/23 06:41:15 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/25 11:39:02 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,8 @@ t_token	*handling_operator(t_lexer *lexer, bool *heredoc)
 	if (!token->value)
 		return (free(token), NULL);
 	token->addspace = false;
-	// Initialize Other Token Fields
 	ft_init_fields(token);
-	// This function likely sets token->type based on the operator
 	ft_set_token_type(token, op_len, op, heredoc);
-	// Advance Lexer Position
 	lexer->pos += op_len;
 	return (token);
 }
@@ -84,8 +81,7 @@ t_token	*handling_quotes(t_lexer *lexer, char quote)
 	while (lexer->pos < lexer->len && lexer->input[lexer->pos] != quote)
 		lexer->pos++;
 	if (lexer->pos >= lexer->len)
-		return (printf("unexpected EOF while looking for matching quote\n"),
-			g_exit_status = 258, NULL);
+		return (printf(QUOTES), g_exit_status = 258, NULL);
 	content = ft_substr(lexer->input, start, lexer->pos - start);
 	lexer->pos++;
 	token = malloc(sizeof(t_token));
@@ -96,21 +92,19 @@ t_token	*handling_quotes(t_lexer *lexer, char quote)
 	else
 		token->type = DOUBLE_QUOTE;
 	token->value = content;
-	// Check for Trailing Space
 	if (ft_isspace(lexer->input[lexer->pos]))
 		token->addspace = true;
 	else
 		token->addspace = false;
-	// Initialize Other Token Fields
 	ft_init_fields(token);
 	return (token);
 }
 
 t_token	*handling_words(t_lexer *lexer)
 {
-	t_token *token;
-	char *value;
-	int start;
+	t_token	*token;
+	char	*value;
+	int		start;
 
 	start = lexer->pos;
 	while (lexer->pos < lexer->len && !ft_isspace(lexer->input[lexer->pos])
@@ -119,14 +113,14 @@ t_token	*handling_words(t_lexer *lexer)
 		lexer->pos++;
 	value = ft_substr(lexer->input, start, lexer->pos - start);
 	token = malloc(sizeof(t_token));
-	if(!value || !token)
+	if (!value || !token)
 		return (NULL);
 	token->type = WORD;
 	token->value = value;
 	if (ft_isspace(lexer->input[lexer->pos]))
-    	token->addspace = true;
+		token->addspace = true;
 	else
-    	token->addspace = false;
+		token->addspace = false;
 	ft_init_fields(token);
 	return (token);
 }

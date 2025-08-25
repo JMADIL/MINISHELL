@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_utils2.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 01:56:36 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/24 10:22:43 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/25 11:35:43 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 bool	ft_condition(t_token **token, ssize_t dollar_pos)
 {
 	return ((*token)->value[dollar_pos + 1] == '$' || (*token)->value[dollar_pos
-		+ 1] == '?' || ft_isdigit((*token)->value[dollar_pos + 1]));
+			+ 1] == '?' || ft_isdigit((*token)->value[dollar_pos + 1]));
 }
 
 char	*ft_strjoin_free(char *s1, char *s2)
@@ -27,29 +27,29 @@ char	*ft_strjoin_free(char *s1, char *s2)
 	return (result);
 }
 
-char	*ft_expand(t_token **token, t_list	*minienv, ssize_t dollar_pos)
+char	*ft_expand(t_token **token, t_list *minienv, ssize_t dollar_pos)
 {
 	char	*var;
 	char	*expanded;
 
 	var = ft_substr((*token)->value, dollar_pos + 1,
-            ft_get_varlen((*token)->value + dollar_pos + 1));
+			ft_get_varlen((*token)->value + dollar_pos + 1));
 	expanded = ft_getvar(var, minienv);
 	free(var);
-	return(expanded); 
+	return (expanded);
 }
 
 char	*ft_getenv(char *var, t_list *minienv)
 {
 	t_list	*tmp;
-	
+
 	tmp = minienv;
-	if(tmp == NULL)
+	if (tmp == NULL)
 		return (NULL);
-	while(tmp)
+	while (tmp)
 	{
 		if (ft_strcmp(var, tmp->key) == 0)
-    		return (ft_strdup(tmp->value));
+			return (ft_strdup(tmp->value));
 		tmp = tmp->next;
 	}
 	return (NULL);
@@ -58,8 +58,9 @@ char	*ft_getenv(char *var, t_list *minienv)
 char	*ft_getvar(char *var, t_list *minienv)
 {
 	char	*value;
+
 	value = ft_getenv(var, minienv);
-	if(!value)
+	if (!value)
 	{
 		value = ft_strdup("");
 		return (value);

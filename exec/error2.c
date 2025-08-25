@@ -1,13 +1,16 @@
-#include "../minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   error2.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/25 12:17:15 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/25 12:18:41 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-/*
- * Completes execution process with proper signal handling and child waiting.
- * Sets up parent process signal handling for waiting state, waits for all
- * child processes to complete, then restores original signal handlers.
- * Used to properly finish command execution in pipeline.
- *
- * Side effects: Modifies signal handlers, waits for child processes
- */
+#include "../minishell.h"
 
 void	finish_exec(pid_t last_cmd_pid)
 {

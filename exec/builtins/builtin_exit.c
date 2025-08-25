@@ -6,7 +6,7 @@
 /*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 02:13:17 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/24 08:07:55 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/25 14:35:41 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	numeric(const char *str)
 
 static void	handle_exit_error(char **cmd, t_list **env)
 {
-	fprintf(stderr, "minishell: exit: %s: numeric argument required\n", cmd[1]);
+	print_error_exit(cmd[1], "numeric argument required", 255);
 	free_env_list(env);
 	exit(255);
 }
@@ -46,7 +46,7 @@ int	builtin_exit(char **cmd, t_list **env)
 	write(1, "exit\n", 5);
 	if (cmd[1] && cmd[2])
 	{
-		fprintf(stderr, "minishell: exit: too many arguments\n");
+		write(2, "minishell: exit: too many arguments\n", 37);
 		return (1);
 	}
 	if (cmd[1])

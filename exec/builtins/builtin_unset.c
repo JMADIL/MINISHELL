@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 02:13:39 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/25 08:57:23 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/25 11:37:49 by irfei            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int    remove_env_node(t_list **env_list, int i)
+int	remove_env_node(t_list **env_list, int i)
 {
-	t_list *current;
-	int index = 0;
+	t_list	*current;
+	int		index;
+
+	index = 0;
 	if (!env_list || !*env_list)
 		return (1);
 	current = *env_list;
@@ -24,7 +26,7 @@ int    remove_env_node(t_list **env_list, int i)
 		current = current->next;
 		index++;
 	}
-	if (!current) // i is out of bounds
+	if (!current)
 		return (1);
 	if (current->prev)
 		current->prev->next = current->next;
@@ -36,14 +38,13 @@ int    remove_env_node(t_list **env_list, int i)
 		free(current->key);
 	if (current->value)
 		free(current->value);
-	free(current);
-	return (1);
+	return (free(current), 1);
 }
 
-int    init_minimal_env(t_list **env)
+int	init_minimal_env(t_list **env)
 {
-	char    *cwd;
-	char    cwd_buffer[1024];
+	char	*cwd;
+	char	cwd_buffer[1024];
 
 	if (!env)
 		return (0);
@@ -60,10 +61,10 @@ int    init_minimal_env(t_list **env)
 	return (1);
 }
 
-int    builtin_unset(char **cmd, t_list **env)
+int	builtin_unset(char **cmd, t_list **env)
 {
-	int        i;
-	t_list    *target;
+	int		i;
+	t_list	*target;
 
 	if (!cmd || !cmd[0] || !env || !*env)
 		return (1);

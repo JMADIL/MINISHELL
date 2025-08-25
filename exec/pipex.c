@@ -1,15 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/25 14:19:40 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/25 14:20:49 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*
- * Checks if a given path points to a directory.
- * Uses stat system call to determine if the path exists and represents
- * a directory. Only checks paths that contain forward slashes and are
- * not empty or null.
- *
- * @param path: File path string to check
- * @return: true if path is a directory, false otherwise
- */
+char	*validate_exec_path(char *p)
+{
+	if (!p || p[0] == '\0')
+		return (NULL);
+	if (p[0] == '/' || p[0] == '.')
+	{
+		if (access(p, X_OK) == 0)
+			return (ft_strdup(p));
+	}
+	return (NULL);
+}
 
 bool	is_directory(const char *path)
 {
@@ -23,17 +36,6 @@ bool	is_directory(const char *path)
 		return (false);
 	return (S_ISDIR(st.st_mode));
 }
-
-/*
- * Handles the execution of external commands.
- * Manages the complete process of executing non-builtin commands including
- * path resolution, directory checking, environment preparation, and final
- * execution via execve. Handles various error conditions and cleanup.
- *
- * @param current_cmd: Command structure containing command and arguments
- * @param env: Environment variables list
- * Side effects: May exit process, allocates/frees memory, executes command
- */
 
 void	exec_external_command(t_cmdarg *current_cmd, t_list *env)
 {
@@ -64,22 +66,11 @@ void	exec_external_command(t_cmdarg *current_cmd, t_list *env)
 		execve_error_cleanup(&cmd_path, &cmd_name, envp);
 }
 
-/*
- * Executes builtin commands in child processes.
- * Checks if the current command is a builtin and executes it if so.
- * Handles the exit status and terminates the child process after
- * builtin execution with the appropriate exit code.
- *
- * @param current_cmd: Command structure to check and execute
- * @param env: Pointer to environment variables list
- * Side effects: May exit process with global exit status
- */
-
 void	exec_builtin_in_child(t_cmdarg *current_cmd, t_list **env)
 {
 	char	**cmd;
-	cmd = NULL;
 
+	cmd = NULL;
 	if (!current_cmd || !current_cmd->cmd || !current_cmd->cmd[0])
 		return ;
 	if (cmd && cmd[0] && is_builtin(current_cmd->cmd[0]))
@@ -90,20 +81,6 @@ void	exec_builtin_in_child(t_cmdarg *current_cmd, t_list **env)
 		}
 	}
 }
-
-/*
- * Main function for child process execution in pipeline.
- * Sets up the child process environment including signal handling,
- * file descriptor duplication for pipes, redirection handling,
- * and final command execution (either builtin or external).
- *
- * @param current_cmd: Command structure to execute
- * @param env: Environment variables list
- * @param tmp_in: Input file descriptor from previous command in pipeline
- * @param p_fd: Pipe file descriptors for output to next command
- * Side effects: Modifies file descriptors, handles redirections,
- * executes command
- */
 
 void	exec_child_process(t_cmdarg *current_cmd, t_list *env, int tmp_in,
 		int p_fd[2])
@@ -123,12 +100,6 @@ void	exec_child_process(t_cmdarg *current_cmd, t_list *env, int tmp_in,
 	}
 	process_input_redirections(current_cmd->redirections);
 	process_output_redirections(current_cmd->redirections);
-
-	// if (is_builtin(current_cmd->cmd[0])){
-	// 	exec_builtin_in_child(current_cmd, &env);
-	// }
-	// else {
-		exec_external_command(current_cmd, env);
-	// }
+	exec_external_command(current_cmd, env);
 	_exit(127);
 }

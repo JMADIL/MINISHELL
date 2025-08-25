@@ -1,8 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc_utils.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/25 13:19:21 by irfei             #+#    #+#             */
+/*   Updated: 2025/08/25 13:22:33 by irfei            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-/*
- * Initializes and finds the last input redirection (< or <<) in the list
- */
 t_redi_list	*get_last_input_redirection(t_redi_list *redi)
 {
 	t_redi_list	*last_input;
@@ -23,9 +32,6 @@ t_redi_list	*get_last_input_redirection(t_redi_list *redi)
 	return (last_input);
 }
 
-/*
- * Initializes and finds the last output redirection (> or >>) in the list
- */
 t_redi_list	*get_last_output_redirection(t_redi_list *redi)
 {
 	t_redi_list	*last_output;
@@ -45,11 +51,6 @@ t_redi_list	*get_last_output_redirection(t_redi_list *redi)
 		last_output->is_last = true;
 	return (last_output);
 }
-
-/*
- * Initializes redirection metadata for input and output redirections.
- * Marks last redirection in the list and resets file descriptors.
- */
 
 void	init_redirection_metadata(t_cmdarg *cmd)
 {
@@ -72,9 +73,6 @@ void	init_redirection_metadata(t_cmdarg *cmd)
 	}
 }
 
-/*
- * Checks if heredoc input should end (EOF or matching delimiter)
- */
 int	is_heredoc_end(char *line, const char *delimiter)
 {
 	if (!line)
@@ -91,11 +89,7 @@ int	is_heredoc_end(char *line, const char *delimiter)
 	return (0);
 }
 
-/*
- * Reads heredoc input until delimiter is encountered
- */
-void	read_heredoc_input_gnl(char *delim, int fd_pipe[2],
-		t_redi_list *heredoc, t_list *env)
+void	rd_hr_in_gl(char *delim, int fd_pipe[2], t_redi_list *herc, t_list *env)
 {
 	char	*line;
 
@@ -106,20 +100,20 @@ void	read_heredoc_input_gnl(char *delim, int fd_pipe[2],
 		line = get_next_line(0);
 		if (is_heredoc_end(line, delim))
 			break ;
-		if (heredoc->expand)
+		if (herc->expand)
 			expand_var_in_char(&line, env);
-		if (heredoc->is_last)
-			heredoc->content = ft_strjoin(heredoc->content, line);
+		if (herc->is_last)
+			herc->content = ft_strjoin(herc->content, line);
 		free(line);
 		line = NULL;
 	}
-	if (heredoc->content && heredoc->is_last)
+	if (herc->content && herc->is_last)
 	{
-		heredoc->heredoc_fd = create_tmp_heredoc2();
-		write(heredoc->heredoc_fd, heredoc->content, ft_strlen(heredoc->content));
+		herc->heredoc_fd = create_tmp_heredoc2();
+		write(herc->heredoc_fd, herc->content, ft_strlen(herc->content));
 	}
-	close(heredoc->heredoc_fd);
-	free(heredoc->content);
-	heredoc->content = NULL;
+	close(herc->heredoc_fd);
+	free(herc->content);
+	herc->content = NULL;
 	close(fd_pipe[1]);
 }
