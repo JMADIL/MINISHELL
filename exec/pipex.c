@@ -68,12 +68,9 @@ void	exec_external_command(t_cmdarg *current_cmd, t_list *env)
 
 void	exec_builtin_in_child(t_cmdarg *current_cmd, t_list **env)
 {
-	char	**cmd;
-
-	cmd = NULL;
 	if (!current_cmd || !current_cmd->cmd || !current_cmd->cmd[0])
 		return ;
-	if (cmd && cmd[0] && is_builtin(current_cmd->cmd[0]))
+	if (current_cmd->cmd && current_cmd->cmd[0] && is_builtin(current_cmd->cmd[0]))
 	{
 		if (exec_builtin(current_cmd, env))
 		{
