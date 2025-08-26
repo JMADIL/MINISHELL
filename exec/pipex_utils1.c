@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:34:02 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/26 05:27:09 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/26 16:32:47 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	cmd_not_found_exit(t_cmdarg *curr_cmd, int no_file)
 	if (no_file == 1)
 		print_error_exit(name, "no such file or directory", 127);
 	else
-		print_error_exit(name, "comand not found", 127);
+		print_error_exit(name, "command not found", 127);
 }
 
 void	handle_heredoc_input(t_redi_list *input)

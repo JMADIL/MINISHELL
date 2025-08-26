@@ -6,7 +6,7 @@
 /*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 04:49:59 by ajamoun           #+#    #+#             */
-/*   Updated: 2025/08/25 12:04:27 by ajamoun          ###   ########.fr       */
+/*   Updated: 2025/08/26 16:36:07 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	*parsing_word(t_cmdarg **node, t_token *token_list)
 
 void	parsing_redi(t_cmdarg **node, t_token *token_list)
 {
-	t_token	*next; 
+	t_token		*next;
+	t_redi_list	*new_redi;
 
 	if (token_list->current->type == INPUT
 		|| token_list->current->type == HEREDOC)
@@ -79,7 +80,7 @@ void	parsing_redi(t_cmdarg **node, t_token *token_list)
 			|| token_list->current->next->type == DOUBLE_QUOTE
 			|| token_list->current->next->type == SINGLE_QUOTE)
 		{
-			t_redi_list *new_redi = ft_redinew(token_list->current, true);
+			new_redi = ft_redinew(token_list->current, true);
 			ft_rediradd(&(*node)->redirections, new_redi);
 			next = token_list->current->next;
 			new_redi->delim = ft_strdup(next->value);
