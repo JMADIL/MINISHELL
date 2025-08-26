@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 22:45:18 by irfei             #+#    #+#             */
-/*   Updated: 2024/11/07 19:41:38 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/26 04:16:40 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		while (last->next != NULL)
 			last = last->next;
 		last->next = new;
+		new->prev = last;
 	}
 }

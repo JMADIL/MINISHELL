@@ -3,29 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_unset.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 02:13:39 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/25 11:37:49 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/26 04:20:51 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	remove_env_node(t_list **env_list, int i)
+int	remove_env_node(t_list **env_list, char *target)
 {
 	t_list	*current;
-	int		index;
 
-	index = 0;
 	if (!env_list || !*env_list)
 		return (1);
 	current = *env_list;
-	while (current && index < i)
-	{
+	while (current && ft_strcmp(current->key, target))
 		current = current->next;
-		index++;
-	}
 	if (!current)
 		return (1);
 	if (current->prev)
@@ -78,7 +73,7 @@ int	builtin_unset(char **cmd, t_list **env)
 		}
 		target = find_env_var(cmd[i], *env);
 		if (target)
-			remove_env_node(env, i);
+			remove_env_node(env, target->key);
 		i++;
 	}
 	return (0);
