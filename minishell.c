@@ -64,12 +64,26 @@ t_cmdarg	*parser(t_token *token_list, t_list *minienv)
 	return (cmdarg_list);
 }
 
+static int	is_only_whitespace(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_isspace(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	minishell(char *input, t_list **minienv)
 {
 	t_token		*token_list;
 	t_cmdarg	*cmdarg_list;
 
-	if (input[0] == '\0')
+	if (input[0] == '\0' || is_only_whitespace(input))
 		return ;
 	add_history(input);
 	if (!ft_quote_checker(input))
@@ -78,6 +92,8 @@ void	minishell(char *input, t_list **minienv)
 	if (ft_check_syntax(token_list) == -1)
 		return (ft_free_tokenlist(token_list));
 	cmdarg_list = parser(token_list, *minienv);
+	if (!cmdarg_list)
+		return (ft_free_tokenlist(token_list));
 	if (!process_all_heredocs(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
 	if (!cmdarg_list->next && cmdarg_list->cmd && cmdarg_list->cmd[0]
