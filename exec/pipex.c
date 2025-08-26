@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 14:19:40 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/25 14:20:49 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/26 16:57:25 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ void	exec_builtin_in_child(t_cmdarg *current_cmd, t_list **env)
 {
 	if (!current_cmd || !current_cmd->cmd || !current_cmd->cmd[0])
 		return ;
-	if (current_cmd->cmd && current_cmd->cmd[0] && is_builtin(current_cmd->cmd[0]))
+	if (current_cmd->cmd && current_cmd->cmd[0]
+		&& is_builtin(current_cmd->cmd[0]))
 	{
 		if (exec_builtin(current_cmd, env))
 		{
