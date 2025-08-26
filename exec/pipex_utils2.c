@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/24 02:16:45 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/25 14:19:21 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/26 05:26:51 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ static int	handle_output_redirect(t_redi_list *node)
 
 	if (!node || !node->file)
 		return (1);
-	if (check_ambiguous_redirect(node->file))
-		print_error_exit(node->file, "ambiguous redirect", 1);
 	fd = safe_open(node->file, 0);
 	if (node->is_last == true)
 	{
@@ -56,8 +54,6 @@ static void	handle_input_redirection(t_redi_list *node)
 {
 	int	fd;
 
-	if (check_ambiguous_redirect(node->file))
-		print_error_exit(node->file, "ambiguous redirect", 1);
 	fd = open_redir_file(node->file, 1);
 	if (node->is_last == true)
 	{

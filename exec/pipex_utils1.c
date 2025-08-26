@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ajamoun <ajamoun@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:34:02 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/25 13:34:04 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/26 05:27:09 by ajamoun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ int	handle_append_output(t_redi_list *output)
 
 	if (!output || !output->file)
 		return (1);
-	if (check_ambiguous_redirect(output->file))
-		print_error_exit(output->file, "ambiguous redirect", 1);
 	fd = safe_open(output->file, 2);
 	if (output->is_last == true)
 	{
