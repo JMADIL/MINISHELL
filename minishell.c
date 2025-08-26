@@ -80,8 +80,11 @@ void	minishell(char *input, t_list **minienv)
 	cmdarg_list = parser(token_list, *minienv);
 	if (!process_all_heredocs(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
-	if (!cmdarg_list->next && !exec_builtin(cmdarg_list, minienv))
+	if (!cmdarg_list->next && cmdarg_list->cmd && cmdarg_list->cmd[0] && is_builtin(cmdarg_list->cmd[0]))
+	{
+		exec_builtin(cmdarg_list, minienv);
 		return (ft_cleaner(token_list, cmdarg_list));
+	}
 	if (!execution(cmdarg_list, *minienv))
 		return (ft_cleaner(token_list, cmdarg_list));
 	ft_cleaner(token_list, cmdarg_list);
