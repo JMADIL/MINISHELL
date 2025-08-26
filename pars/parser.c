@@ -79,10 +79,10 @@ void	parsing_redi(t_cmdarg **node, t_token *token_list)
 			|| token_list->current->next->type == DOUBLE_QUOTE
 			|| token_list->current->next->type == SINGLE_QUOTE)
 		{
-			ft_rediradd(&(*node)->redirections, ft_redinew(token_list->current,
-					true));
+			t_redi_list *new_redi = ft_redinew(token_list->current, true);
+			ft_rediradd(&(*node)->redirections, new_redi);
 			next = token_list->current->next;
-			(*node)->redirections->delim = ft_strdup(next->value);
+			new_redi->delim = ft_strdup(next->value);
 		}
 		else
 		{

@@ -76,6 +76,7 @@ static char	*get_line(int fd, char *hold)
 {
 	char	buff[BUFFER_SIZE + 1];
 	int		rd;
+	char	*tmp;
 
 	rd = 1;
 	while (rd > 0)
@@ -88,7 +89,9 @@ static char	*get_line(int fd, char *hold)
 			return (NULL);
 		}
 		buff[rd] = '\0';
-		hold = ft_strjoin(hold, buff);
+		tmp = ft_strjoin(hold, buff);
+		free(hold);
+		hold = tmp;
 		if (!hold || ft_strchr(hold, '\n'))
 			break ;
 	}

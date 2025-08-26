@@ -30,6 +30,11 @@ t_redi_list	*ft_redinew(t_token *token, bool expand)
 	new->expand = expand;
 	new->variable = token->next->variable;
 	new->next = NULL;
+	new->delim = NULL;
+	new->content = NULL;
+	new->tmp_fd = -1;
+	new->heredoc_fd = -1;
+	new->is_last = false;
 	return (new);
 }
 
