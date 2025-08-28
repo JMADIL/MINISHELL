@@ -1,8 +1,6 @@
 CC = cc
 NAME = minishell
-DEBUG_FLAGS = -g3 -fsanitize=address
-RELEASE_FLAGS = -O2 -DNDEBUG
-CFLAGS = -Wall -Wextra -Werror $(DEBUG_FLAGS)
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 LDFLAGS = -lreadline
 
 # Detect system and set appropriate flags
