@@ -76,7 +76,6 @@ typedef struct s_redi_list
 	bool				is_last;
 	int					tmp_fd;
 	char				*delim;
-	bool				is_ambiguous;
 	bool				expand;
 	bool				variable;
 	int					heredoc_fd;
@@ -92,20 +91,8 @@ typedef struct s_cmdarg
 	int					origin_stdout;
 	int					origin_stdin;
 	t_redi_list			*redirections;
-	t_redi_list			*input;
-	t_redi_list			*output;
 	struct s_cmdarg		*next;
 }						t_cmdarg;
-
-// Shell state struct
-typedef struct s_shell
-{
-	t_list				*env;
-	int					last_status;
-	bool				running;
-	char				*pwd;
-	char				*old_pwd;
-}						t_shell;
 
 extern int				g_exit_status;
 

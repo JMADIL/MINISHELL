@@ -19,11 +19,9 @@ t_cmdarg	*ft_init_node(void)
 	node = malloc(sizeof(t_cmdarg));
 	if (!node)
 		return (NULL);
-	node->input = NULL;
 	node->redirections = NULL;
 	node->is_builtin = false;
 	node->next = NULL;
-	node->output = NULL;
 	node->cmd = NULL;
 	node->cmdsize = 0;
 	node->cmd_capacity = 0;
@@ -83,7 +81,6 @@ t_cmdarg	*ft_newnode(t_cmdarg *node)
 	new->cmd[i] = NULL;
 	new->is_builtin = node->is_builtin;
 	new->redirections = node->redirections;
-	new->input = node->input;
 	new->next = NULL;
 	return (new);
 }
