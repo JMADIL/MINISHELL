@@ -33,7 +33,10 @@ t_list	*ft_initenv(char **env)
 		}
 		new_node = ft_lstnew(key, value);
 		if (!new_node)
+		{
+			free_env_list(&minienv);
 			return (free(key), free(value), NULL);
+		}
 		ft_lstadd_back(&minienv, new_node);
 		i++;
 	}

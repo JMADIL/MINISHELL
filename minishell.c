@@ -116,17 +116,19 @@ int	main(int ac, char **av, char **env)
 	(void)av;
 	if (ac != 1)
 		return (printf("Error: No arguments expected\n"), 1);
-	else
+	minienv = ft_initenv(env);
+	if (!minienv)
+		return (printf("Error: Failed to initialize environment\n"), 1);
+	while (1337)
 	{
-		minienv = ft_initenv(env);
-		while (1337)
+		user_input = readline("minishell-1.0$ ");
+		if (!user_input)
+			print_error_exit(NULL, "exit", 0);
+		if (*user_input)  // Only process non-empty input
 		{
-			user_input = readline("minishell-1.0$ ");
-			if (!user_input)
-				print_error_exit(NULL, "exit", 0);
 			minishell(user_input, &minienv);
-			free(user_input);
 		}
+		free(user_input);
 	}
 	return (0);
 }

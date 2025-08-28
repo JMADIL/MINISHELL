@@ -34,7 +34,7 @@ void	expand_exit_status(t_token **token)
 	char	*expanded;
 	char	*tmp;
 	char	*tmp2;
-	char	*leak;
+	char	*old_value;
 
 	dollar_pos = dollar_position((*token)->value);
 	if ((*token)->value[dollar_pos + 1] == '?')
@@ -43,14 +43,14 @@ void	expand_exit_status(t_token **token)
 		expanded = ft_itoa(getpid());
 	else
 		expanded = ft_strdup("");
-	leak = (*token)->value;
+	old_value = (*token)->value;
 	tmp = ft_strjoin_free(ft_substr((*token)->value, 0, dollar_pos), expanded);
 	tmp2 = ft_substr((*token)->value, dollar_pos + 2,
 			ft_strlen((*token)->value));
 	(*token)->value = ft_strjoin_free(tmp, tmp2);
 	(*token)->variable = true;
 	free(expanded);
-	free(leak);
+	free(old_value);
 	free(tmp2);
 }
 

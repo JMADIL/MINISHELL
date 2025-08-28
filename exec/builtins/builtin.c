@@ -31,10 +31,19 @@ int	is_builtin(char *cmd)
 {
 	if (!cmd)
 		return (0);
-	return (ft_strcmp(cmd, "cd") == 0 || ft_strcmp(cmd, "echo") == 0
-		|| ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "exit") == 0
-		|| ft_strcmp(cmd, "export") == 0 || ft_strcmp(cmd, "pwd") == 0
-		|| ft_strcmp(cmd, "unset") == 0);
+	if (cmd[0] == 'c' && ft_strcmp(cmd, "cd") == 0)
+		return (1);
+	if (cmd[0] == 'e')
+	{
+		if (ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "env") == 0
+			|| ft_strcmp(cmd, "exit") == 0 || ft_strcmp(cmd, "export") == 0)
+			return (1);
+	}
+	if (cmd[0] == 'p' && ft_strcmp(cmd, "pwd") == 0)
+		return (1);
+	if (cmd[0] == 'u' && ft_strcmp(cmd, "unset") == 0)
+		return (1);
+	return (0);
 }
 
 void	cleanup_builtin_io(int input_fd, int output_fd)

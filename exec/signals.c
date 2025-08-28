@@ -1,4 +1,16 @@
-/* ************************************************************************** */
+/* **********************************void	sigint_parent_wait(int sig)
+{
+	(void)sig;
+	safe_write(STDOUT_FILENO, "\n", 1);
+	g_exit_status = 130;
+}
+
+void	sigint_heredoc(int sig)
+{
+	(void)sig;
+	safe_write(STDOUT_FILENO, "\n", 1);
+	g_exit_status = 1;
+}*************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
@@ -12,10 +24,23 @@
 
 #include "../minishell.h"
 
+static void	safe_write(int fd, const char *str, size_t len)
+{
+	ssize_t	result;
+	
+	result = write(fd, str, len);
+	if (result == -1)
+	{
+		/* In signal handlers, we can't do much about write errors */
+		/* but at least we acknowledge the possibility */
+		return ;
+	}
+}
+
 void	sigint_interactive(int sig)
 {
 	(void)sig;
-	write(STDOUT_FILENO, "\n", 1);
+	safe_write(STDOUT_FILENO, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();

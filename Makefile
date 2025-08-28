@@ -1,7 +1,20 @@
 CC = cc
 NAME = minishell
-CFLAGS = -Wall -Wextra -Werror -I$(shell brew --prefix readline)/include -g3 -fsanitize=address
-LDFLAGS = -lreadline -L$(shell brew --prefix readline)/lib
+DEBUG_FLAGS = -g3 -fsanitize=address
+RELEASE_FLAGS = -O2 -DNDEBUG
+CFLAGS = -Wall -Wextra -Werror $(DEBUG_FLAGS)
+LDFLAGS = -lreadline
+
+# Detect system and set appropriate flags
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S), Darwin)
+    # macOS with brew
+    CFLAGS += -I$(shell brew --prefix readline)/include
+    LDFLAGS += -L$(shell brew --prefix readline)/lib
+else
+    # Linux/WSL - use system readline
+    CFLAGS += -I/usr/include/readline
+endif
 
 SRCS = minishell.c \
        cleaning.c \

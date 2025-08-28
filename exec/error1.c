@@ -15,10 +15,7 @@
 void	safe_free(char *s)
 {
 	if (s)
-	{
 		free(s);
-		s = NULL;
-	}
 }
 
 void	print_error_exit(const char *cmd_name, const char *error, int status)
@@ -67,10 +64,10 @@ void	execve_error_cleanup(char **cmd_path, char **cmd_name, char **envp)
 {
 	int	i;
 
-	if (cmd_path)
-		safe_free((*cmd_path));
-	if (cmd_name)
-		safe_free((*cmd_name));
+	if (cmd_path && *cmd_path)
+		safe_free(*cmd_path);
+	if (cmd_name && *cmd_name)
+		safe_free(*cmd_name);
 	if (envp)
 	{
 		i = 0;
@@ -82,7 +79,7 @@ void	execve_error_cleanup(char **cmd_path, char **cmd_name, char **envp)
 		free(envp);
 	}
 	if (errno == EACCES)
-		print_error_exit(*cmd_name, "permession denied", 126);
+		print_error_exit(*cmd_name, "permission denied", 126);
 	else
 		print_error_exit(*cmd_name, "command not found", 127);
 }
