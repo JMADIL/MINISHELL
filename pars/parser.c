@@ -28,7 +28,7 @@ static int	extend_cmd_for_word(t_cmdarg **node)
 
 static void	add_or_join_word(t_cmdarg **node, t_token *token_list, char *value)
 {
-	char	*tmp;
+	char	*old_cmd;
 
 	if (token_list->current->prev != NULL
 		&& token_list->current->prev->addspace == true)
@@ -37,9 +37,9 @@ static void	add_or_join_word(t_cmdarg **node, t_token *token_list, char *value)
 	{
 		if ((*node)->cmdsize > 0)
 		{
-			tmp = (*node)->cmd[(*node)->cmdsize - 1];
-			(*node)->cmd[(*node)->cmdsize - 1] = ft_strjoin(tmp, value);
-			free(tmp);
+			old_cmd = (*node)->cmd[(*node)->cmdsize - 1];
+			(*node)->cmd[(*node)->cmdsize - 1] = ft_strjoin(old_cmd, value);
+			free(old_cmd);
 			free(value);
 		}
 		else

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: irfei <irfei@student.42.fr>                +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 14:25:34 by irfei             #+#    #+#             */
-/*   Updated: 2025/08/25 14:25:36 by irfei            ###   ########.fr       */
+/*   Updated: 2025/08/30 11:57:01 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 int	size_list(t_cmdarg *node)
 {
-	int	i;
+	int	count;
 
-	i = 0;
+	count = 0;
 	if (!node)
 		return (0);
 	while (node)
 	{
-		i++;
+		count++;
 		node = node->next;
 	}
-	return (i);
+	return (count); 
 }
 
 void	free_all(char **bf, int j)
@@ -59,26 +59,26 @@ void	ft_alloc(char **envp, int *i, char *key_equals, t_list *env)
 char	**get_env(t_list *env)
 {
 	char	**envp;
-	int		i;
-	t_list	*tmp;
+	int		env_count;
+	t_list	*current_env;
 	char	*key_equals;
 
-	i = 0;
+	env_count = 0;
 	key_equals = NULL;
-	tmp = env;
+	current_env = env;
 	if (!env)
 		return (NULL);
-	while (tmp)
+	while (current_env)
 	{
-		i++;
-		tmp = tmp->next;
+		env_count++;
+		current_env = current_env->next;
 	}
-	envp = malloc(sizeof(char *) * (i + 1));
+	envp = malloc(sizeof(char *) * (env_count + 1));
 	if (!envp)
 		return (NULL);
-	i = 0;
-	ft_alloc(envp, &i, key_equals, env);
-	envp[i] = NULL;
+	env_count = 0;
+	ft_alloc(envp, &env_count, key_equals, env);
+	envp[env_count] = NULL;
 	return (envp);
 }
 

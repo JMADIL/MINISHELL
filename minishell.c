@@ -39,17 +39,17 @@ t_cmdarg	*parser(t_token *token_list, t_list *minienv)
 {
 	t_cmdarg	*cmdarg_list;
 	t_cmdarg	*node;
-	t_token		*tmp;
+	t_token		*current_token;
 
 	if (!token_list)
 		return (NULL);
 	cmdarg_list = NULL;
-	tmp = token_list;
-	while (tmp)
+	current_token = token_list;
+	while (current_token)
 	{
-		if (!please_expand(tmp))
-			expand_variables(&tmp, minienv);
-		tmp = tmp->next;
+		if (!please_expand(current_token))
+			expand_variables(&current_token, minienv);
+		current_token = current_token->next;
 	}
 	token_list->current = token_list;
 	node = get_next_node(token_list);
@@ -66,14 +66,14 @@ t_cmdarg	*parser(t_token *token_list, t_list *minienv)
 
 static int	is_only_whitespace(char *str)
 {
-	int	i;
+	int	char_index;
 
-	i = 0;
-	while (str[i])
+	char_index = 0;
+	while (str[char_index])
 	{
-		if (!ft_isspace(str[i]))
+		if (!ft_isspace(str[char_index]))
 			return (0);
-		i++;
+		char_index++;
 	}
 	return (1);
 }

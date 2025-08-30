@@ -19,7 +19,7 @@ int	handle_append_redi(t_redi_list *redi)
 	fd = open_file_for_builtin(redi->file, APPEND);
 	if (fd == -1)
 		return (0);
-	redi->tmp_fd = fd;
+	redi->temp_fd = fd;
 	if (redi->is_last)
 	{
 		if (dup2(fd, STDOUT_FILENO) == -1)
@@ -43,7 +43,7 @@ int	handle_output_redi(t_redi_list *redi)
 		fd = open_file_for_builtin(redi->file, OUTPUT);
 		if (fd == -1)
 			return (-1);
-		redi->tmp_fd = fd;
+		redi->temp_fd = fd;
 		if (redi->is_last)
 		{
 			if (dup2(fd, STDOUT_FILENO) == -1)

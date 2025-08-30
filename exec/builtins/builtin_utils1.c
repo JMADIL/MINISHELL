@@ -14,27 +14,27 @@
 
 int	size_dp(char **c)
 {
-	int	i;
+	int	count;
 
-	i = 0;
+	count = 0;
 	while (*c)
 	{
 		c++;
-		i++;
+		count++;
 	}
-	return (i);
+	return (count);
 }
 
 t_list	*find_node(t_list *env, char *key)
 {
-	t_list	*tmp;
+	t_list	*current_node;
 
-	tmp = env;
-	while (tmp)
+	current_node = env;
+	while (current_node)
 	{
-		if (ft_strcmp(tmp->key, key) == 0)
-			return (tmp);
-		tmp = tmp->next;
+		if (ft_strcmp(current_node->key, key) == 0)
+			return (current_node);
+		current_node = current_node->next;
 	}
 	return (NULL);
 }

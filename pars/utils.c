@@ -33,15 +33,15 @@ bool	op_is_duplicated(t_lexer *lexer, char op[3])
 
 ssize_t	dollar_position(char *str)
 {
-	ssize_t	i;
+	ssize_t	char_index;
 
-	i = 0;
-	while (str[i])
+	char_index = 0;
+	while (str[char_index])
 	{
-		if (str[i] == '$' && str[i + 1] != '\0' && (ft_isalnum(str[i + 1])
-				|| str[i + 1] == '_' || str[i + 1] == '$' || str[i + 1] == '?'))
-			return (i);
-		i++;
+		if (str[char_index] == '$' && str[char_index + 1] != '\0' && (ft_isalnum(str[char_index + 1])
+				|| str[char_index + 1] == '_' || str[char_index + 1] == '$' || str[char_index + 1] == '?'))
+			return (char_index);
+		char_index++;
 	}
 	return (-1);
 }

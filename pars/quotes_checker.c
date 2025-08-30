@@ -14,37 +14,37 @@
 
 int	no_need_chars(char *input)
 {
-	int	i;
+	int	index;
 
-	i = 0;
-	while (input[i] && input[i] != '"' && input[i] != '\'')
-		i++;
-	return (i);
+	index = 0;
+	while (input[index] && input[index] != '"' && input[index] != '\'')
+		index++;
+	return (index);
 }
 
 bool	ft_quote_checker(char *input)
 {
-	int		i;
-	char	quo;
+	int		current_pos;
+	char	quote_char;
 
-	i = 0;
-	while (input[i])
+	current_pos = 0;
+	while (input[current_pos])
 	{
-		i += no_need_chars(input + i);
-		if (input[i] == '"' || input[i] == '\'')
+		current_pos += no_need_chars(input + current_pos);
+		if (input[current_pos] == '"' || input[current_pos] == '\'')
 		{
-			quo = input[i];
-			i++;
-			while (input[i] && input[i] != quo)
-				i++;
-			if (!input[i])
+			quote_char = input[current_pos];
+			current_pos++;
+			while (input[current_pos] && input[current_pos] != quote_char)
+				current_pos++;
+			if (!input[current_pos])
 				return (printf("UNCLOSED QUOTES\n"), g_exit_status = 258,
 					false);
-			if (input[i])
-				i++;
+			if (input[current_pos])
+				current_pos++;
 		}
-		else if (input[i])
-			i++;
+		else if (input[current_pos])
+			current_pos++;
 	}
 	return (true);
 }

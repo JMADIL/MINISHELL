@@ -28,8 +28,8 @@ static int	handle_input_redirection(t_redi_list *input_redir, int *input_fd)
 	{
 		if (input_redir->heredoc_fd != -1)
 			*input_fd = input_redir->heredoc_fd;
-		else if (input_redir->tmp_fd != -1)
-			*input_fd = input_redir->tmp_fd;
+		else if (input_redir->temp_fd != -1)
+			*input_fd = input_redir->temp_fd;
 	}
 	return (0);
 }

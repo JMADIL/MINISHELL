@@ -15,13 +15,13 @@
 void	join_or_add_first_word(t_cmdarg **node, char **split_words,
 		bool first_word_joins)
 {
-	char	*tmp;
+	char	*old_cmd;
 
 	if (first_word_joins && (*node)->cmdsize > 0)
 	{
-		tmp = (*node)->cmd[(*node)->cmdsize - 1];
-		(*node)->cmd[(*node)->cmdsize - 1] = ft_strjoin(tmp, split_words[0]);
-		free(tmp);
+		old_cmd = (*node)->cmd[(*node)->cmdsize - 1];
+		(*node)->cmd[(*node)->cmdsize - 1] = ft_strjoin(old_cmd, split_words[0]);
+		free(old_cmd);
 	}
 	else
 		(*node)->cmd[(*node)->cmdsize++] = ft_strdup(split_words[0]);

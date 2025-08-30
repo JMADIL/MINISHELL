@@ -32,7 +32,7 @@ t_redi_list	*ft_redinew(t_token *token, bool expand)
 	new->next = NULL;
 	new->delim = NULL;
 	new->content = NULL;
-	new->tmp_fd = -1;
+	new->temp_fd = -1;
 	new->heredoc_fd = -1;
 	new->is_last = false;
 	return (new);
@@ -40,15 +40,15 @@ t_redi_list	*ft_redinew(t_token *token, bool expand)
 
 void	ft_rediradd(t_redi_list **redi, t_redi_list *new)
 {
-	t_redi_list	*tmp;
+	t_redi_list	*last_redirect;
 
 	if (!*redi)
 	{
 		*redi = new;
 		return ;
 	}
-	tmp = *redi;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = new;
+	last_redirect = *redi;
+	while (last_redirect->next)
+		last_redirect = last_redirect->next;
+	last_redirect->next = new;
 }

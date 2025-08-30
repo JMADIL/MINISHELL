@@ -74,7 +74,7 @@ typedef struct s_redi_list
 	char				*file;
 	char				*content;
 	bool				is_last;
-	int					tmp_fd;
+	int					temp_fd;
 	char				*delim;
 	bool				expand;
 	bool				variable;

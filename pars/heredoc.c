@@ -28,8 +28,8 @@ void	expand_exit_status_inchar(char **value)
 {
 	ssize_t	dollar_pos;
 	char	*expanded;
-	char	*tmp;
-	char	*tmp2;
+	char	*before_part;
+	char	*after_part;
 	char	*old_value;
 
 	dollar_pos = dollar_position(*value);
@@ -37,12 +37,12 @@ void	expand_exit_status_inchar(char **value)
 		expanded = ft_itoa(g_exit_status);
 	else
 		expanded = ft_strdup("");
-	tmp = ft_strjoin_free(ft_substr(*value, 0, dollar_pos), expanded);
-	tmp2 = ft_substr(*value, dollar_pos + 2, ft_strlen(*value));
+	before_part = ft_strjoin_free(ft_substr(*value, 0, dollar_pos), expanded);
+	after_part = ft_substr(*value, dollar_pos + 2, ft_strlen(*value));
 	old_value = *value;
-	*value = ft_strjoin_free(tmp, tmp2);
+	*value = ft_strjoin_free(before_part, after_part);
 	free(old_value);
-	free(tmp2);
+	free(after_part);
 	free(expanded);
 }
 
@@ -62,8 +62,8 @@ void	expand_var_in_char(char	**value, t_list *minienv)
 {
 	ssize_t	dollar_pos;
 	char	*expanded;
-	char	*tmp;
-	char	*tmp2;
+	char	*before_part;
+	char	*after_part;
 	char	*old_value;
 
 	dollar_pos = dollar_position(*value);
@@ -76,12 +76,12 @@ void	expand_var_in_char(char	**value, t_list *minienv)
 			continue ;
 		}
 		expanded = expand_inchar(*value, minienv, dollar_pos);
-		tmp = ft_strjoin_free(ft_substr(*value, 0, dollar_pos), expanded);
-		tmp2 = help_tmp2_inchar(*value, dollar_pos);
+		before_part = ft_strjoin_free(ft_substr(*value, 0, dollar_pos), expanded);
+		after_part = help_tmp2_inchar(*value, dollar_pos);
 		old_value = *value;
-		*value = ft_strjoin_free(tmp, tmp2);
+		*value = ft_strjoin_free(before_part, after_part);
 		free(old_value);
-		free(tmp2);
+		free(after_part);
 		free(expanded);
 		dollar_pos = dollar_position(*value);
 	}

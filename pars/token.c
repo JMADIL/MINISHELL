@@ -30,7 +30,7 @@ t_token	*newtok(t_token *token)
 
 void	ft_tokadd_back(t_token **token_list, t_token *token)
 {
-	t_token	*tmp;
+	t_token	*last_token;
 
 	if (!token_list || !token)
 		return ;
@@ -39,11 +39,11 @@ void	ft_tokadd_back(t_token **token_list, t_token *token)
 		*token_list = token;
 		return ;
 	}
-	tmp = *token_list;
-	while (tmp->next)
-		tmp = tmp->next;
-	tmp->next = token;
-	token->prev = tmp;
+	last_token = *token_list;
+	while (last_token->next)
+		last_token = last_token->next;
+	last_token->next = token;
+	token->prev = last_token;
 	token->next = NULL;
 }
 

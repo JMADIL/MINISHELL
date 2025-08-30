@@ -80,15 +80,15 @@ void	exec_builtin_in_child(t_cmdarg *current_cmd, t_list **env)
 	}
 }
 
-void	exec_child_process(t_cmdarg *current_cmd, t_list *env, int tmp_in,
+void	exec_child_process(t_cmdarg *current_cmd, t_list *env, int input_fd,
 		int p_fd[2])
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	if (tmp_in != STDIN_FILENO && dup2(tmp_in, STDIN_FILENO) == -1)
+	if (input_fd != STDIN_FILENO && dup2(input_fd, STDIN_FILENO) == -1)
 		print_error_exit("dup2", "failed to dup input", 1);
-	if (tmp_in != STDIN_FILENO)
-		close(tmp_in);
+	if (input_fd != STDIN_FILENO)
+		close(input_fd);
 	if (current_cmd->next != NULL)
 	{
 		if (dup2(p_fd[1], STDOUT_FILENO) == -1)

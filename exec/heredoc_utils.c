@@ -19,7 +19,7 @@ t_redi_list	*get_last_input_redirection(t_redi_list *redi)
 	last_input = NULL;
 	while (redi)
 	{
-		redi->tmp_fd = -1;
+		redi->temp_fd = -1;
 		redi->is_last = false;
 		redi->heredoc_fd = -1;
 		redi->content = NULL;
@@ -39,7 +39,7 @@ t_redi_list	*get_last_output_redirection(t_redi_list *redi)
 	last_output = NULL;
 	while (redi)
 	{
-		redi->tmp_fd = -1;
+		redi->temp_fd = -1;
 		redi->is_last = false;
 		redi->heredoc_fd = -1;
 		redi->content = NULL;
