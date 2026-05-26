@@ -111,6 +111,6 @@ MINISHELL/
 
 ## 👤 Author
 
-**Adil Jamoun** — [@JMADIL](https://github.com/JMADIL)
+**Adil Jamoun** — [@JMADIL](https://github.com/JMADIL) & [@ilyasrf](https://github.com/ilyasrf)
 
 > 🏫 1337 Coding School (42 Network) — Morocco
